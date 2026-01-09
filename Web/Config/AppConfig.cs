@@ -15,10 +15,10 @@ namespace Web.Config
             configuration.APP.BusinessModuleName = "Domain";
             configuration.APP.RootDomain = "localhost";
             configuration.APP.EnableCSP = false;
-            configuration.APP.AttachmentStorageConfig = AttachmentStorageConfig.FileSystem();
+            configuration.APP.AttachmentStorageConfig = AttachmentStorageConfig.FileSystem("files");
             configuration.APP.AppTitle = "Ampersand";
             configuration.APP.AppSlogan = "TecHHub Family Business";
-            configuration.APP.AppLogo = "logo-4.png";
+            configuration.APP.AppLogo = "ampersand-logo.png";
             configuration.APP.LoginHomeImage = "bg-4.jpg";
             configuration.APP.AppVersion = "1.0";
             configuration.APP.EnableRegistrationInLoginPage = false;

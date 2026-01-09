@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {{> head title="Font Awesome 6 Icons - ElaAdmin"}}
+    <style>
+      .icon-showcase {
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        height: 100%;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: #fff;
+        border: 1px solid #e9ecef;
+      }
+      
+      .icon-showcase:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      
+      .icon-showcase i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        display: block;
+      }
+      
+      .icon-showcase:hover i {
+        animation: pulse 0.5s;
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+      
+      .icon-showcase .icon-name {
+        font-size: 0.875rem;
+        font-weight: 500;
+        word-break: break-word;
+      }
+      
+      .icon-style-selector {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      
+      .icon-style-selector .btn {
+        flex: 1;
+        min-width: 120px;
+      }
+      
+      .color-showcase {
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .color-showcase i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        display: block;
+        position: relative;
+        z-index: 1;
+      }
+      
+      .color-showcase h5 {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .color-showcase::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255,255,255,0.1);
+        transform: rotate(45deg);
+        transition: all 0.5s ease;
+      }
+      
+      .color-showcase:hover::before {
+        right: -100%;
+      }
+      
+      .animated-icon {
+        display: inline-block;
+        animation: spin 2s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .icon-size-demo {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        justify-content: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+      
+      .icon-size-demo i {
+        color: #007bff;
+      }
+      
+      .brand-icon {
+        transition: all 0.3s ease;
+      }
+      
+      .brand-icon:hover {
+        transform: scale(1.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    {{> sidebar-ela}}
+    {{> header-ela}}
+
+    <div id="right-panel" class="right-panel main-content">
+      <div class="content">
+        <div class="container-fluid">
+          <!-- Page Header -->
+          <div class="row mb-4">
+            <div class="col-sm-6">
+              <h4 class="page-title">Font Awesome 6 Icons</h4>
+              <p class="text-muted">Beautiful icon examples with Font Awesome 6</p>
+            </div>
+            <div class="col-sm-6">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb float-sm-end">
+                  <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="#">UI Elements</a></li>
+                  <li class="breadcrumb-item active">Font Awesome 6</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+
+          <!-- Icon Styles Showcase -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-palette me-2"></i>Icon Styles</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-md-3">
+                      <div class="text-center">
+                        <i class="fas fa-home fa-3x mb-3 text-primary"></i>
+                        <h6>Solid</h6>
+                        <code>fas fa-home</code>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="text-center">
+                        <i class="far fa-heart fa-3x mb-3 text-danger"></i>
+                        <h6>Regular</h6>
+                        <code>far fa-heart</code>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="text-center">
+                        <i class="fab fa-github fa-3x mb-3 text-dark"></i>
+                        <h6>Brands</h6>
+                        <code>fab fa-github</code>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="text-center">
+                        <i class="fal fa-lightbulb fa-3x mb-3 text-warning"></i>
+                        <h6>Light (Pro)</h6>
+                        <code>fal fa-lightbulb</code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colored Icons -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-paint-brush me-2"></i>Colored Icon Examples</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-md-3">
+                      <div class="color-showcase" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-rocket"></i>
+                        <h5>Launch</h5>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="color-showcase" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-heart"></i>
+                        <h5>Favorite</h5>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="color-showcase" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-cloud"></i>
+                        <h5>Cloud</h5>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="color-showcase" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-check-circle"></i>
+                        <h5>Success</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Icon Sizes -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-expand-arrows-alt me-2"></i>Icon Sizes</h5>
+                </div>
+                <div class="card-body">
+                  <div class="icon-size-demo">
+                    <i class="fas fa-star fa-xs"></i>
+                    <i class="fas fa-star fa-sm"></i>
+                    <i class="fas fa-star fa-lg"></i>
+                    <i class="fas fa-star fa-2x"></i>
+                    <i class="fas fa-star fa-3x"></i>
+                    <i class="fas fa-star fa-5x"></i>
+                    <i class="fas fa-star fa-7x"></i>
+                  </div>
+                  <div class="text-center mt-3">
+                    <code>fa-xs</code>
+                    <code>fa-sm</code>
+                    <code>fa-lg</code>
+                    <code>fa-2x</code>
+                    <code>fa-3x</code>
+                    <code>fa-5x</code>
+                    <code>fa-7x</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Animated Icons -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-sync-alt me-2"></i>Animated Icons</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-spinner fa-spin fa-3x text-primary mb-2"></i>
+                      <p><code>fa-spin</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-circle-notch fa-spin fa-3x text-success mb-2"></i>
+                      <p><code>fa-spin</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-sync fa-spin fa-3x text-info mb-2"></i>
+                      <p><code>fa-spin</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-cog fa-spin fa-3x text-warning mb-2"></i>
+                      <p><code>fa-spin</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-bell fa-shake fa-3x text-danger mb-2"></i>
+                      <p><code>fa-shake</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-heart fa-beat fa-3x text-danger mb-2"></i>
+                      <p><code>fa-beat</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-triangle-exclamation fa-fade fa-3x text-warning mb-2"></i>
+                      <p><code>fa-fade</code></p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                      <i class="fas fa-heart fa-beat-fade fa-3x text-danger mb-2"></i>
+                      <p><code>fa-beat-fade</code></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Icons -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-star me-2"></i>Popular Icons</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-home text-primary"></i>
+                        <span class="icon-name">fa-home</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-user text-info"></i>
+                        <span class="icon-name">fa-user</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-heart text-danger"></i>
+                        <span class="icon-name">fa-heart</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-star text-warning"></i>
+                        <span class="icon-name">fa-star</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-search text-secondary"></i>
+                        <span class="icon-name">fa-search</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-shopping-cart text-success"></i>
+                        <span class="icon-name">fa-shopping-cart</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-download text-primary"></i>
+                        <span class="icon-name">fa-download</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-upload text-info"></i>
+                        <span class="icon-name">fa-upload</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-trash text-danger"></i>
+                        <span class="icon-name">fa-trash</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-edit text-warning"></i>
+                        <span class="icon-name">fa-edit</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-check text-success"></i>
+                        <span class="icon-name">fa-check</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-times text-danger"></i>
+                        <span class="icon-name">fa-times</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-cog text-secondary"></i>
+                        <span class="icon-name">fa-cog</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-envelope text-primary"></i>
+                        <span class="icon-name">fa-envelope</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-bell text-warning"></i>
+                        <span class="icon-name">fa-bell</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-calendar text-info"></i>
+                        <span class="icon-name">fa-calendar</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-lock text-dark"></i>
+                        <span class="icon-name">fa-lock</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="icon-showcase">
+                        <i class="fas fa-unlock text-success"></i>
+                        <span class="icon-name">fa-unlock</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand Icons -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fab fa-font-awesome me-2"></i>Brand Icons</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row g-3 text-center">
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-facebook fa-3x brand-icon" style="color: #1877f2;"></i>
+                      <p class="mt-2"><code>fa-facebook</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-twitter fa-3x brand-icon" style="color: #1da1f2;"></i>
+                      <p class="mt-2"><code>fa-twitter</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-instagram fa-3x brand-icon" style="color: #e4405f;"></i>
+                      <p class="mt-2"><code>fa-instagram</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-linkedin fa-3x brand-icon" style="color: #0077b5;"></i>
+                      <p class="mt-2"><code>fa-linkedin</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-github fa-3x brand-icon" style="color: #333;"></i>
+                      <p class="mt-2"><code>fa-github</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-youtube fa-3x brand-icon" style="color: #ff0000;"></i>
+                      <p class="mt-2"><code>fa-youtube</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-google fa-3x brand-icon" style="color: #4285f4;"></i>
+                      <p class="mt-2"><code>fa-google</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-apple fa-3x brand-icon" style="color: #000;"></i>
+                      <p class="mt-2"><code>fa-apple</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-microsoft fa-3x brand-icon" style="color: #f25022;"></i>
+                      <p class="mt-2"><code>fa-microsoft</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-amazon fa-3x brand-icon" style="color: #ff9900;"></i>
+                      <p class="mt-2"><code>fa-amazon</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-slack fa-3x brand-icon" style="color: #4a154b;"></i>
+                      <p class="mt-2"><code>fa-slack</code></p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <i class="fab fa-discord fa-3x brand-icon" style="color: #5865f2;"></i>
+                      <p class="mt-2"><code>fa-discord</code></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Icon with Text -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-align-left me-2"></i>Icons with Text</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h6>List Icons</h6>
+                      <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Completed Task</li>
+                        <li class="mb-2"><i class="fas fa-times text-danger me-2"></i>Failed Task</li>
+                        <li class="mb-2"><i class="fas fa-clock text-warning me-2"></i>Pending Task</li>
+                        <li class="mb-2"><i class="fas fa-sync text-info me-2"></i>In Progress</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <h6>Button Icons</h6>
+                      <button class="btn btn-primary mb-2"><i class="fas fa-download me-2"></i>Download</button>
+                      <button class="btn btn-success mb-2 ms-2"><i class="fas fa-check me-2"></i>Save</button>
+                      <button class="btn btn-danger mb-2 ms-2"><i class="fas fa-trash me-2"></i>Delete</button>
+                      <button class="btn btn-warning mb-2 ms-2"><i class="fas fa-edit me-2"></i>Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stacked Icons -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0"><i class="fas fa-layer-group me-2"></i>Stacked Icons</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row text-center">
+                    <div class="col-md-3">
+                      <span class="fa-stack fa-2x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fas fa-flag fa-stack-1x fa-inverse"></i>
+                      </span>
+                      <p class="mt-2">Flag on Circle</p>
+                    </div>
+                    <div class="col-md-3">
+                      <span class="fa-stack fa-2x">
+                        <i class="fas fa-square fa-stack-2x text-danger"></i>
+                        <i class="fas fa-heart fa-stack-1x fa-inverse"></i>
+                      </span>
+                      <p class="mt-2">Heart on Square</p>
+                    </div>
+                    <div class="col-md-3">
+                      <span class="fa-stack fa-2x">
+                        <i class="fas fa-circle fa-stack-2x text-success"></i>
+                        <i class="fas fa-check fa-stack-1x fa-inverse"></i>
+                      </span>
+                      <p class="mt-2">Check on Circle</p>
+                    </div>
+                    <div class="col-md-3">
+                      <span class="fa-stack fa-2x">
+                        <i class="fas fa-square fa-stack-2x text-warning"></i>
+                        <i class="fas fa-star fa-stack-1x fa-inverse"></i>
+                      </span>
+                      <p class="mt-2">Star on Square</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {{> footer}}
+    </div>
+
+    {{> scripts}}
+    
+    <script>
+      // Copy icon class to clipboard on click
+      document.querySelectorAll('.icon-showcase').forEach(element => {
+        element.addEventListener('click', function() {
+          const iconClass = this.querySelector('i').className;
+          navigator.clipboard.writeText(iconClass).then(() => {
+            // Show toast or notification
+            const originalText = this.querySelector('.icon-name').textContent;
+            this.querySelector('.icon-name').textContent = 'Copied!';
+            setTimeout(() => {
+              this.querySelector('.icon-name').textContent = originalText;
+            }, 1000);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
