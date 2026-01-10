@@ -1,7 +1,6 @@
 ﻿using Domain.Contexts;
 using Domain.Handlers;
 using RapidFireLib.Lib.Core;
-using RapidFireLib.UX.Language;
 using RapidFireUI.Style;
 using System.Linq.Expressions;
 
