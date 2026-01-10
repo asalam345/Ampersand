@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /Portal/wwwroot/css/dynamic-style-rf.css
 /Web/wwwroot/files/SOFManagement
 /Web/wwwroot/css/dynamic-style-rf.css
+".vs/" 
+"*.suo" 
