@@ -7,10 +7,10 @@ namespace Domain.Contexts
 {
     public class DefaultContext : RFCoreDbContext
     {
-        //public DefaultContext() : base("DefaultConnection", contextType: ContextType.MSSQL) { }
-        //public DefaultContext(SAASType sAASType = SAASType.NoSaas) : base("DefaultConnection", sAASType, ContextType.MSSQL) { }
-        public DefaultContext() : base("DefaultConnection") { }
-        public DefaultContext(SAASType sAASType = SAASType.NoSaas) : base("DefaultConnection", sAASType, ContextType.PGSQL) { }
+        public DefaultContext() : base("DefaultConnection", contextType: ContextType.MSSQL) { }
+        public DefaultContext(SAASType sAASType = SAASType.NoSaas) : base("DefaultConnection", sAASType, ContextType.MSSQL) { }
+        //public DefaultContext() : base("DefaultConnection") { }
+        //public DefaultContext(SAASType sAASType = SAASType.NoSaas) : base("DefaultConnection", sAASType, ContextType.PGSQL) { }
         public DbSet<DataVerificationLog> DataVerificationLog { get; set; }
         public DbSet<UserGeo> UserGeo { get; set; }
         public DbSet<Division> Division { get; set; }

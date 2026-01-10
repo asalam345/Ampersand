@@ -2,38 +2,11 @@
 @using RapidFireLib.UX.Style
 @using RapidFireLib.View.Models
 @inherits LayoutComponentBase
-<style>
-    .rf-page-left-menu-body ul > li > a.active {
-        background-color: #6f4e37dd;
-        padding: 10px;
-        color: #fff !important;
-    }
 
-    .rf-page-left-menu-body ul > li {
-        margin: 10px 2px 10px 10px;
-        white-space: nowrap;
-    }
-
-    .layoutheader-rf {
-        background-color: #6f4e37dd !important;
-    }
-
-    .rf-page-header-action-item {
-        color: #5A3E2D !important;
-    }
-
-        .rf-page-header-action-item > .rf-page-header-action-item-userletter {
-            background-color: #ffffff20 !important;
-        }
-
-    .rf-page-left-menu-body ul > li {
-        padding:10px 10px 10px 2px!important;
-    }
-</style>
 <LayoutRF>
     
 
-    <LayoutHeaderRF IgnoreDefaults=true>
+    <LayoutHeaderRF IgnoreDefaults=false>
         <LayoutHeaderLeftPanel>
             <LayoutHeaderIcon OnClick="gotoLink" />
         </LayoutHeaderLeftPanel>
