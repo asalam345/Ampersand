@@ -1,4 +1,5 @@
-﻿using RapidFireLib.Lib.Core;
+﻿using Domain.Aggregates.Profits;
+using RapidFireLib.Lib.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -40,6 +41,11 @@ namespace Domain.Aggregates
         // Navigation property
         public ICollection<PropertyOwnership> PropertyOwnerships { get; set; }
     }
+    //public class PropertyOwnership
+    //{
+    //    [Key]
+    //    public Guid PropertyOwnershipId { get; set; } = Guid.NewGuid(); 
+    //}
 
-    
+
 }
