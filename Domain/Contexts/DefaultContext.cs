@@ -29,6 +29,8 @@ namespace Domain.Contexts
         public DbSet<ProfitDistribution> ProfitDistribution { get; set; }
         public DbSet<Property> Property { get; set; }
         public DbSet<PropertyOwnership> PropertyOwnership { get; set; }
+        public DbSet<PaymentType> PaymentType { get; set; }
+        public DbSet<TransactionType> TransactionType { get; set; }
         //public DbSet<Village> Village { get; set; }
     }
 }

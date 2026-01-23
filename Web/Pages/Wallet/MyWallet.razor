@@ -1,0 +1,76 @@
+﻿@page "/my-wallet"
+<PageRF Title="My Wallets" SubTitle="">
+    <PageHeaderRF>
+        <Actions></Actions>
+    </PageHeaderRF>
+    <div style="display:flex;gap:10px">
+        <div style="flex:0 0 300px;">
+            @* OnAfterSave="@RF.UI.Events.Back" *@
+            <FormRF @ref=formRF Model="WalletTransaction" OnBeforeSave="beforeSave">
+                <RowRF>
+                    <ColRF Span="12">
+                        <SelectRF @bind-Value="context.TransactionTypeId"
+                                  OptionList="new List<TransactionType>()"
+                                  DisplayText="c => c.Name"
+                                  ValueText="c => c.TransactionTypeId"
+                                  Label="Transaction Type" />
+                    </ColRF>
+                    <ColRF Span="12">
+                        <InputRF @bind-Value="@context.Amount" Label="Amount" />
+                    </ColRF>
+
+                    <ColRF Span="12">
+                        <SelectRF @bind-Value="context.PaymentTypeId"
+                                  OptionList="new List<PaymentType>()"
+                                  DisplayText="c => c.Name"
+                                  ValueText="c => c.PaymentTypeId"
+                                  Label="PaymentType Type" />
+                    </ColRF>
+                    <ColRF Span="12">
+                        <ImageUploaderRF @bind-Value="context.Image"/>
+                    </ColRF>
+                    <ColRF Span="12">
+                        <ButtonRF type="submit" Icon="fa-solid fa-floppy">Save</ButtonRF>
+                        <ButtonRF type="reset" Icon="fa-solid fa-floppy">Reset</ButtonRF>
+                    </ColRF>
+                </RowRF>
+            </FormRF>
+        </div>
+        <TableRF Model="WalletTransaction">
+            <HeaderRowTemplate>
+                <td>Amount</td>
+                <td>Transaction Type</td>
+                <td>Payment Type</td>
+                <td>Created At</td>
+            </HeaderRowTemplate>
+            <BodyRowTemplate>
+                <td>@context.Amount</td>
+                <td>@context.TransactionTypeId</td>
+                <td>@context.PaymentTypeId</td>
+                <td>@context.CreatedAt</td>
+            </BodyRowTemplate>
+        </TableRF>
+    </div>
+</PageRF>
+
+@code {
+    FormRF<WalletTransaction> formRF = null!;
+    Db db = null!;
+    RapidFire rf = null!;
+    // List<SpinnerValue> transactionType = new List<SpinnerValue>
+    // {
+    //     new SpinnerValue { ValueText = 1, DisplayText = "Deposit" },
+    //     new SpinnerValue { ValueText = 2, DisplayText = "Withdraw" }
+    // };
+    protected override void OnInitialized()
+    {
+        db = new(config);
+        rf = new(config);
+        base.OnInitialized();
+    }
+    WalletTransaction beforeSave(WalletTransaction model)
+    {
+        model.UserId = userInfo.User.Id;
+        return model;
+    }
+}

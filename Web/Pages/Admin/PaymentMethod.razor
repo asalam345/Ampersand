@@ -1,0 +1,46 @@
+﻿@page "/payment-method"
+<PageRF Title="Payment Method" SubTitle="">
+    <PageHeaderRF>
+        <Actions></Actions>
+    </PageHeaderRF>
+    <div style="display:flex;gap:10px">
+        <div style="flex:0 0 300px;">
+            <FormRF @ref=formRF Model="PaymentType">
+                <RowRF>
+                    <ColRF Span="12">
+                        <InputRF @bind-Value="@context.Name" Label="Amount" />
+                    </ColRF>
+                    <ColRF Span="12">
+                        <FormButtons T=PaymentType FormObj=formRF Save="save" />
+                    </ColRF>
+                </RowRF>
+            </FormRF>
+        </div>
+        <TableRF @ref=@tableRF Model ="PaymentType">
+            <HeaderRowTemplate>
+                <td>Name</td>
+            </HeaderRowTemplate>
+            <BodyRowTemplate>
+                <td>@context.Name</td>
+            </BodyRowTemplate>
+        </TableRF>
+    </div>
+</PageRF>
+
+@code {
+    FormRF<PaymentType> formRF = null!;
+    TableRF<PaymentType> tableRF = null!;
+    Db db = null!;
+    RapidFire rf = null!;
+    
+    protected override void OnInitialized()
+    {
+        db = new(config);
+        rf = new(config);
+        base.OnInitialized();
+    }
+    void save()
+    {
+        tableRF.Refresh();
+    }
+}

@@ -1,11 +1,16 @@
-﻿using RapidFireLib.Lib.Core;
+﻿using Domain.Aggregates.Profits;
+using RapidFireLib.Lib.Core;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Domain.Aggregates
 {
-    public class Property : IModel
+    public class Property:IModel
     {
         [Key]
         public Guid PropertyId { get; set; } = Guid.NewGuid();
@@ -34,8 +39,13 @@ namespace Domain.Aggregates
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation property
-        //public ICollection<PropertyOwnership> PropertyOwnerships { get; set; }
+        public ICollection<PropertyOwnership> PropertyOwnerships { get; set; }
     }
+    //public class PropertyOwnership
+    //{
+    //    [Key]
+    //    public Guid PropertyOwnershipId { get; set; } = Guid.NewGuid(); 
+    //}
 
 
 }

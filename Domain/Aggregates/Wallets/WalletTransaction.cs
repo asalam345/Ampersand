@@ -14,7 +14,7 @@ namespace Domain.Aggregates
         public Guid WalletId { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }//RequestedBy
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -22,13 +22,18 @@ namespace Domain.Aggregates
 
         [Required]
         [StringLength(20)]
-        public string TransactionType { get; set; } // Deposit, Withdraw, Profit, Loss
+        public Guid TransactionTypeId { get; set; }// Deposit, Withdraw, Profit, Loss
+        [Required]
+        [StringLength(20)]
+        public Guid PaymentTypeId { get; set; } 
 
         [StringLength(100)]
         public string ReferenceNo { get; set; }
 
         [StringLength(500)]
         public string Remarks { get; set; }
+        [StringLength(500)]
+        public string Image { get; set; }//slip image url
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -37,7 +42,7 @@ namespace Domain.Aggregates
         [StringLength(20)]
         public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
 
-        public Guid? RequestedBy { get; set; } // UserId (if user initiated)
+        //public string? RequestedBy { get; set; } // UserId (if user initiated)
         public Guid? ApprovedBy { get; set; } // AdminId
         public DateTime? ApprovedAt { get; set; }
 

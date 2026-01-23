@@ -18,10 +18,61 @@
 
 @using Domain.Aggregates
 @using RapidFireLib.Models.Api;
+@using Web.Components;
 
 
 @inject NavigationManager nav
 @using Microsoft.JSInterop
 @inject IJSRuntime JS
-@inject IUserInfo user
+@inject IUserInfo userInfo
+
+
+
+
+
+@* @using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using System
+@using System.Globalization
+@using System.Text
+@using System.Text.Json
+@using System.Threading.Tasks
+@using System.Collections.ObjectModel
+@using Newtonsoft.Json.Linq
+
+@using RapidFireLib.Lib.Core
+@using RapidFireLib.View.UserInfo
+@using RapidFireUI
+@using RapidFireLib.Models.Api;
+@using RapidFireUI.Types
+@using RapidFireLib.UX.Style
+@using RapidFireLib.View.Models
+
+@using Domain.Aggregates
+@using Domain.Handlers
+@using Requester.Components
+
+@using MapRFLib.NavigatorAdapter.Engine.Animation
+@using MapRFLib.Components
+@using MapRFLib.Data
+@using MapRFLib.NavigatorAdapter.Core
+
+@using Requester.Config
+@using Requester.Shared
+@using Requester.Models
+
+
+@inject IJSRuntime JS
+@inject RF RF
+@inject IConfig config
+@inject IUserInfo userInfo
+@inject IWebHostEnvironment env
+@inject IConfiguration aspConfig
+@inject LocalizerRF lang *@
 

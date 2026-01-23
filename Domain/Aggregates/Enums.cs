@@ -1,12 +1,12 @@
 ﻿namespace Domain.Aggregates
 {
-    public enum TransactionType
-    {
-        Deposit,
-        Withdraw,
-        Profit,
-        Loss
-    }
+    //public enum TransactionType
+    //{
+    //    Deposit,
+    //    Withdraw,
+    //    Profit,
+    //    Loss
+    //}
 
     public enum WalletTransactionStatus
     {

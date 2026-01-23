@@ -1,0 +1,58 @@
+﻿@page "/transaction-method"
+
+<PageRF Title="Transaction Type" SubTitle="">
+    <PageHeaderRF>
+        <Actions></Actions>
+    </PageHeaderRF>
+    <div style="display:flex;gap:10px;">
+        <div style="flex:0 0 300px;background: white;
+    width: 380px;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-top: 5px solid #8d410da8;">
+            <FormRF @ref=formRF Model="TransactionType">
+                <RowRF>
+
+                    <ColRF Span="12">
+                        <InputRF @bind-Value="@context.Name" Label="Name" />
+                    </ColRF>
+                    <ColRF Span="12" Style="display:flex;justify-content:flex-end;gap:10px;">
+                        <FormButtons T=TransactionType FormObj=formRF Save="save" />
+                    </ColRF>
+                </RowRF>
+            </FormRF>
+        </div>
+        @*Filter="x =>(filter.RegionId == null || x.RegionId == filter.RegionId) && (filter.CountryId == null || x.CountryId == filter.CountryId) && (filter.OfficeId == null || x.OfficeId == filter.OfficeId)"*@
+        <TableRF @ref=@tableRF Class="table-striped" ActionText="Manage"
+                 Delete=true Edit=true Model="TransactionType"
+                 EditModel="typeof(TransactionType)" EditUrl="/transaction-method">
+            <HeaderRowTemplate>
+                <th style="width:auto">Transaction Name</th>
+            </HeaderRowTemplate>
+            <BodyRowTemplate>
+                <td>@context.Name</td>
+            </BodyRowTemplate>
+        </TableRF>
+    </div>
+</PageRF>
+
+@code {
+    FormRF<TransactionType> formRF = null!;
+    TableRF<TransactionType> tableRF = null!;
+    Db db = null!;
+    RapidFire rf = null!;
+
+    protected override void OnInitialized()
+    {
+        db = new(config);
+        rf = new(config);
+        base.OnInitialized();
+    }
+
+    void save()
+    {
+        tableRF.Refresh();
+    }
+}
