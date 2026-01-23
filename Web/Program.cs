@@ -1,3 +1,4 @@
+using Domain.Services;
 using RapidFireLib;
 using RapidFireLib.Extensions;
 using RapidFireUI;
@@ -9,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddRapidFire(new AppConfig());
 builder.Services.AddRapidFireUI();
+builder.Services.AddScoped<UserRegisterService>();
 var app = builder.Build();
 
 

@@ -1,0 +1,239 @@
+﻿@page "/Registartion"
+@using System.Text.RegularExpressions
+@using Microsoft.AspNetCore.Identity
+@using RapidFireLib.View.Models.Identity
+@using RapidFireLib.View.UserInfo
+@using RapidFireUI.Account
+@using Domain.Services
+@inject NavigationManager Navigation
+@inject UserRegisterService _registerService
+@inject IUserInfo userInfo
+
+
+
+@attribute [AllowAnonymous]
+@attribute [UserSetupPageRF]
+@layout PublicLayout
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:500,700">
+<style>
+    .row {
+        margin-top: 15px;
+    }
+
+    .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+        margin-bottom: .5rem;
+        font-family: Oswald;
+        font-weight: 400;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 0;
+        margin-bottom: .5rem;
+    }
+
+    .h5, h5 {
+        font-size: 14px;
+    }
+
+    * {
+        -webkit-tap-highlight-color: rgba(255,255,255,0);
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .card-category {
+        padding-bottom: 0;
+    }
+
+    .card .card-header p {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+</style>
+<style>
+    .showError, .hideError {
+        color: #ff0000;
+    }
+</style>
+
+
+<PageTitle>Counter</PageTitle>
+<PageRF Title="Partner Connection - Registration">
+    <PageHeaderRF>
+        <Actions>
+            <FormAction SaveAsNew="false" SaveAndExit="false" />
+        </Actions>
+    </PageHeaderRF>
+    <ContainerRF>
+        <div id="showMsg" class="iziModal" style="z-index:99999999999;"></div>
+        <div id="showErrorMsg" class="iziModal" style="z-index:99999999999"></div>
+        <FormRF Model="PartnerInfo" @ref="formRF" OnBeforeSave="beforeSave" style="max-width:1000px; margin:0 auto;top:100px;">
+            <div class="row" style="">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h5 class="card-title" style="margin-bottom:0;">Organization <b style="color:#e9e2e2;">*</b></h5>
+                            <p class="card-category" style="font-family:Oswald">Create your Organization Profile</p>
+                        </div>
+                        <ColRF SpanSM="12" Span="12" SpanL="12" SpanXL="12">
+                            <RowRF>
+                                <ColRF SpanSM="8" Span="8" SpanL="8" SpanXL="8">
+                                    <InputRF @bind-Value=@context.OrganizationName OnChange="CheckExistingPartner"
+                                             Label="Organization  Legal Name" Placeholder="Enter Organization  Legal Name"></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="4" Span="4" SpanL="4" SpanXL="4">
+                                    <InputRF @bind-Value=@context.Acronym OnChange="CheckExistingAcronym"
+                                             Label="Acronym/ Short Name of Organization" Placeholder="Enter Acronym/ Short Name of Organization"></InputRF>
+                                </ColRF>
+                                
+                                
+                                <ColRF SpanSM="4" Span="4" SpanL="4" SpanXL="4">
+                                    <DatePickerRF @bind-Value="@context.NGORegDate" ClearButton=true DoneButton=true
+                                                  Format="dd-MMM-yyyy" WithValidationMessage=true Label="Registration Date" Placeholder="Enter Registration Date" />
+                                </ColRF>
+                               
+                               
+                               
+                                <ColRF SpanSM="8" Span="8" SpanL="8" SpanXL="8">
+                                    <InputRF @bind-Value=@context.OfficialAddress Label="Official Address" Placeholder="Enter Official Address"></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="4" Span="4" SpanL="4" SpanXL="4">
+                                    <InputRF @bind-Value=@context.OrganizationTelephone Label="Organization Telephone" Placeholder="Enter Organization Telephone"></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="8" Span="8" SpanL="8" SpanXL="8">
+                                    <InputRF @bind-Value=@context.OrganizationEmail Label="Organization E-mail address" Placeholder="Enter Organization E-mail address "></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="6" Span="6" SpanL="6" SpanXL="6">
+                                    <InputRF @bind-Value=@context.OrganizationWebLink Label="Web Address of the Organization (If any)" Placeholder="Enter Web Address of the Organization (If any)"></InputRF>
+                                </ColRF>
+                            </RowRF>
+                        </ColRF>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h5 class="card-title" style="margin-bottom:0;">Log in credentials <b style="color:#e9e2e2;">*</b></h5>
+                        </div>
+                        <div class="card-body">
+                            <RowRF>
+                                <ColRF SpanSM="6" Span="6" SpanL="6" SpanXL="6">
+                                    <InputRF Style="margin-bottom: 15px" @bind-Value=@registerModel.Email Label="E-mail address" Placeholder="Enter E-mail address"></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="6" Span="6" SpanL="6" SpanXL="6">
+                                    <InputRF @bind-Value=@registerModel.ConfirmEmail Label="Confirm e-mail address" Placeholder="Enter Confirm e-mail address"></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="6" Span="6" SpanL="6" SpanXL="6">
+                                    <InputRF @bind-Value=@registerModel.Password Type="password" Label="Password" Placeholder="Enter Password"></InputRF>
+                                </ColRF>
+                                <ColRF SpanSM="6" Span="6" SpanL="6" SpanXL="6">
+                                    <InputRF @bind-Value=@registerModel.ConfirmPassword Type="password" Label="Confirm Password" Placeholder="Enter Confirm Password"></InputRF>
+                                </ColRF>
+                                <div class="col-md-12">
+                                    <span style="font-size:14px;color:red;">Please follow the password instructions</span><br />
+                                    <i>At least 8 characters<br />At least one uppercase letter<br />At least one number<br />At least one special character, e.g., ! @@ # ?</i>
+                                </div>
+
+                            </RowRF>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+        </FormRF>
+    </ContainerRF>
+</PageRF>
+@code {
+    Db? db { get; set; } = null!;
+    FormRF<PartnerInfo>? formRF { get; set; }
+    RegisterModel registerModel { get; set; } = new();
+    private bool isDisable = true;
+    private string chcekCategory = "";
+    private string declaration = "";
+    private string sameUser = "";
+    protected override void OnInitialized()
+    {
+        db = new Db(config);
+    }
+    public void CheckExistingPartner(object e)
+    {
+        var existingPartner = db.Get<PartnerInfo>(x => x.OrganizationName == e as string).FirstOrDefault();
+        if (existingPartner != null)
+        {
+            RF.UI.Toaster.Warning($@"{e} is Already registered");
+        }
+    }
+    public void CheckExistingAcronym(object e)
+    {
+        var existingAcronym = db.Get<PartnerInfo>(x => x.Acronym == e as string).FirstOrDefault();
+        if (existingAcronym != null)
+        {
+            RF.UI.Toaster.Warning($@"{e} is Already registered");
+        }
+    }
+    
+    public void CheckSameUser()
+    {
+        registerModel.Email = formRF!.Data!.OrganizationEmail;
+        registerModel.ConfirmEmail = formRF.Data.OrganizationEmail;
+    }
+    PartnerInfo beforeSave(PartnerInfo partnerInfo)
+    {
+        try
+        {
+            registerModel = new()
+                {
+                    Email = registerModel.Email,
+                    Password = registerModel.Password
+                };
+            var registrationResult = _registerService.Register(registerModel, partnerInfo.OrganizationName ,CancellationToken.None); //parameter set by framework
+            if (registrationResult.Result.Succeeded)
+            {
+                var aspnetUserId = db.Get<AspNetUsers>(x => x.Email == registerModel.Email).Select(x => x.UserId).FirstOrDefault();
+                partnerInfo.UserId = Convert.ToInt32(aspnetUserId); //set UserId value after Registration of Partner completed
+                RF.UI.Toaster.Success($@"User Created Sucessfullly!");
+            }
+            else
+            {
+                foreach (var error in registrationResult.Result.Errors)
+                {
+                    RF.UI.Toaster.Error($"{error.Description}");
+                }
+                return null;
+            }
+            var existingPartner = db.Get<PartnerInfo>(x => x.OrganizationName == partnerInfo.OrganizationName).FirstOrDefault();
+            if (existingPartner != null)
+            {
+                RF.UI.Toaster.Warning($@"{partnerInfo.OrganizationName} is Already registered");
+                return null;
+            }
+            var existingAcronym = db.Get<PartnerInfo>(x => x.Acronym == partnerInfo.Acronym).FirstOrDefault();
+            if (existingAcronym != null)
+            {
+                RF.UI.Toaster.Warning($@"{partnerInfo.Acronym} is Already registered");
+                return null;
+            }
+            var declarationChceker = declaration;
+            if (declarationChceker == "")
+            {
+                RF.UI.Toaster.Warning($@"Please check the Declaration");
+                return null;
+            }
+            return partnerInfo;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+}
+
+
+
+
+

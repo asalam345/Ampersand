@@ -1,0 +1,519 @@
+﻿@* @using RapidFireUI.Account
+@attribute [LoginPageRF]
+
+<link href="css/signin.css" rel="stylesheet" />
+<style>
+    .gg-login-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: #F5F5F5;
+    }
+
+    .gg-left-section {
+        flex: 1;
+        padding: 40px 60px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .gg-language-selector {
+        position: absolute;
+        top: -60px;
+        right: 0;
+    }
+
+    .gg-lang-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: white;
+        border: 1px solid #E0E0E0;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #333;
+        transition: all 0.3s;
+    }
+
+        .gg-lang-btn:hover {
+            border-color: #999;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .gg-globe-icon {
+        font-size: 16px;
+    }
+
+    .gg-chevron {
+        font-size: 10px;
+        margin-left: 4px;
+    }
+
+    .gg-welcome-content {
+        max-width: 650px;
+        margin-top: 60px;
+    }
+
+    .gg-welcome-title {
+        font-size: 32px;
+        font-weight: 400;
+        color: #333;
+        margin: 0 0 10px 0;
+    }
+
+    .gg-brand-title {
+        font-size: 64px;
+        font-weight: 700;
+        color: #1A1A1A;
+        margin: 0 0 40px 0;
+        line-height: 1;
+    }
+
+    .gg-brand-go {
+        color: #E63946;
+    }
+
+    .gg-illustration {
+        margin: 40px 0;
+    }
+
+    .gg-svg-illustration {
+        width: 100%;
+        max-width: 650px;
+        height: auto;
+    }
+
+    .gg-learn-section {
+        margin-top: 40px;
+    }
+
+    .gg-learn-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #1A1A1A;
+        margin: 0 0 12px 0;
+    }
+
+    .gg-learn-subtitle {
+        font-size: 16px;
+        color: #666;
+        margin: 0 0 20px 0;
+    }
+
+    .gg-scroll-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        border: none;
+        color: #E63946;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0;
+        transition: opacity 0.3s;
+    }
+
+        .gg-scroll-btn:hover {
+            opacity: 0.8;
+        }
+
+    .gg-scroll-icon {
+        font-size: 12px;
+    }
+
+    .gg-right-section {
+        width: 480px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    .gg-login-card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .gg-logo-badge {
+        width: 72px;
+        height: 72px;
+        background: #E63946;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 32px;
+        box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+    }
+
+    .gg-logo-text {
+        color: white;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .gg-form-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #1A1A1A;
+        text-align: center;
+        margin: 0 0 8px 0;
+    }
+
+    .gg-form-subtitle {
+        font-size: 14px;
+        color: #999;
+        text-align: center;
+        margin: 0 0 32px 0;
+    }
+
+    .gg-login-form {
+        width: 100%;
+    }
+
+    .gg-form-group {
+        margin-bottom: 24px;
+    }
+
+    .gg-form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .gg-required {
+        color: #E63946;
+    }
+
+    .gg-input-wrapper {
+        position: relative;
+    }
+
+    .gg-form-input {
+        width: 100%;
+        padding: 14px 45px 14px 16px;
+        border: 1px solid #E0E0E0;
+        border-radius: 8px;
+        font-size: 15px;
+        color: #333;
+        transition: all 0.3s;
+        box-sizing: border-box;
+    }
+
+        .gg-form-input::placeholder {
+            color: #999;
+        }
+
+        .gg-form-input:focus {
+            outline: none;
+            border-color: #E63946;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+        }
+
+    .gg-input-icon {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 18px;
+    }
+
+    .gg-toggle-password {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gg-submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: #DA291C;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 12px;
+        font-family: Lato;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .gg-submit-btn:hover {
+        background: #D32F3C;
+        box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+    }
+
+    .gg-back-btn {
+        width: 100%;
+        padding: 16px;
+        background: white;
+        color: #DA291C;
+        border: 1px solid #DA291C;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 24px;
+        color: #DA291C;
+        text-align: center;
+        /* Heading/H2 */
+        font-family: Lato;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+        .gg-back-btn:hover {
+            background: #FEF5F6;
+        }
+
+    .gg-terms-text {
+        font-size: 12px;
+        color: #999;
+        text-align: center;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .gg-terms-link {
+        color: #E63946;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+        .gg-terms-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+    .gg-card-wrapper {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .gg-card-wrapper.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .gg-card-wrapper.hide {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .sso-view,
+    .guest-view {
+        opacity: 0;
+        transform: translateY(10px);
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+        transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .sso-view.show,
+    .guest-view.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        position: relative;
+    }
+
+    .rf-login-right-container {
+        position:relative;
+        display: flex;
+        align-content: center;
+        padding: 20px 30px;
+        /* height: 70%; */
+        width: 594px;
+        box-shadow: 2px 2px 5px #5858586E;
+        opacity: 1;
+        /* background: #FFFFFF 0% 0% no-repeat padding-box !important; */
+        flex-wrap: wrap;
+        border-radius: 16px;
+        background: #FFF;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .rf-login-btn {
+        margin-bottom: 24px;
+        flex: 1 1 60px;
+        width: 100%;
+        padding: 16px;
+        background: #DA291C;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: #FFF;
+        text-align: center;
+        font-family: Lato;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+        .rf-login-btn:hover {
+            background: #DA291C;
+        box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+    }
+
+    @@media (max-width: 1024px) {
+        .gg-login-container {
+            flex-direction: column;
+        }
+
+        .gg-right-section {
+            width: 100%;
+        }
+
+        .gg-left-section {
+            padding: 30px;
+        }
+
+        .gg-brand-title {
+            font-size: 48px;
+        }
+    }
+    
+
+</style>
+<LoginPageRF>
+    <LoginLeftPanelRF>
+        <div class="gg-left-section">
+            <div class="gg-welcome-content">
+                <h1 class="gg-welcome-title">Welcome to</h1>
+                <h2 class="gg-brand-title">
+                    Glide<span class="gg-brand-go">GO</span>
+                </h2>
+
+                <!-- Illustration -->
+                <div class="gg-illustration">
+                    <div class="illustration">           </div>
+                </div>
+
+                <div class="gg-learn-section">
+                    <h3 class="gg-learn-title">Learn about GlideGo</h3>
+                    <p class="gg-learn-subtitle">Click below to learn what GlideGo can do for your organization.</p>
+                    <button class="gg-scroll-btn">
+                        Scroll to learn more
+                        <span class="gg-scroll-icon">▼</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </LoginLeftPanelRF>
+   <LoginRightPanel>
+        
+        <div>
+            <div class="gg-right-section">
+                <div class="gg-login-card">
+
+                    <div class="gg-logo-badge">
+                        <span class="gg-logo-text">GG</span>
+                    </div>
+                    <div class="gg-card-wrapper @(isGuestMode ? "show" : "hide")">
+
+                    </div>
+
+                    @if (!isGuestMode)
+                    {
+                        <!-- DEFAULT: SSO View -->
+                        <div class="gg-form-title">Welcome Back</div>
+                        <p class="gg-form-subtitle">Sign in to continue</p>
+
+                        <button class="gg-submit-btn" @onclick="() => { }">
+                            Sign in with SSO
+                        </button>
+
+                        <div style="text-align:center; margin: 16px 0; color:#999;">OR</div>
+
+                        <button class="gg-back-btn" @onclick="EnableGuestMode">
+                            Continue as Guest
+                        </button>
+
+                        <p class="gg-terms-text">
+                            By continuing, you agree to our
+                            <a href="#" class="gg-terms-link">Terms of Service</a> and
+                            <a href="#" class="gg-terms-link">Privacy Policy</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <!-- GUEST LOGIN FORM -->
+                        <div class="gg-form-title">Continue as Guest</div>
+                        <p class="gg-form-subtitle">Enter your credentials to continue</p>
+                        <div class="gg-login-form">
+                            <LoginFormRF  Title="" />
+                            <button type="button"
+                                    class="gg-back-btn"
+                                    @onclick="DisableGuestMode">
+                                Back
+                            </button>
+
+                            <p class="gg-terms-text">
+                                By continuing, you agree to our
+                                <a href="#" class="gg-terms-link">Terms of Service</a>
+                                and
+                                <a href="#" class="gg-terms-link">Privacy Policy</a>
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+   </LoginRightPanel>
+</LoginPageRF>
+
+@code{
+    
+    public class MicrosoftSSO : ISSO
+    {
+        public MicrosoftSSO() : base(SSOProvider.Microsoft) { }
+    }
+    MicrosoftSSO item { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        item = new MicrosoftSSO
+        {
+            Title = "Microsoft Login",
+            Icon = "Microsoft.png",
+            IconColor = "#db4437",
+            BackgroundColor = "#ffffff"
+        };
+        base.OnInitialized();
+    }
+
+    bool isGuestMode = false;
+
+    string email;
+    string password;
+    bool showPassword = false;
+
+    void EnableGuestMode() => isGuestMode = true;
+    void DisableGuestMode() => isGuestMode = false;
+
+    void TogglePassword() => showPassword = !showPassword;
+  
+} *@

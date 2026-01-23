@@ -1,0 +1,53 @@
+﻿@using System.Text.RegularExpressions
+@using Microsoft.AspNetCore.Identity
+@using RapidFireLib.View.Models.Identity
+@using RapidFireLib.View.UserInfo
+@using RapidFireUI.Account
+@using Domain.Services
+@inject NavigationManager Navigation
+@inject UserRegisterService _registerService
+@inject IUserInfo userInfo
+
+
+
+@attribute [AllowAnonymous]
+@attribute [LoginPageRF]
+@layout PublicLayout
+
+<link href="./css/reglogin.css" rel="stylesheet" />
+
+<div class="auth-container">
+    <div class="auth-image"></div>
+    <div class="auth-forms">
+        <h2>Welcome Back</h2>
+        <EditForm Model="@loginModel" OnValidSubmit="OnLogin">
+            <div class="form-group">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="loginModel.Email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <InputText type="password" class="form-control" @bind-Value="loginModel.Password" placeholder="••••••••" />
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+        </EditForm>
+        <div class="switch-form">
+            Don’t have an account? <a href="/signup">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+
+    private void OnLogin()
+    {
+        // Handle login logic (e.g., call API)
+    }
+
+    public class LoginModel
+    {
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}

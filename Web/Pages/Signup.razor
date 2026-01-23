@@ -1,0 +1,57 @@
+﻿@page "/signup"
+@using System.Text.RegularExpressions
+@using Microsoft.AspNetCore.Identity
+@using RapidFireLib.View.Models.Identity
+@using RapidFireLib.View.UserInfo
+@using RapidFireUI.Account
+@using Domain.Services
+@inject NavigationManager Navigation
+@inject UserRegisterService _registerService
+@inject IUserInfo userInfo
+
+
+
+@attribute [AllowAnonymous]
+@attribute [UserSetupPageRF]
+@layout PublicLayout
+<link href="./css/reglogin.css" rel="stylesheet" />
+<div class="auth-container">
+    <div class="auth-image"></div>
+    <div class="auth-forms">
+        <h2>Create Account</h2>
+        <EditForm Model="@registerModel" OnValidSubmit="OnRegister">
+            <div class="form-group">
+                <label>Full Name</label>
+                <InputText class="form-control" @bind-Value="registerModel.Name" placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <InputText class="form-control" @bind-Value="registerModel.Email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <InputText type="password" class="form-control" @bind-Value="registerModel.Password" placeholder="••••••••" />
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+        </EditForm>
+        <div class="switch-form">
+            Already have an account? <a href="/account/login?returnUrl=/home">Sign In</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel registerModel = new();
+
+    private void OnRegister()
+    {
+        // Handle registration logic
+    }
+
+    public class RegisterModel
+    {
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}
