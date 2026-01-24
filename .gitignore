@@ -366,3 +366,5 @@ FodyWeavers.xsd
 /Web/wwwroot/css/dynamic-style-rf.css
 ".vs/" 
 "*.suo" 
+/.vs/Ampersand/DesignTimeBuild/.dtbcache.v2
+/.vs/Ampersand/v17/.suo
