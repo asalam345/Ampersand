@@ -31,6 +31,7 @@ namespace Domain.Contexts
         public DbSet<PropertyOwnership> PropertyOwnership { get; set; }
         public DbSet<PaymentType> PaymentType { get; set; }
         public DbSet<TransactionType> TransactionType { get; set; }
-        //public DbSet<Village> Village { get; set; }
+        public DbSet<Register> Register { get; set; }
+        //public DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

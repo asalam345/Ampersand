@@ -11,6 +11,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddRapidFire(new AppConfig());
 builder.Services.AddRapidFireUI();
 builder.Services.AddScoped<UserRegisterService>();
+//builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 var app = builder.Build();
 
 

@@ -29,7 +29,7 @@ namespace Domain.Services
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
-        public async Task<IdentityResult> Register(RegisterModel registerModel, string OrgName, CancellationToken cancellationToken)
+        public async Task<IdentityResult> Register(Register registerModel, string OrgName, CancellationToken cancellationToken)
         {
             try
             {

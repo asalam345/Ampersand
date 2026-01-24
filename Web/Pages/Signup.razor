@@ -1,14 +1,16 @@
 ﻿@page "/signup"
 @using System.Text.RegularExpressions
 @using Microsoft.AspNetCore.Identity
+@* @using Microsoft.Data.SqlClient *@
+@using RapidFireLib.Lib.Core
 @using RapidFireLib.View.Models.Identity
 @using RapidFireLib.View.UserInfo
 @using RapidFireUI.Account
 @using Domain.Services
+@using System.Security
 @inject NavigationManager Navigation
 @inject UserRegisterService _registerService
 @inject IUserInfo userInfo
-
 
 
 @attribute [AllowAnonymous]
@@ -19,21 +21,30 @@
     <div class="auth-image"></div>
     <div class="auth-forms">
         <h2>Create Account</h2>
-        <EditForm Model="@registerModel" OnValidSubmit="OnRegister">
+        <FormRF Model="AspNetUsers" @ref="formRF" OnBeforeSave="beforeSave" OnAfterSave="afterSave">
             <div class="form-group">
-                <label>Full Name</label>
-                <InputText class="form-control" @bind-Value="registerModel.Name" placeholder="John Doe" />
+                <InputRF class="form-control" Label="Full Name" @bind-Value="context.FullName" placeholder="Enter Your Full Name" />
             </div>
             <div class="form-group">
-                <label>Email</label>
-                <InputText class="form-control" @bind-Value="registerModel.Email" placeholder="you@example.com" />
+                <InputRF class="form-control" Label="Email"  @bind-Value="context.Email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group" style="position:absolute;left:-100%;height:0;">
+                <InputRF class="form-control" Label="User Name"  @bind-Value="context.UserName" placeholder="you@example.com" />
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <InputText type="password" class="form-control" @bind-Value="registerModel.Password" placeholder="••••••••" />
+                <InputRF class="form-control" Label="Phone Number"  @bind-Value="context.PhoneNumber" placeholder="01********" />
             </div>
+            <div class="form-group">
+                <InputRF type="password" Label="Password" class="form-control" @bind-Value="password" placeholder="••••••••" />
+            </div>
+            <div class="form-group">
+                <InputRF type="password" Label="Confirm Password" class="form-control" @bind-Value="confirmPassword" placeholder="••••••••" />
+            </div>
+           @*  <div class="form-group">
+                <DatePickerRF Label="Date of Birth" class="form-control" @bind-Value="dob" placeholder="Your date of birth" />
+            </div> *@
             <button type="submit" class="btn">Sign Up</button>
-        </EditForm>
+        </FormRF>
         <div class="switch-form">
             Already have an account? <a href="/account/login?returnUrl=/home">Sign In</a>
         </div>
@@ -41,17 +52,82 @@
 </div>
 
 @code {
-    private RegisterModel registerModel = new();
+    Db? db { get; set; } = null!;
+    FormRF<AspNetUsers>? formRF { get; set; }
+    string? confirmPassword = "12345";
+    string? password = "12345";
+    DateTime dob { get; set; } = DateTime.Now.AddYears(-18);
 
-    private void OnRegister()
+    protected override void OnInitialized()
     {
-        // Handle registration logic
+
+    }
+    bool alreadyExist(string value, string item)
+    {
+        db = new Db(config);
+        switch (item)
+        {
+            case "email":
+                return db.Get<AspNetUsers>(x => x.Email == value).Any();
+            case "phone":
+                return db.Get<AspNetUsers>(x => x.PhoneNumber == value).Any();
+        }
+
+        return false;
+    }
+    AspNetUsers beforeSave(AspNetUsers r)
+    {
+        if (string.IsNullOrWhiteSpace(password) || password.Length < 5 || password != confirmPassword)
+        {
+            if (password?.Length < 5)
+            RF.UI.Toaster.Warning("Password Length must be at lest 5");
+            else if (password != confirmPassword)
+            RF.UI.Toaster.Warning("Password and confirm pasword not match");
+            return new AspNetUsers();
+        }
+        if (alreadyExist(r.Email, "email"))
+        {
+            RF.UI.Toaster.Warning("Email already exists!");
+            return new AspNetUsers();
+        }
+        if (alreadyExist(r.Email, "phone"))
+        {
+            RF.UI.Toaster.Warning("Phone number already exists!");
+            return new AspNetUsers();
+        }
+        r.CreateDate = DateTime.Now;
+        r.UserName = r.Email;
+        r.NormalizedUserName = r.UserName.ToUpperInvariant();
+        r.Email = r.UserName;
+        r.NormalizedEmail = r.Email.ToUpperInvariant();
+        r.IsActive = true;
+
+        var options = new PasswordHasherOptions
+        {
+            CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
+        };
+
+        var hasher = new PasswordHasher<AspNetUsers>(
+            Microsoft.Extensions.Options.Options.Create(options)
+        );
+
+        r.PasswordHash = hasher.HashPassword(r, password!);
+
+        return r;
     }
 
-    public class RegisterModel
+
+    void afterSave(AspNetUsers r)
     {
-        public string Name { get; set; } = "";
-        public string Email { get; set; } = "";
-        public string Password { get; set; } = "";
+        db = new Db(config);
+        // AspNetUserRoles roles = new();
+        // roles.UserId = r.Id;
+        // roles.AppUserId = r.UserId;
+        //roles.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730";
+        string sql = $"INSERT INTO AspNetUserRoles (UserId, RoleId, AppUserId) VALUES ('{r.Id}', '6b49feb2-7488-4356-90ac-a345e9feb730', '{r.UserId}')";
+        db.Save(null, sql);
+        var result = db.Commit();
+
+        // db.Save(roles);
     }
 }

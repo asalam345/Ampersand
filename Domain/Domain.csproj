@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\PasswordHasherService.cs" />
+    <Compile Remove="Services\PasswordHashService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="RapidFireUI" Version="8.*" />
   </ItemGroup>
 </Project>
