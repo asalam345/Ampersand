@@ -5,54 +5,13 @@
 @{
     Layout = "_Layout";
 }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./css/styles.css" />
 <style>
-    .rf-page-left-menu-body ul > li > a {
-        padding: 10px;
-        color: #5A3E2D !important;
-    }
-    .rf-page-left-menu-body ul > li > a.active {
-        background-color: #8d410da8;
-        padding: 10px;
-        color: #5A3E2D !important;
-    }
-
-    .layoutheader-rf {
-        background-color: #6f4e37dd !important;
-    }
-
-    .rf-page-header-action-item {
-        color: #5A3E2D !important;
-    }
-
-        .rf-page-header-action-item > .rf-page-header-action-item-userletter {
-            background-color: #ffffff20 !important;
-        }
-
-    .rf-page-left-menu-body ul > li {
-        padding: 5px 10px 5px 2px !important;
-        white-space: nowrap;
-    }   
-
     
-    .layoutfooter-rf.layoutfooter-thin-rf{
-        width:100%;
-        position: fixed;
-        bottom: 0;
-        left: 0px;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        border-top: 1px solid #ffffffe0;
-        background-color: transparent;
-    }
-
-   
-
-    body:has(.layoutbody-rf > .rf-page-left-menu.True) .layoutfooter-rf.layoutfooter-thin-rf {
-        width: calc(100% - 260px);
-        left: 260px;
-    }
 </style>
 <head>
     <component type="typeof(HeadOutlet)" render-mode="Server" />

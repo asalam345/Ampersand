@@ -6,7 +6,18 @@
 <AuthorizeView>
     Hi, @user.User?.FullName
 </AuthorizeView> *@
+<style>
+    body:has(.layoutbody-rf > .rf-page-left-menu.True) 
+    .layoutfooter-rf.layoutfooter-thin-rf{
+        left:0 !important;
+        width: 100% !important;
+        position: relative !important;
+    }
 
+    .layoutfooter-rf.layoutfooter-thin-rf{
+        border-top:none !important;
+    }
+</style>
 
 <div class="preloader">
     <div class="loader">

@@ -120,14 +120,9 @@
     void afterSave(AspNetUsers r)
     {
         db = new Db(config);
-        // AspNetUserRoles roles = new();
-        // roles.UserId = r.Id;
-        // roles.AppUserId = r.UserId;
-        //roles.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730";
-        string sql = $"INSERT INTO AspNetUserRoles (UserId, RoleId, AppUserId) VALUES ('{r.Id}', '6b49feb2-7488-4356-90ac-a345e9feb730', '{r.UserId}')";
+        var roleId = "6b49feb2-7488-4356-90ac-a345e9feb730";//this is the role id of basic user
+        string sql = $"INSERT INTO AspNetUserRoles (UserId, RoleId, AppUserId) VALUES ('{r.Id}', '{roleId}', '{r.UserId}')";
         db.Save(null, sql);
         var result = db.Commit();
-
-        // db.Save(roles);
     }
 }

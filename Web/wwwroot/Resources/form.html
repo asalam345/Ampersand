@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Membership Application Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .form-container {
+            width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .company-info {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            margin-top: 20px;
+            font-weight: bold;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .field {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+
+        .photo-box {
+            width: 120px;
+            height: 150px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .signature-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .signature-box {
+            width: 200px;
+            border-top: 1px solid #000;
+            text-align: center;
+            padding-top: 5px;
+            font-size: 13px;
+        }
+
+        .footer-section {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+
+        <div class="company-info">
+            <strong>Address:</strong> Gulshan, Dhaka – 1212, Bangladesh <br>
+            <strong>Email:</strong> ampersand.coop.soc@gmail.com |
+            <strong>Phone:</strong> +8801974038105
+        </div>
+
+        <h2>Membership Application Form</h2>
+
+        <div class="row">
+            <div class="photo-box">Photo</div>
+
+            <div style="flex:1;">
+                <div class="row">
+                    <div class="field">
+                        <label>Applicant’s Name</label>
+                        <input type="text">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label>Date of Birth</label>
+                        <input type="date">
+                    </div>
+                    <div class="field">
+                        <label>NID</label>
+                        <input type="text">
+                    </div>
+                    <div class="field">
+                        <label>Blood Group</label>
+                        <input type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Mobile No</label>
+                <input type="text">
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email">
+            </div>
+        </div>
+
+        <div class="section-title">Nominee Information</div>
+
+        <div class="row">
+            <div class="field">
+                <label>Name</label>
+                <input type="text">
+            </div>
+            <div class="field">
+                <label>Relationship</label>
+                <input type="text">
+            </div>
+            <div class="field">
+                <label>NID</label>
+                <input type="text">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Mobile No</label>
+                <input type="text">
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Current Address</label>
+                <input type="text">
+            </div>
+            <div class="field">
+                <label>Permanent Address</label>
+                <input type="text">
+            </div>
+        </div>
+
+        <div class="section-title">Unit Purchase Information</div>
+
+        <div class="row">
+            <div class="field">
+                <label>Purchasing Units (Max 1000)</label>
+                <input type="number">
+            </div>
+            <div class="field">
+                <label>Purchase Date</label>
+                <input type="date">
+            </div>
+        </div>
+
+        <p style="font-size:13px;">
+            (1 unit = 5000 taka initial deposit + 1000 taka monthly installment)
+        </p>
+
+        <div class="signature-row">
+            <div class="signature-box">Applicant’s Signature & Date</div>
+        </div>
+
+        <div class="footer-section">
+
+            <div class="section-title">To be filled by Ampersand Officials</div>
+
+            <div class="row">
+                <div class="field">
+                    <label>Membership ID</label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Membership Starting Date</label>
+                    <input type="date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label>Received By</label>
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label>Allocated Units</label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Initial Deposit</label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Received Date</label>
+                    <input type="date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="field">
+                    <label>Monthly Subscription Fee</label>
+                    <input type="text">
+                </div>
+                <div class="field">
+                    <label>Cheque / Cash Receipt No</label>
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="signature-row">
+                <div class="signature-box">Treasurer</div>
+                <div class="signature-box">Secretary</div>
+                <div class="signature-box">President</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

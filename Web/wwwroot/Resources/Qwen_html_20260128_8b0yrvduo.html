@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ampersand Cooperative Society - Membership Application</title>
+  <style>
+    :root {
+      --primary-blue: #2E5A88;
+      --secondary-blue: #4A86C2;
+      --light-gray: #f5f7fa;
+      --border-color: #d1d5db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f9fafb;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--secondary-blue);
+      padding-bottom: 15px;
+    }
+
+    .header h1 {
+      color: var(--primary-blue);
+      font-size: 24px;
+      margin: 10px 0;
+    }
+
+    .contact-info {
+      font-size: 14px;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 28px;
+      color: var(--primary-blue);
+      margin: 20px 0 30px;
+      font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-section {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      color: var(--primary-blue);
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #444;
+    }
+
+    /* Borderless inputs with only bottom border */
+    .form-control {
+      width: 100%;
+      padding: 5px 0;
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+      background: transparent;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+      border-bottom: 1px solid var(--secondary-blue);
+    }
+
+    /* Photo in top-right corner */
+    .photo-container {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      width: 120px;
+      height: 120px;
+      border: 2px dashed var(--border-color);
+      background-color: var(--light-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-size: 14px;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .photo-container::after {
+      content: "Photo";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .note {
+      background-color: var(--light-gray);
+      padding: 12px 15px;
+      border-left: 4px solid var(--secondary-blue);
+      font-size: 13px;
+      margin: 15px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .signature-area {
+      display: flex;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .signature-box {
+      flex: 1;
+    }
+
+    .signature-line {
+      border-top: 1px solid #999;
+      margin-top: 30px;
+      padding-top: 5px;
+    }
+
+    .official-section {
+      background-color: var(--light-gray);
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .official-section .section-title {
+      color: var(--primary-blue);
+      border-bottom: 2px solid var(--primary-blue);
+    }
+
+    .signature-block {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .form-container {
+        box-shadow: none;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="header">
+      <h1>AMPERSAND COOPERATIVE SOCIETY</h1>
+      <div class="contact-info">
+        Address: Gulshan, Dhaka – 1212, Bangladesh.<br>
+        Email: ampersand.coop.soc@gmail.com; Phone: +8801974038105
+      </div>
+    </div>
+
+    <!-- Photo in top-right corner -->
+    <div class="photo-container"></div>
+
+    <h2 class="form-title">Membership Application Form</h2>
+
+    <div class="form-grid">
+      <div>
+        <div class="form-section">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Applicant's Name</label>
+              <input type="text" id="name" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dob">Date Of Birth</label>
+              <input type="text" id="dob" placeholder="DD / MM / YYYY" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="nid">NID</label>
+              <input type="text" id="nid" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="blood">Blood Group</label>
+              <input type="text" id="blood" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobile">Mobile No</label>
+              <input type="tel" id="mobile" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Nominee Information</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nominee-name">Name</label>
+                <input type="text" id="nominee-name" class="form-control">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="relationship">Relationship</label>
+                <input type="text" id="relationship" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="nominee-nid">NID</label>
+                <input type="text" id="nominee-nid" class="form-control">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nom-mobile"> No</label>
+                <input type="tel" id="nominee-mobile" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="nominee-email">Email</label>
+                <input type="email" id="nominee-email" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 class="section-title">Current Address</h3>
+            <div class="form-group">
+              <label for="current-address">Address</label>
+              <textarea id="current-address" class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-section">
+          <h3 class="section-title">Permanent Address</h3>
+          <div class="form-group">
+            <label for="permanent-address">Address</label>
+            <textarea id="permanent-address" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3 class="section-title">Unit Purchase Information</h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="units">Purchasing Units (Max 1000 Units)</label>
+              <input type="number" id="units" max="1000" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="purchase-date">Purchase Date</label>
+              <input type="text" id="purchase-date" placeholder="DD / MM / YYYY" class="form-control">
+            </div>
+          </div>
+
+          <div class="note">
+            1 unit = 5000 taka (5 share) initial deposit and 1000 taka (1 share) installment per month
+          </div>
+        </div>
+
+        <div class="signature-area">
+          <div class="signature-box">
+            <div class="section-title">Applicant's Signature & Date</div>
+            <div class="signature-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="official-section">
+      <h3 class="section-title">To be filled by Ampersand Officials</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="membership-id">Membership ID</label>
+          <input type="text" id="membership-id" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="start-date">Membership Starting Date</label>
+          <input type="text" id="start-date" placeholder="DD / MM / YYYY" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="received-by">Received By</label>
+          <input type="text" id="received-by" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="allocated-units">Allocated Units</label>
+          <input type="number" id="allocated-units" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="initial-deposit">Initial Deposit</label>
+          <input type="text" id="initial-deposit" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="received-date">Received Date</label>
+          <input type="text" id="received-date" placeholder="DD / MM / YYYY" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="monthly-fee">Monthly Subscription Fee</label>
+          <input type="text" id="monthly-fee" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="receipt-no">Cheque / Cash-Receipt No.</label>
+          <input type="text" id="receipt-no" class="form-control">
+        </div>
+      </div>
+
+      <div class="signature-block">
+        <div class="signature-box">
+          <div>Treasurer</div>
+          <div class="signature-line"></div>
+        </div>
+        <div class="signature-box">
+          <div>Secretary</div>
+          <div class="signature-line"></div>
+        </div>
+        <div class="signature-box">
+          <div>President</div>
+          <div class="signature-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
