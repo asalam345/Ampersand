@@ -1,0 +1,11 @@
+﻿@using RapidFireUI.Account
+@attribute [UserSetupPageRF]
+ 
+<ExtendedUserRF Model="ExtendedUserInfo">
+    <RowRF>
+        <ColRF>
+            <InputRF @bind-Value="context.Model.StaffId" Label="Staff Id" Placeholder="Staff Id" StartIcon="fa-solid fa-user" EndIcon="fa-solid fa-users" />
+        </ColRF>
+    </RowRF>
+</ExtendedUserRF>
+
