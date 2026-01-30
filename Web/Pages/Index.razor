@@ -1,11 +1,12 @@
 ﻿@page "/"
 @layout PublicLayout
 <PageTitle>Ampersand TechHub Investment Portal</PageTitle>
-
+<link href="./css/counter-animation.css" rel="stylesheet" />
 @* 
 <AuthorizeView>
     Hi, @user.User?.FullName
 </AuthorizeView> *@
+
 <style>
     body:has(.layoutbody-rf > .rf-page-left-menu.True) 
     .layoutfooter-rf.layoutfooter-thin-rf{
@@ -16,6 +17,111 @@
 
     .layoutfooter-rf.layoutfooter-thin-rf{
         border-top:none !important;
+    }
+
+
+
+     .mountain-banner {
+        background: url(https://images.unsplash.com/photo-1627609243025-22613935dfa1?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) no-repeat
+          center center;
+        background-size: cover;
+        width: 100%;
+        height: 110vh;
+        position: relative;
+      }
+      .overlay-1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          270deg,
+          rgba(226, 224, 211, 0) 0%,
+          rgba(0, 0, 0, 0.8687850140056023) 100%
+        );
+      }
+      .overlay-2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 250.625em;
+        height: 23.8em;
+        background: url(https://terriotech.com/cloud-overlay.png) 0 100%
+          repeat-x;
+        -webkit-animation: cloudLoop 80s linear infinite;
+        animation: cloudLoop 80s linear infinite;
+        z-index: 2;
+        pointer-events: none;
+        height: 43.75em;
+      }
+      @@-webkit-keyframes cloudLoop {
+        0% {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+
+        100% {
+          -webkit-transform: translate3d(-50%, 0, 0);
+          transform: translate3d(-50%, 0, 0);
+        }
+      }
+
+      @@keyframes cloudLoop {
+        0% {
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+
+        100% {
+          -webkit-transform: translate3d(-50%, 0, 0);
+          transform: translate3d(-50%, 0, 0);
+        }
+      }
+      .banner-text {
+        position: relative;
+        color: #fff;
+        text-align: center;
+        padding: 10% 0 0 0;
+      }
+      .banner-text h1 {
+        font-size: 50px;
+        font-family: "Playfair Display", serif;
+      }
+      .banner-text p {
+        font-family: "Dancing Script", cursive;
+        font-size: 30px;
+      }
+
+
+    .ampersand-header {
+        font-size: clamp(50px, 15vw, 150px);
+        text-transform: uppercase;
+        font-weight: 900;
+        background-image: url('https://static.vecteezy.com/system/resources/thumbnails/049/201/490/small/colorful-birds-perched-on-branches-surrounded-by-lush-greenery-during-a-golden-hour-in-nature-photo.jpeg');
+        /*   background-size: 200% auto; */
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: moveFlag 60s linear infinite;
+        -webkit-text-stroke: 1px #427621;
+    }
+
+    @@keyframes moveFlag {
+        0%
+
+    {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+
     }
 </style>
 
@@ -87,7 +193,18 @@
     </div> <!-- header navbar -->
 
     <div id="home" class="header_slider slider-active">
-        <div class="single_slider bg_cover d-flex align-items-center" style="background-image: url(./image//header-background.png); background-repeat: no-repeat;
+        <section class="mountain-banner">
+            <div class="overlay-1"></div>
+            <div class="overlay-2"></div>
+            <div class="container">
+                <div class="banner-text">
+                    <span class="ampersand-header">Ampersand </span>
+                    <h2 class="slider_title" style="color:#ffffff40">A Cooperative Society Business Organization</h2>
+                    <p class="wow fadeInUp">This platform is designed for members to monitor their interactions and deposit records.</p>
+                </div>
+            </div>
+        </section>
+        @* <div class="single_slider bg_cover d-flex align-items-center" style="background-image: url(./image//header-background.png); background-repeat: no-repeat;
     background-position: center center;height:600px;">
             <div class="container">
                 <div class="row">
@@ -97,10 +214,10 @@
                             <p class="wow fadeInUp">This platform is designed for members to monitor their interactions and deposit records.</p>
                         </div> <!-- slider content -->
                     </div>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- single slider -->
-    </div> <!-- header slider -->
+                </div> 
+            </div> 
+        </div>  *@
+    </div> 
 </section>
 
 <!--====== HEADER PART ENDS ======-->
@@ -111,7 +228,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="section_title text-center pb-30">
-                    <h4 class="title">Our Specials</h4>
+                    <h4 class="title">Our Projects</h4>
                     <span class="line">
                         <span class="box"></span>
                     </span>
@@ -179,7 +296,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="about_content mt-45 wow fadeInLeftBig" data-wow-duration="1.3s" data-wow-delay="0.5s">
-                    <h4 class="about_title">About Coffee Shop</h4>
+                    <h4 class="about_title">About Ampersand</h4>
                     <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr. <br> <br> Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
                     <ul class="social">
                         <li><a href="#"><i class="lni lni-facebook-filled"></i></a></li>
@@ -196,19 +313,31 @@
 <!--====== ABOUT PART ENDS ======-->
 <!--====== COUNTER PART START ======-->
 
-<section id="counter" class="counter_area pt-50 pb-95 bg_cover text-center" style="background-image: url(./home/images/counter_bg.jpg)">
-    <div class="container">
+<section id="counter" class="counter_area pt-50 pb-95 bg_cover text-center" style="position:relative;">
+    <div class="container-counter" style="z-index:-1">
+        <div class="sky"></div>
+        <div class="sea">
+            <div class="light"></div>
+        </div>
+        <div class="sun"></div>
+        <div class="bird1"></div>
+        <div class="birdr1"></div>
+        <div class="bird"></div>
+        <div class="birdr"></div>
+    </div>
+    <div class="container" >
+        
         <div class="row">
             <div class="col-md-4 col-sm-12">
                 <div class="single_counter mt-30 wow fadeIn" data-wow-duration="1.3s" data-wow-delay="0.2s">
                     <span class="count"><span class="counter">36546</span></span>
-                    <p>Coffee Served</p>
+                    <p>Successful Projects</p>
                 </div> <!-- single counter -->
             </div>
             <div class="col-md-4 col-sm-12">
                 <div class="single_counter mt-30 wow fadeIn" data-wow-duration="1.3s" data-wow-delay="0.5s">
                     <span class="count"><span class="counter">28</span></span>
-                    <p>Type of Coffees</p>
+                    <p>Type of Business</p>
                 </div> <!-- single counter -->
             </div>
             <div class="col-md-4 col-sm-12">
@@ -313,14 +442,14 @@
 <!--====== GALLERY PART ENDS ======-->
 <!--====== COFFEE MENU PART START ======-->
 
-<section id="menu" class="coffee_menu pt-120 pb-130 bg_cover" style="background-image: url(./home/images/coffee_menu_bg.jpg)">
+<section id="menu" class="coffee_menu pt-120 pb-130 bg_cover-left" style="background-image: url(./image/background.gif);background-size: 500px 100vh;overflow:hidden;">
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div>
+                <div style="background-color:#ffffff60;padding:10px 20px;">
                     <h2>You are Using Free Lite Version of Cafe</h2>
-                    <p class="wow fadeInUp">Please, purchase full version to get all sections, features and commercial license for footer credit removal.</p>
+                    <p class="wow fadeInUp" style="color:#536a9d;">Please, purchase full version to get all sections, features and commercial license for footer credit removal.</p>
                 </div> <!-- slider content -->
             </div>
         </div> <!-- row -->

@@ -1,0 +1,172 @@
+.container-counter {
+    position: absolute;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    /*top: 50%;
+  left: 50%;
+  margin-left: -50%;
+ */
+    margin-top: -50px;
+}
+.sea,
+.sky,
+.sun,
+.light,
+.bird,
+.birdr1,
+.birdr {
+  position: absolute;
+}
+
+
+.sky {
+  opacity: .8;
+  width: 100%;
+  height: 50%;
+  top: 0;
+  background: radial-gradient(at 50% 70%, #fab395, #c5aca7, #7b95b6, #2f67b2);
+  z-index: 30;
+}
+
+.sea {
+  width: 100%;
+  height: 50%;
+  top: 50%;
+  background: radial-gradient(at 50% 0%, #bad6db,  #027495, #051f34);
+  z-index: 60;
+}
+
+.sun {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  left: 45%;
+  z-index: 40;
+  background:  #fec106;
+  box-shadow: 0 0 40px 6px #FDF97F, 0 0 150px 10px #ff6c02;
+  animation: rise 20s linear infinite;
+}
+
+@keyframes rise {
+  0% {
+    top: 50%;
+  }
+  100% {
+    top: -70%;
+  }
+}
+
+.light {
+  opacity: .8;
+  left: 0%;
+  width: 500%;
+  height: 500%;
+  background: radial-gradient(at 70% 70%, #f4f5f5, transparent);
+  z-index: 60;
+  animation: over 20s linear infinite;
+}
+
+@keyframes over {
+  0% {
+    opacity: 0
+  }
+  ;
+  100% {
+    opacity: .2
+  }
+  ;
+}
+
+.bird {
+  opacity: 1;
+  top: 50px;
+  left: 00px;
+  width: 10px;
+  height: 8px;
+  border: 2px solid black;
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotateZ(-75deg);
+  animation: move 20s linear infinite, flap .5s linear alternate infinite;
+  z-index: 70;
+}
+
+.birdr {
+  z-index: 70;
+  
+  opacity: 1;
+  top: 50px;
+  width: 10px;
+  height: 8px;
+  border: 2px solid black;
+  border-radius: 50%;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  transform: rotateZ(75deg);
+  margin: 0px 8px;
+  animation: mover 20s linear infinite, flap .5s linear alternate infinite;
+}
+
+.bird1 {
+  opacity: 1;
+  top: 45px;
+  left: 0px;
+  width: 10px;
+  height: 8px;
+  border: 2px solid black;
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+  transform: rotateZ(-90deg);
+  animation: move 20s linear infinite 1.5s, flap .5s linear alternate infinite 1.5s;
+  z-index: 70;
+}
+
+.birdr1 {
+  z-index: 70;
+  opacity: 1;
+  top: 45px;
+  width: 10px;
+  height: 8px;
+  border: 2px solid black;
+  border-radius: 50%;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  transform: rotateZ(90deg);
+  margin: 0px 8px;
+  animation: mover 20s linear infinite 1.5s, flap .5s linear alternate infinite 1.5s;
+}
+
+
+@keyframes move {
+  0% {
+    left: 0px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes mover {
+  0% {
+    left: -0px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes flap {
+  0% {
+    border-radius: 90%;
+  }
+  100% {
+    border-radius: 10%;
+  }
+}
