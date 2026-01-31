@@ -1,4 +1,7 @@
+using Domain.Contexts;
 using Domain.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using RapidFireLib;
 using RapidFireLib.Extensions;
 using RapidFireUI;
@@ -10,10 +13,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddRapidFire(new AppConfig());
 builder.Services.AddRapidFireUI();
-builder.Services.AddScoped<UserRegisterService>();
-//builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-var app = builder.Build();
 
+var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {

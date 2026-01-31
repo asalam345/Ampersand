@@ -32,7 +32,7 @@ namespace Domain.Contexts
         public DbSet<PaymentType> PaymentType { get; set; }
         public DbSet<TransactionType> TransactionType { get; set; }
         public DbSet<Register> Register { get; set; }
-        public DbSet<ExtendedUserInfo> ExtendedUserInfo { get; set; }
+        public DbSet<Membership> Membership { get; set; }
         //public DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

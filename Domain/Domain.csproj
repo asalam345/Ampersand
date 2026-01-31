@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Services\PasswordHasherService.cs" />
     <Compile Remove="Services\PasswordHashService.cs" />
+    <Compile Remove="Services\RoleService.cs" />
+    <Compile Remove="Services\UserRegisterService.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,17 +1,17 @@
 ﻿@page "/signup"
 @using System.Text.RegularExpressions
+@using Domain.Contexts
 @using Microsoft.AspNetCore.Identity
 @* @using Microsoft.Data.SqlClient *@
 @using RapidFireLib.Lib.Core
+@using RapidFireLib.Models.Identity
 @using RapidFireLib.View.Models.Identity
 @using RapidFireLib.View.UserInfo
 @using RapidFireUI.Account
 @using Domain.Services
 @using System.Security
-@inject NavigationManager Navigation
-@inject UserRegisterService _registerService
-@inject IUserInfo userInfo
-
+@using Microsoft.Data.SqlClient
+@using System.Data
 
 @attribute [AllowAnonymous]
 @attribute [UserSetupPageRF]
@@ -50,13 +50,13 @@
         </div>
     </div>
 </div>
-<ExtendedUserRF Model="ExtendedUserInfo">
+@* <ExtendedUserRF Model="ExtendedUserInfo">
     <RowRF>
         <ColRF>
             <InputRF @bind-Value="context.Model.StaffId" Label="Staff Id" Placeholder="Staff Id" StartIcon="fa-solid fa-user" EndIcon="fa-solid fa-users" />
         </ColRF>
     </RowRF>
-</ExtendedUserRF>
+</ExtendedUserRF> *@
 
 @code {
     Db? db { get; set; } = null!;
@@ -68,6 +68,12 @@
     protected override void OnInitialized()
     {
 
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        formRF.Data.FullName = "A";
+        formRF.Data.PhoneNumber = "016736055241";
+        base.OnAfterRender(firstRender);
     }
     bool alreadyExist(string value, string item)
     {
@@ -87,9 +93,9 @@
         if (string.IsNullOrWhiteSpace(password) || password.Length < 5 || password != confirmPassword)
         {
             if (password?.Length < 5)
-            RF.UI.Toaster.Warning("Password Length must be at lest 5");
+                RF.UI.Toaster.Warning("Password Length must be at lest 5");
             else if (password != confirmPassword)
-            RF.UI.Toaster.Warning("Password and confirm pasword not match");
+                RF.UI.Toaster.Warning("Password and confirm pasword not match");
             return new AspNetUsers();
         }
         if (alreadyExist(r.Email, "email"))
@@ -97,7 +103,7 @@
             RF.UI.Toaster.Warning("Email already exists!");
             return new AspNetUsers();
         }
-        if (alreadyExist(r.Email, "phone"))
+        if (alreadyExist(r.PhoneNumber, "phone"))
         {
             RF.UI.Toaster.Warning("Phone number already exists!");
             return new AspNetUsers();
@@ -105,7 +111,6 @@
         r.CreateDate = DateTime.Now;
         r.UserName = r.Email;
         r.NormalizedUserName = r.UserName.ToUpperInvariant();
-        r.Email = r.UserName;
         r.NormalizedEmail = r.Email.ToUpperInvariant();
         r.IsActive = true;
 
@@ -127,9 +132,14 @@
     void afterSave(AspNetUsers r)
     {
         db = new Db(config);
-        var roleId = "6b49feb2-7488-4356-90ac-a345e9feb730";//this is the role id of basic user
-        string sql = $"INSERT INTO AspNetUserRoles (UserId, RoleId, AppUserId) VALUES ('{r.Id}', '{roleId}', '{r.UserId}')";
-        db.Save(null, sql);
+        ApplicationUserRole ar = new();
+        ar.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730"; //this is the role id of basic user
+        ar.UserId = r.Id;
+        ar.AppUserId = r.UserId;
+        db.Save(ar);
         var result = db.Commit();
-    }
+
+        //string sql = $"INSERT INTO AspNetUserRoles (UserId, RoleId, AppUserId) VALUES ('{r.Id}', '{roleId}', '{r.UserId}')";
+        //db.Save(null, sql);
+     }
 }

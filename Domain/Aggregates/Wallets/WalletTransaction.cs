@@ -21,11 +21,9 @@ namespace Domain.Aggregates
         public decimal Amount { get; set; }
 
         [Required]
-        [StringLength(20)]
-        public Guid TransactionTypeId { get; set; }// Deposit, Withdraw, Profit, Loss
+        public int TransactionTypeId { get; set; }// Deposit, Withdraw, Profit, Loss
         [Required]
-        [StringLength(20)]
-        public Guid PaymentTypeId { get; set; } 
+        public int PaymentTypeId { get; set; } 
 
         [StringLength(100)]
         public string ReferenceNo { get; set; }

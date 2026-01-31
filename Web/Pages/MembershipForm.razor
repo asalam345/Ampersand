@@ -1,0 +1,150 @@
+﻿@page "/membership-form"
+@using RapidFireUI.Account
+@attribute [UserSetupPageRF]
+<style>
+    hr.top{
+        height:5px !important;
+    }
+</style>
+@* <ExtendedUserRF Model="Membership"> *@
+<FormRF Model="Membership">
+    <div style="display:flex;flex-direction:column;gap:10px;flex-wrap:wrap;">
+        <div class="header" style="display:flex;justify-content:space-between;flex:1">
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:20px;">
+                <img src="./image/ampersand-logo.png" alt="logo" style="width:300px;" />
+                <span>
+                    <b>Address:</b> Gulshan, Dhaka – 1212, Bangladesh.
+                </span>
+                <span>
+                    <b>Email:</b>ampersand.coop.soc@gmail.com; <b>Phone:</b>+8801974038105
+                </span>
+                <span style="font-size:42px;color:#b63c2c;font-weight:500;">Membership Application Form</span>
+            </div>
+            <div style="flex: 0 0 350px">
+                <ImageUploaderRF @bind-Value="context.ApplicantImage" />
+                @* <ImageUploaderRF @bind-Value="context.ApplicantImage" /> *@
+            </div>
+        </div>
+        <hr class="top"/>
+        <div>
+            <RowRF>
+                <ColRF Span="12">
+                    <b>Nominee Information :</b>
+                </ColRF>
+                <ColRF Span="12">
+                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="8">
+                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                </ColRF>
+            </RowRF>
+        </div>
+        <div>
+            <RowRF>
+                <ColRF Span="12">
+                    <b>Address Information :</b>
+                </ColRF>
+
+                <ColRF Span="6">
+                    <TextareaRF @bind-Value="context.CurrentAddress" Label="Current Address" Placeholder="Current Address" />
+                </ColRF>
+                <ColRF Span="6">
+                    <TextareaRF @bind-Value="context.PermanentAddress" Label="Permanent Address" Placeholder="Permanent Address" />
+                </ColRF>
+            </RowRF>
+        </div>
+        <div>
+            <RowRF>
+                <ColRF Span="12">
+                    <b>Unit Purchase Information :</b>
+                </ColRF>
+                <ColRF Span="6">
+                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="6">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+            </RowRF>
+        </div>
+        <div>
+            <RowRF>
+                <ColRF Span="12">
+                    <b>(1 unit = 5000 taka (5 share) initial deposit and 1000 taka (1 share) installment per month)</b>
+                </ColRF>
+
+            </RowRF>
+        </div>
+        <div>
+            <RowRF>
+                <ColRF Span="12" Style="justify-content:end;">
+                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                </ColRF>
+            </RowRF>
+        </div>
+        <hr />
+        <div>
+            <RowRF>
+                <ColRF Span="12">
+                    <b>To be filled by Ampersand Officials :</b>
+                </ColRF>
+                <ColRF Span="6">
+                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="6">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="4">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="6">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+                <ColRF Span="6">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+            </RowRF>
+        </div>
+        <div>
+            <RowRF>
+                <ColRF Span="12">
+                    <b>
+                        Received By :
+                    </b>
+                </ColRF>
+                <ColRF Span="4">
+                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                </ColRF>
+                <ColRF Span="4">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+                <ColRF Span="4">
+                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                </ColRF>
+            </RowRF>
+        </div>
+    </div>
+</FormRF>
+@* </ExtendedUserRF> *@
+
+
+@code {
+    string applicantImage { get; set; }
+}
