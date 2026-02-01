@@ -10,7 +10,7 @@ namespace Domain.Aggregates
         [Key]
         public Guid AuditId { get; set; } = Guid.NewGuid();
 
-        public Guid? WalletId { get; set; }
+        public string MembershipId { get; set; }
 
         [StringLength(50)]
         public string Action { get; set; }
@@ -26,7 +26,7 @@ namespace Domain.Aggregates
         public DateTime PerformedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation property
-        [ForeignKey("WalletId")]
-        public Wallet Wallet { get; set; }
+        [ForeignKey("MembershipId")]
+        public Membership Membership { get; set; }
     }
 }

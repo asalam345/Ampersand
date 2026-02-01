@@ -79,3 +79,36 @@ body:has(.layoutbody-rf > .rf-page-left-menu.True) .layoutfooter-rf.layoutfooter
 .logo{
     width:150px;
 }
+[icon-input-rf] > [i-input-rf] {
+    height: 30px;
+    background-color: transparent;
+}
+hr.top {
+    height: 5px !important;
+    background-color: #000;
+}
+
+.input-rf, .datepicker-rf, .textarea-rf {
+    border: none;
+    border-bottom: 1px solid #888;
+    padding-bottom: 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+.membership-form-line{
+    display:flex;
+    gap:10px;
+}
+    .membership-form-line .membership-form-line-label {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+        .membership-form-line .membership-form-line-label .membership-form-line-label-title {
+            width: 125px;
+        }
+
+.label-collon{
+    width:10px;
+}
+

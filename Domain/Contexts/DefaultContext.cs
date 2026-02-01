@@ -19,7 +19,7 @@ namespace Domain.Contexts
         public DbSet<Upazila> Upazila { get; set; }
         public DbSet<Unions> Unions { get; set; }
         public DbSet<Village> Village { get; set; }
-        public DbSet<Wallet> Wallet { get; set; }
+        //public DbSet<Wallet> Wallet { get; set; }
         public DbSet<WalletTransaction> WalletTransaction { get; set; }
         public DbSet<WalletAuditLog> WalletAuditLog { get; set; }
         public DbSet<BankAccount> BankAccount { get; set; }
@@ -33,6 +33,5 @@ namespace Domain.Contexts
         public DbSet<TransactionType> TransactionType { get; set; }
         public DbSet<Register> Register { get; set; }
         public DbSet<Membership> Membership { get; set; }
-        //public DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

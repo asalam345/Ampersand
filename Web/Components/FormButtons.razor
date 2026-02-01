@@ -49,11 +49,23 @@
 @code {
     [Parameter] public FormRF<T> FormObj { get; set; } = null!;
     [Parameter] public EventCallback Save { get; set; }
+    [Parameter] public Func<T, Task<T?>> OnBeforeSave { get; set; }
     string saveButtonClass { get; set; } = "button-rf save";
 
     async Task save()
     {
-        if (FormObj?.IsValid() == false) return;
+        if (FormObj == null) return;
+        if (FormObj?.Data != null && OnBeforeSave != null)
+        {
+            var modifiedData = await OnBeforeSave.Invoke(FormObj.Data);
+
+            if (modifiedData != null)
+            {
+                FormObj.Data = modifiedData;
+            }
+            else return;
+        }
+        if (!FormObj!.IsValid()) return;
         saveButtonClass = "button-rf loading";
         StateHasChanged();
         await Task.Delay(3000);

@@ -4,34 +4,40 @@
         <Actions></Actions>
     </PageHeaderRF>
     <div style="display:flex;gap:10px">
-        <div style="flex:0 0 300px;">
+        <div style="flex:1 1 760px;">
             @* OnAfterSave="@RF.UI.Events.Back" *@
-            <FormRF @ref=formRF Model="WalletTransaction" OnBeforeSave="beforeSave">
+            <FormRF @ref=formRF Model="WalletTransaction" >
                 <RowRF>
-                    <ColRF Span="12">
+                    <ColRF Span="6">
                         <SelectRF @bind-Value="context.TransactionTypeId"
                                   OptionList="new List<TransactionType>()"
                                   DisplayText="c => c.Name"
                                   ValueText="c => c.TransactionTypeId"
                                   Label="Transaction Type" />
                     </ColRF>
-                    <ColRF Span="12">
-                        <InputRF @bind-Value="@context.Amount" Label="Amount" />
-                    </ColRF>
-
-                    <ColRF Span="12">
+                    <ColRF Span="6">
                         <SelectRF @bind-Value="context.PaymentTypeId"
                                   OptionList="new List<PaymentType>()"
                                   DisplayText="c => c.Name"
                                   ValueText="c => c.PaymentTypeId"
                                   Label="PaymentType Type" />
                     </ColRF>
+                    <ColRF Span="6">
+                        <InputRF @bind-Value="@context.Amount" Label="Amount" />
+                    </ColRF>
+                    <ColRF Span="6">
+                        <InputRF @bind-Value="@context.ReferenceNo" Label="Reference No" />
+                    </ColRF>
                     <ColRF Span="12">
                         <ImageUploaderRF @bind-Value="context.Image"/>
                     </ColRF>
                     <ColRF Span="12">
-                        <ButtonRF type="submit" Icon="fa-solid fa-floppy">Save</ButtonRF>
-                        <ButtonRF type="reset" Icon="fa-solid fa-floppy">Reset</ButtonRF>
+                        <TextareaRF @bind-Value="context.Remarks"/>
+                    </ColRF>
+                    <ColRF Span="12" Style="display:flex;justify-content:end;gap:10px;">
+                        <FormButtons FormObj="@formRF" Save="@save" OnBeforeSave="beforeSave"></FormButtons>
+                        @* <ButtonRF type="submit" Icon="fa-solid fa-floppy-disk" Style="background-color:">Save</ButtonRF>
+                        <ButtonRF type="reset" Icon="fa-solid fa-arrows-rotate">Reset</ButtonRF> *@
                     </ColRF>
                 </RowRF>
             </FormRF>
@@ -56,21 +62,30 @@
 @code {
     FormRF<WalletTransaction> formRF = null!;
     Db db = null!;
-    RapidFire rf = null!;
-    // List<SpinnerValue> transactionType = new List<SpinnerValue>
-    // {
-    //     new SpinnerValue { ValueText = 1, DisplayText = "Deposit" },
-    //     new SpinnerValue { ValueText = 2, DisplayText = "Withdraw" }
-    // };
+
     protected override void OnInitialized()
     {
         db = new(config);
-        rf = new(config);
         base.OnInitialized();
     }
-    WalletTransaction beforeSave(WalletTransaction model)
+    async Task<WalletTransaction?> beforeSave(WalletTransaction model)
     {
+        db = new(config);
+        var membershipId = db.Get<Membership>().Where(c => c.AspNetUsersId == userInfo.User.Id).Select(x => x.MembershipId).SingleOrDefault();
+        if (membershipId == null)
+        {
+            RF.UI.Toaster.Info("Membership not found for the user.");
+            return null;
+        }
         model.UserId = userInfo.User.Id;
+        model.MembershipId = membershipId;
+        await Task.CompletedTask; // Add any async operations if needed
         return model;
+    }
+    
+    void save()
+    {
+        db.Save(formRF.Data);
+        var result = db.Commit();
     }
 }

@@ -1,13 +1,12 @@
 ﻿@page "/membership-form"
+@using RapidFireLib.View.Models.Identity
 @using RapidFireUI.Account
 @attribute [UserSetupPageRF]
 <style>
-    hr.top{
-        height:5px !important;
-    }
+    
 </style>
 @* <ExtendedUserRF Model="Membership"> *@
-<FormRF Model="Membership">
+<FormRF Model="Membership" @ref=formRF OnBeforeSave="beforeSave">
     <div style="display:flex;flex-direction:column;gap:10px;flex-wrap:wrap;">
         <div class="header" style="display:flex;justify-content:space-between;flex:1">
             <div style="display:flex;flex-direction:column;gap:6px;font-size:20px;">
@@ -28,26 +27,45 @@
         <hr class="top"/>
         <div>
             <RowRF>
+                <ColRF Span="12" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Applicant's Name</span> <span class="label-collon">:</span></span> <InputRF @bind-Value="@userData.FullName" Readonly />
+                </ColRF>
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Date Of Birth</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.DOB" Placeholder="DD/MM/YYYY" />
+                </ColRF>
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NID" Placeholder="Your NID" />
+                </ColRF>
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Blood Group</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.BloodGroup" Placeholder="BloodGroup" />
+                </ColRF>
+                <ColRF Span="8" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Phone</span> <span class="label-collon">:</span></span><InputRF @bind-Value="@userData.PhoneNumber" Readonly />
+                </ColRF>
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Email</span> <span class="label-collon">:</span></span> <InputRF @bind-Value="@userData.Email" Readonly />
+                </ColRF>
+            </RowRF>
+        </div>
+        <div>
+            <RowRF>
                 <ColRF Span="12">
                     <b>Nominee Information :</b>
                 </ColRF>
-                <ColRF Span="12">
-                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                <ColRF Span="12" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Name</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiName" Placeholder="Nomini Name" />
                 </ColRF>
-                <ColRF Span="4">
-                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Relationship</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.Relationship" Placeholder="Your Relationship With Nomini" />
                 </ColRF>
-                <ColRF Span="4">
-                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiNID" Placeholder="Your Nomini NID" />
                 </ColRF>
-                <ColRF Span="4">
-                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Phone</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiPhone" Placeholder="Your Nomini Phone" />
                 </ColRF>
-                <ColRF Span="8">
-                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
-                </ColRF>
-                <ColRF Span="4">
-                    <InputRF @bind-Value="context.MembershipId" Placeholder="MembershipId" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Email</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiEmail" Placeholder="Your Nomini Email" />
                 </ColRF>
             </RowRF>
         </div>
@@ -57,11 +75,11 @@
                     <b>Address Information :</b>
                 </ColRF>
 
-                <ColRF Span="6">
-                    <TextareaRF @bind-Value="context.CurrentAddress" Label="Current Address" Placeholder="Current Address" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Current</span> <span class="label-collon">:</span></span><TextareaRF @bind-Value="context.CurrentAddress" Placeholder="Current Address" />
                 </ColRF>
-                <ColRF Span="6">
-                    <TextareaRF @bind-Value="context.PermanentAddress" Label="Permanent Address" Placeholder="Permanent Address" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Permanent</span> <span class="label-collon">:</span></span><TextareaRF @bind-Value="context.PermanentAddress" Placeholder="Permanent Address" />
                 </ColRF>
             </RowRF>
         </div>
@@ -70,17 +88,17 @@
                 <ColRF Span="12">
                     <b>Unit Purchase Information :</b>
                 </ColRF>
-                <ColRF Span="6">
-                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span> <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
                 </ColRF>
-                <ColRF Span="6">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
             </RowRF>
         </div>
         <div>
             <RowRF>
-                <ColRF Span="12">
+                <ColRF Span="12" Style="text-align:center;">
                     <b>(1 unit = 5000 taka (5 share) initial deposit and 1000 taka (1 share) installment per month)</b>
                 </ColRF>
 
@@ -89,7 +107,7 @@
         <div>
             <RowRF>
                 <ColRF Span="12" Style="justify-content:end;">
-                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span> <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
                 </ColRF>
             </RowRF>
         </div>
@@ -99,26 +117,26 @@
                 <ColRF Span="12">
                     <b>To be filled by Ampersand Officials :</b>
                 </ColRF>
-                <ColRF Span="6">
-                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="Unit Purchase Information" />
                 </ColRF>
-                <ColRF Span="6">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
-                <ColRF Span="4">
-                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
-                </ColRF>
-                <ColRF Span="4">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="Unit Purchase Information" />
                 </ColRF>
                 <ColRF Span="4">
-                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
+                </ColRF>
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
                 </ColRF>
                 <ColRF Span="6">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
-                <ColRF Span="6">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
             </RowRF>
         </div>
@@ -129,14 +147,14 @@
                         Received By :
                     </b>
                 </ColRF>
-                <ColRF Span="4">
-                    <InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
                 </ColRF>
-                <ColRF Span="4">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
-                <ColRF Span="4">
-                    <DatePickerRF @bind-Value="context.PurchaseDate" Label="Purchase Date" Placeholder="Purchase Date" />
+                <ColRF Span="4" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
             </RowRF>
         </div>
@@ -146,5 +164,23 @@
 
 
 @code {
-    string applicantImage { get; set; }
+    Db db = null!;
+    FormRF<Membership> formRF { get; set; } = null!;
+    //string applicantImage { get; set; }
+    AspNetUsers userData { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        db = new Db(config);
+        userData = db.Get<AspNetUsers>(x => x.Id == userInfo.User.Id).First();
+        base.OnInitialized();
+    }
+    Membership beforeSave(Membership m)
+    {
+        db = new Db(config);
+        var userAccountNummber = db.Get<AspNetUsers>(x => x.PhoneNumber == userData.PhoneNumber).ToList().Count;
+        m.MembershipId = userData.PhoneNumber + (userAccountNummber - 1).ToString();
+        m.AspNetUsersId = userData.Id;
+        return m;
+    }
 }

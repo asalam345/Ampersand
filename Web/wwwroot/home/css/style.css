@@ -26,10 +26,10 @@ a:focus,
 a:hover {
   text-decoration: none; }
 
-a {
+/*a {
   color: #536a9d; }
   a:hover {
-    color: #536a9d; }
+    color: #536a9d; }*/
 
 i,
 span,
@@ -588,7 +588,7 @@ p {
       margin-left: 30px; } }
   .navbar-nav .nav-item a {
     font-size: 16px;
-    font-weight: 800;
+    font-weight: 600;
     color: #fff;
     -webkit-transition: all 0.3s ease-out 0s;
     -moz-transition: all 0.3s ease-out 0s;
@@ -626,6 +626,9 @@ p {
         display: block;
         padding: 4px 0;
         color: #222; } }
+.navbar-nav .nav-item a:hover {
+    color: #d3e1ff; /*#859bbc;*/
+}
   .navbar-nav .nav-item.active > a::before, .navbar-nav .nav-item:hover > a::before {
     width: 100%; }
   .navbar-nav .nav-item:hover .sub-menu {

@@ -11,10 +11,10 @@ namespace Domain.Aggregates
         public Guid TransactionId { get; set; } = Guid.NewGuid();
 
         [Required]
-        public Guid WalletId { get; set; }
+        public string MembershipId { get; set; }
 
         [Required]
-        public string UserId { get; set; }//RequestedBy
+        public string UserId { get; set; }//RequestedBy not mendetory as same as loged in memberid 
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -45,7 +45,7 @@ namespace Domain.Aggregates
         public DateTime? ApprovedAt { get; set; }
 
         // Navigation property
-        [ForeignKey("WalletId")]
-        public Wallet Wallet { get; set; }
+        [ForeignKey("MembershipId")]
+        public Membership Membership { get; set; }
     }
 }
