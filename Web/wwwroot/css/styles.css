@@ -88,7 +88,7 @@ hr.top {
     background-color: #000;
 }
 
-.input-rf, .datepicker-rf, .textarea-rf {
+.input-rf, .datepicker-rf, .textarea-rf, .select-rf {
     border: none;
     border-bottom: 1px solid #888;
     padding-bottom: 0;

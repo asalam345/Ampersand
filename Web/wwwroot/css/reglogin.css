@@ -32,10 +32,7 @@ body {
     display: none;
     padding: 15px;
     position: relative;
-    /*flex: 1;
-    background: url('../image/reglog.png') center/cover no-repeat;
-    min-height: 500px;
-    display: none;*/
+    
 }
     .auth-image::before {
         content: '';
@@ -84,7 +81,7 @@ label {
 
 .form-control {
     width: 100%;
-    padding: 12px 16px;
+    padding: 2px 0px;
     border: 1px solid #d9cfc7;
     border-radius: 10px;
     background-color: #fdf9f6;
@@ -119,7 +116,7 @@ label {
 }
 
     .switch-form a {
-        color: #b89e8a;
+        color: #536a9d;
         text-decoration: none;
         font-weight: 500;
     }
@@ -150,4 +147,26 @@ body:has(.layoutbody-rf > .rf-page-left-menu.True) .layoutfooter-rf.layoutfooter
     bottom: 0 !important;
     left: 0 !important;
     height: 0 !important;
+}
+[icon-input-rf] > [i-input-rf] {
+    height: 30px;
+    background-color: transparent;
+}
+.input-rf, .datepicker-rf, .textarea-rf {
+    border: none;
+    border-bottom: 1px solid #888;
+    padding-bottom: 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+
+
+
+.user-name {
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -100%;
+    left: -100%;
 }

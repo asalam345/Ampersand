@@ -3,7 +3,9 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #7A7A7A; }
+  color: #7A7A7A; 
+  background-color:#fff;
+}
 
 * {
   margin: 0;

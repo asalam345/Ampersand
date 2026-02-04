@@ -1,51 +1,10 @@
-﻿<style>
-    .save {
-        background: linear-gradient(45deg, #6a11cb, #2575fc);
-        color: #fff;
-    }
-
-        .save:hover {
-            color: #fafafa;
-        }
-
-    .reset {
-        background: linear-gradient(45deg, #e67e22, #ffc107);
-        color: #fff;
-    }
-
-
-    .save::before {
-        content: "\f0c7";
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        margin-right: 10px;
-        font-size: 18px;
-    }
-
-    .loading::before {
-        content: "\f110"; /* fa-spinner unicode */
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        margin-right: 10px;
-        animation: spin 1s linear infinite;
-        font-size: 18px;
-        cursor:not-allowed;
-    }
-
-    @@keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-</style>
-@typeparam T where T : class, new()
+﻿@typeparam T where T : class, new()
+<link rel="stylesheet" href="./css/form-button.css" />
+<div Style="display:flex;justify-content:end;gap:10px;margin-top:10px;">
 <ButtonRF Class="reset" type="reset" Icon="fa-solid fa-repeat">Reset</ButtonRF>
                         
  <button class="@saveButtonClass" onclick="@save">Save</button>
-@* <ButtonRF Class="@(formRF?.IsValid() == true ? saveButtonClass : "save")" OnClick="@save">Save</ButtonRF> *@
-@* <ButtonRF Class="@saveButtonClass" type="submit">Save</ButtonRF> *@
-                   
-
+</div>
 @code {
     [Parameter] public FormRF<T> FormObj { get; set; } = null!;
     [Parameter] public EventCallback Save { get; set; }
@@ -54,6 +13,8 @@
 
     async Task save()
     {
+        saveButtonClass = "button-rf loading";
+        StateHasChanged();
         if (FormObj == null) return;
         if (FormObj?.Data != null && OnBeforeSave != null)
         {
@@ -63,11 +24,19 @@
             {
                 FormObj.Data = modifiedData;
             }
-            else return;
+            else 
+            {
+                saveButtonClass = "button-rf save"; 
+                return;
+            }
         }
-        if (!FormObj!.IsValid()) return;
-        saveButtonClass = "button-rf loading";
-        StateHasChanged();
+        if (!FormObj!.IsValid()) 
+        {
+            saveButtonClass = "button-rf save"; 
+            return;
+        }
+        
+        
         await Task.Delay(3000);
         saveButtonClass = "button-rf save";
         StateHasChanged();

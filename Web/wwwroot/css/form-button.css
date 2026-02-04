@@ -1,0 +1,40 @@
+﻿.save, .log-button {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: #fff;
+}
+
+    .save:hover, .log-button:hover {
+        color: #fafafa;
+    }
+    .log-button{
+        height:36px;
+    }
+    .reset {
+        background: linear-gradient(45deg, #e67e22, #ffc107);
+        color: #fff;
+    }
+
+
+.save::before {
+    content: "\f0c7";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.loading::before {
+    content: "\f110"; /* fa-spinner unicode */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    animation: spin 1s linear infinite;
+    font-size: 18px;
+    cursor: not-allowed;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

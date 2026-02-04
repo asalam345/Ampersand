@@ -4,125 +4,67 @@
 @using RapidFireLib.View.UserInfo
 @using RapidFireUI.Account
 @using Domain.Services
-@inject NavigationManager Navigation
-@inject IUserInfo userInfo
-
-@attribute [AllowAnonymous]
 @attribute [LoginPageRF]
 @layout PublicLayout
 
 <link href="./css/reglogin.css" rel="stylesheet" />
+<link rel="stylesheet" href="./css/form-button.css" />
 <style>
-    .form-control > input{
-        padding:0!important;
+    .form-control > input {
+        padding: 0 !important;
     }
 </style>
-@* 
-<div class="auth-container">
-    <div class="auth-image"></div>
-    <div class="auth-forms">
-        <h2>Welcome Back</h2>
-        <FormRF Model="@loginModel">
-            <div class="form-group">
-                <label>Email</label>
-                <InputRF class="form-control" @bind-Value="loginModel.Email" placeholder="you@example.com" />
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <InputRF type="password" class="form-control" @bind-Value="loginModel.Password" placeholder="••••••••" />
-            </div>
-            <button type="submit" class="btn">Sign In</button>
-        </FormRF>
-        <div class="switch-form">
-            Don’t have an account? <a href="/signup">Sign Up</a>
-        </div>
-    </div>
-</div> *@
+
 <div class="auth-container">
     <div class="auth-image"></div>
     <div class="auth-forms">
         <h2>Welcome to Ampersand</h2>
-        <LoginFormRF Title="" />
+        <LoginFormRF Title="">
+            <ChildContent Context="loginModel">
+                @{
+            loginModel.Email = email;
+            loginModel.Password = password;
+                <InputRF @bind-Value="@loginModel.Email" Label="Email" Placeholder="Enter your email" />
+                <InputRF Type="password" @bind-Value="@loginModel.Password" Label="Password" Placeholder="Enter your password" />
+                <div style="display:flex;justify-content:space-between;">
+                    <a href="/Account/ResetPassword">Forget Password?</a>
+                        <ButtonRF Icon="fa-solid fa-key" Class="log-button" type="submit">Sign In</ButtonRF>
+                </div>
+                }
+            </ChildContent>
+           
+        </LoginFormRF>
         <div class="switch-form">
             Don’t have an account? <a href="/signup">Sign Up</a>
         </div>
     </div>
 </div>
-@* <LoginPageRF>
-    <LoginLeftPanelRF >
-        <div></div>
-    </LoginLeftPanelRF>
-    <LoginRightPanel>
 
-        <div>
-            <div class="gg-right-section">
-                <div class="gg-login-card">
 
-                    <div class="gg-logo-badge">
-                        <span class="gg-logo-text">GG</span>
-                    </div>
-                    <div class="gg-card-wrapper @(isGuestMode ? "show" : "hide")">
-                    </div>
-
-                    @if (!isGuestMode)
-                    {
-                        <!-- DEFAULT: SSO View -->
-                        <div class="gg-form-title">Welcome Back</div>
-                        <p class="gg-form-subtitle">Sign in to continue</p>
-
-                        <button class="gg-submit-btn" @onclick="() => { }">
-                            Sign in with SSO
-                        </button>
-
-                        <div style="text-align:center; margin: 16px 0; color:#999;">OR</div>
-
-                        <button class="gg-back-btn" @onclick="EnableGuestMode">
-                            Continue as Guest
-                        </button>
-
-                        <p class="gg-terms-text">
-                            By continuing, you agree to our
-                            <a href="#" class="gg-terms-link">Terms of Service</a> and
-                            <a href="#" class="gg-terms-link">Privacy Policy</a>
-                        </p>
-                    }
-                    else
-                    {
-                        <!-- GUEST LOGIN FORM -->
-                        <div class="gg-form-title">Continue as Guest</div>
-                        <p class="gg-form-subtitle">Enter your credentials to continue</p>
-                        <div class="gg-login-form">
-                            <LoginFormRF Title="" />
-                            <button type="button"
-                                    class="gg-back-btn"
-                                    @onclick="DisableGuestMode">
-                                Back
-                            </button>
-
-                            <p class="gg-terms-text">
-                                By continuing, you agree to our
-                                <a href="#" class="gg-terms-link">Terms of Service</a>
-                                and
-                                <a href="#" class="gg-terms-link">Privacy Policy</a>
-                            </p>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-
-    </LoginRightPanel>
-</LoginPageRF> *@
 
 @code {
-
     public class MicrosoftSSO : ISSO
     {
         public MicrosoftSSO() : base(SSOProvider.Microsoft) { }
     }
     MicrosoftSSO item { get; set; } = new();
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        if (!string.IsNullOrEmpty(userInfo.User?.Id))
+        {
+            var returnUrl = GetReturnUrl();
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                nav.NavigateTo(returnUrl, true);
+            }
+            else
+            {
+                nav.NavigateTo("/my-wallet", true);
+            }
+        }
+
+
         item = new MicrosoftSSO
         {
             Title = "Microsoft Login",
@@ -130,18 +72,34 @@
             IconColor = "#db4437",
             BackgroundColor = "#ffffff"
         };
-        base.OnInitialized();
+        await base.OnInitializedAsync();
     }
-    
+
     bool isGuestMode = false;
 
-    string email;
-    string password;
+    string email = "a0167360@gmail.com";
+    string password = "12345";
     bool showPassword = false;
 
     void EnableGuestMode() => isGuestMode = true;
     void DisableGuestMode() => isGuestMode = false;
 
     void TogglePassword() => showPassword = !showPassword;
+    private string GetReturnUrl()
+    {
+        var uri = nav.ToAbsoluteUri(nav.Uri);
+
+        // Parse query string manually
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        return query["returnUrl"];
+
+        // OR using Microsoft.AspNetCore.WebUtilities if available:
+        // var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+        // if (query.TryGetValue("returnUrl", out var returnUrlValues))
+        // {
+        //     return returnUrlValues.First();
+        // }
+        // return null;
+    }
 
 }

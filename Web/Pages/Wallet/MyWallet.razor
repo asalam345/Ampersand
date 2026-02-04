@@ -4,9 +4,11 @@
         <Actions></Actions>
     </PageHeaderRF>
     <div style="display:flex;gap:10px">
-        <div style="flex:1 1 760px;">
+        <div style="flex:1 1 760px;background-color:#fff;padding:5px 0 0;border-radius: 10px;
+    background: linear-gradient(260deg, #6a11cb, #2575fc), white;
+    background-clip: padding-box, border-box;">
             @* OnAfterSave="@RF.UI.Events.Back" *@
-            <FormRF @ref=formRF Model="WalletTransaction" >
+            <FormRF @bind-Data="model" @bind-form=formRF style="padding:10px;background-color:#fff;border-radius:10px;">
                 <RowRF>
                     <ColRF Span="6">
                         <SelectRF @bind-Value="context.TransactionTypeId"
@@ -29,15 +31,14 @@
                         <InputRF @bind-Value="@context.ReferenceNo" Label="Reference No" />
                     </ColRF>
                     <ColRF Span="12">
-                        <ImageUploaderRF @bind-Value="context.Image"/>
+                        <TextareaRF @bind-Value="context.Remarks" Label="Remarks" />
                     </ColRF>
                     <ColRF Span="12">
-                        <TextareaRF @bind-Value="context.Remarks"/>
+                        <ImageUploaderRF @bind-Value="context.Image"/>
                     </ColRF>
-                    <ColRF Span="12" Style="display:flex;justify-content:end;gap:10px;">
+                   
+                    <ColRF Span="12">
                         <FormButtons FormObj="@formRF" Save="@save" OnBeforeSave="beforeSave"></FormButtons>
-                        @* <ButtonRF type="submit" Icon="fa-solid fa-floppy-disk" Style="background-color:">Save</ButtonRF>
-                        <ButtonRF type="reset" Icon="fa-solid fa-arrows-rotate">Reset</ButtonRF> *@
                     </ColRF>
                 </RowRF>
             </FormRF>
@@ -60,6 +61,7 @@
 </PageRF>
 
 @code {
+    WalletTransaction model { get; set; } = new();
     FormRF<WalletTransaction> formRF = null!;
     Db db = null!;
 
@@ -67,6 +69,12 @@
     {
         db = new(config);
         base.OnInitialized();
+    }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        formRF.Data.PaymentTypeId = 1;
+        formRF.Data.TransactionTypeId = 0;
+        return base.OnAfterRenderAsync(firstRender);
     }
     async Task<WalletTransaction?> beforeSave(WalletTransaction model)
     {

@@ -21,12 +21,13 @@
     <div class="auth-image"></div>
     <div class="auth-forms">
         <h2>Create Account</h2>
-        <FormRF Model="AspNetUsers" @ref="formRF" OnBeforeSave="beforeSave" OnAfterSave="afterSave">
+        <FormRF Model="AspNetUsers" @ref="formRF"  OnAfterSave="afterSave">
             <div class="form-group">
                 <InputRF class="form-control" Label="Full Name" @bind-Value="context.FullName" placeholder="Enter Your Full Name" />
             </div>
             <div class="form-group">
                 <InputRF class="form-control" Label="Email"  @bind-Value="context.Email" placeholder="you@example.com" />
+                <InputRF Class="user-name"  @bind-Value="@userName" />
             </div>
             <div class="form-group" style="position:absolute;left:-100%;height:0;">
                 <InputRF class="form-control" Label="User Name"  @bind-Value="context.UserName" placeholder="you@example.com" />
@@ -40,10 +41,18 @@
             <div class="form-group">
                 <InputRF type="password" Label="Confirm Password" class="form-control" @bind-Value="confirmPassword" placeholder="••••••••" />
             </div>
-           @*  <div class="form-group">
-                <DatePickerRF Label="Date of Birth" class="form-control" @bind-Value="dob" placeholder="Your date of birth" />
-            </div> *@
-            <button type="submit" class="btn">Sign Up</button>
+            <div class="form-group">
+                <SelectRF @bind-Value="context.Gender"
+                          OptionList="genderList"
+                          DisplayText="c => c.DisplayText"
+                          ValueText="c => c.ValueText"
+                          PreSelectedIndex="0"
+                          Label="Gender" />
+            </div>
+            <div class="form-group">
+                <ImageUploaderRF @bind-Value="context.Photo" />
+            </div>
+            <FormButtons FormObj="@formRF" OnBeforeSave="beforeSave"></FormButtons>
         </FormRF>
         <div class="switch-form">
             Already have an account? <a href="/account/login?returnUrl=/home">Sign In</a>
@@ -63,16 +72,22 @@
     FormRF<AspNetUsers>? formRF { get; set; }
     string? confirmPassword = "12345";
     string? password = "12345";
+    string userName = "12345";
     DateTime dob { get; set; } = DateTime.Now.AddYears(-18);
+    List<SpinnerValue> genderList { get; set; } = new();
 
     protected override void OnInitialized()
     {
-
+        genderList = new()
+        {
+            new SpinnerValue{DisplayText = "Male", ValueText = "1"},
+            new SpinnerValue{DisplayText = "Female", ValueText = "2"},
+            new SpinnerValue{DisplayText = "Other", ValueText = "3"}
+        };
     }
     protected override void OnAfterRender(bool firstRender)
     {
         formRF.Data.FullName = "A";
-        formRF.Data.PhoneNumber = "016736055241";
         base.OnAfterRender(firstRender);
     }
     bool alreadyExist(string value, string item)
@@ -88,8 +103,9 @@
 
         return false;
     }
-    AspNetUsers beforeSave(AspNetUsers r)
+    async Task<AspNetUsers?> beforeSave(AspNetUsers r)
     {
+        r.UserName = r.Email;
         if (string.IsNullOrWhiteSpace(password) || password.Length < 5 || password != confirmPassword)
         {
             if (password?.Length < 5)
@@ -109,7 +125,7 @@
             return new AspNetUsers();
         }
         r.CreateDate = DateTime.Now;
-        r.UserName = r.Email;
+        
         r.NormalizedUserName = r.UserName.ToUpperInvariant();
         r.NormalizedEmail = r.Email.ToUpperInvariant();
         r.IsActive = true;

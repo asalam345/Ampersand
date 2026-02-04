@@ -23,7 +23,6 @@ namespace Domain.Aggregates
         [Required]
         public DateTime PurchaseDate { get; set; }
        
-        public string ApplicantImage { get; set; }
         public string ApplicantSignature { get; set; }
         public string NominiName { get; set; }
         public string NominiImage { get; set; }
@@ -49,10 +48,13 @@ namespace Domain.Aggregates
         public string CashReceiptNo { get; set; }
 
         public bool MemberVarified { get; set; } = false;
+        public string TreasurerSignature { get; set; }
         public string TreasurerId { get; set; } = null;
         public DateTime? TreasurerReceivedDate { get; set; } = null;
+        public string SecretarySignature { get; set; }
         public string SecretaryId { get; set; } = null;
         public DateTime? SecretaryReceivedDate { get; set; } = null;
+        public string PresidentSignature { get; set; }
         public string PresidentId { get; set; } = null;
         public DateTime? PresidentReceivedDate { get; set; } = null;
 
