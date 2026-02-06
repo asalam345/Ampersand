@@ -1,7 +1,8 @@
-using Domain.Contexts;
 using Domain.Services;
+using Domain.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using RapidFireLib;
 using RapidFireLib.Extensions;
 using RapidFireUI;
@@ -13,6 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddRapidFire(new AppConfig());
 builder.Services.AddRapidFireUI();
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 
 var app = builder.Build();
 

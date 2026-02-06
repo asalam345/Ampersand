@@ -86,6 +86,7 @@ body:has(.layoutbody-rf > .rf-page-left-menu.True) .layoutfooter-rf.layoutfooter
 hr.top {
     height: 5px !important;
     background-color: #000;
+    opacity: .75 !important;
 }
 
 .input-rf, .datepicker-rf, .textarea-rf, .select-rf {

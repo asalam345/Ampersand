@@ -1,39 +1,55 @@
 ﻿@page "/membership-form"
-@using RapidFireLib.View.Models.Identity
-@using RapidFireUI.Account
 @attribute [UserSetupPageRF]
+@inject IFileUploadService fileUploadService
 <style>
-    
+    .scroll-to-top {
+        display: none;
+        position: absolute;
+        left: -100%;
+    }
+
+    .membership-signature .imageuploader-rf-preview {
+        height: 100px !important;
+    }
 </style>
 @* <ExtendedUserRF Model="Membership"> *@
-<FormRF Model="Membership" @ref=formRF>
+<FormRF @bind-data="membership" @ref=formRF @bind-form=formRF>
     <div style="display:flex;flex-direction:column;gap:10px;flex-wrap:wrap;">
-        <div class="header" style="display:flex;justify-content:space-between;flex:1">
-            <div style="display:flex;flex-direction:column;gap:6px;font-size:20px;">
-                <img src="./image/ampersand-logo.png" alt="logo" style="width:300px;" />
-                <span>
-                    <b>Address:</b> Gulshan, Dhaka – 1212, Bangladesh.
-                </span>
-                <span>
-                    <b>Email:</b>ampersand.coop.soc@gmail.com; <b>Phone:</b>+8801974038105
-                </span>
-                <span style="font-size:42px;color:#b63c2c;font-weight:500;">Membership Application Form</span>
-            </div>
-            <div style="flex: 0 0 350px">
-                <ImageUploaderRF @bind-Value="@userData.Photo" />
-            </div>
-        </div>
-        <hr class="top"/>
+        @* <div class="header" style="display:flex;justify-content:space-between;flex:1"> *@
+        <RowRF>
+            <ColRF Span="9">
+                <div style="display:flex;flex-direction:column;gap:6px;font-size:20px;">
+                    <img src="./image/ampersand-logo.png" alt="logo" style="width:300px;" />
+                    <span>
+                        <b>Address:</b> Gulshan, Dhaka – 1212, Bangladesh.
+                    </span>
+                    <span>
+                        <b>Email:</b>ampersand.coop.soc@gmail.com; <b>Phone:</b>+8801974038105
+                    </span>
+                    <span style="font-size:42px;color:#b63c2c;font-weight:500;">Membership Application Form</span>
+                </div>
+            </ColRF>
+            <ColRF Span="3">
+                <ImageUploaderRF Value="@userData.Photo" OnChange="aspNetPhotoChange" />
+            </ColRF>
+        </RowRF>
+
+
+
+        <hr class="top" />
         <div>
             <RowRF>
                 <ColRF Span="12" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Applicant's Name</span> <span class="label-collon">:</span></span> <InputRF @bind-Value="@userData.FullName" Readonly />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Applicant's Name</span> <span class="label-collon">:</span></span>
+                    <InputRF @bind-Value="@userData.FullName" />
                 </ColRF>
                 <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Date Of Birth</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.DOB" MaxDate="DateTime.Now" Placeholder="DD/MM/YYYY" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Date Of Birth</span> <span class="label-collon">:</span></span>
+                    <DatePickerRF @bind-Value="context.DOB" MaxDate="DateTime.Now" Placeholder="DD/MM/YYYY" />
                 </ColRF>
                 <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NID" Placeholder="Your NID" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span>
+                    <InputRF @bind-Value="context.NID" Placeholder="Your NID" />
                 </ColRF>
                 <ColRF Span="4" Class="membership-form-line">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title">Blood Group</span> <span class="label-collon">:</span></span>
@@ -56,21 +72,29 @@
                 <ColRF Span="12">
                     <b>Nominee Information :</b>
                 </ColRF>
-                <ColRF Span="12" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Name</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiName" Placeholder="Nomini Name" />
+                <ColRF Span="9">
+                    <RowRF>
+                        <ColRF Span="12" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">Name</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiName" Placeholder="Nomini Name" />
+                        </ColRF>
+                        <ColRF Span="12" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">Relationship</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.Relationship" Placeholder="Your Relationship With Nomini" />
+                        </ColRF>
+                        <ColRF Span="12" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiNID" Placeholder="Your Nomini NID" />
+                        </ColRF>
+                        <ColRF Span="12" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">Phone</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiPhone" Placeholder="Your Nomini Phone" />
+                        </ColRF>
+                        <ColRF Span="12" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">Email</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiEmail" Placeholder="Your Nomini Email" />
+                        </ColRF>
+                    </RowRF>
                 </ColRF>
-                <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Relationship</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.Relationship" Placeholder="Your Relationship With Nomini" />
+                <ColRF Span="3">
+                    <ImageUploaderRF @bind-Value="@context.NominiImage" OnChange="nominiPhotoChange" />
                 </ColRF>
-                <ColRF Span="8" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">NID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiNID" Placeholder="Your Nomini NID" />
-                </ColRF>
-                <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Phone</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiPhone" Placeholder="Your Nomini Phone" />
-                </ColRF>
-                <ColRF Span="8" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Email</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.NominiEmail" Placeholder="Your Nomini Email" />
-                </ColRF>
+
             </RowRF>
         </div>
         <div>
@@ -117,11 +141,11 @@
         <div>
             <RowRF>
                 <ColRF Span="9">
-                    
+
                 </ColRF>
                 <ColRF Span="3">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Applicant's Signature</span> <span class="label-collon">:</span></span> 
-                    <ImageUploaderRF @bind-Value="context.ApplicantSignature" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Applicant's Signature</span> <span class="label-collon">:</span></span>
+                    <ImageUploaderRF @bind-Value=context.ApplicantSignature Class="membership-signature" OnChange="signaturePhotoChange"/>
                 </ColRF>
             </RowRF>
         </div>
@@ -179,26 +203,33 @@
                 </ColRF>
             </RowRF>
         </div>
-        <div>
-            <FormButtons FormObj="@formRF" OnBeforeSave="beforeSave"></FormButtons>
-        </div>
+
     </div>
 </FormRF>
+<RowRF>
+    <ColRF Span="8"></ColRF>
+    <ColRF Span="4">
+        <FormButtons FormObj="@formRF" OnBeforeSave="beforeSave" Save="save"></FormButtons>
+    </ColRF>
+</RowRF>
 @* </ExtendedUserRF> *@
 
 
 @code {
     Db db = null!;
+    Membership membership { get; set; } = new();
     FormRF<Membership> formRF { get; set; } = null!;
-    //string applicantImage { get; set; }
     AspNetUsers userData { get; set; } = null!;
     List<SpinnerValue> bloodGroupList { get; set; } = new();
     List<SpinnerValue> verification { get; set; } = new();
+    string? aspNetUsersId { get; set; }
+    string membershipPhoto { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
         db = new Db(config);
         userData = db.Get<AspNetUsers>(x => x.Id == userInfo.User.Id).First();
+        membership = db.Get<Membership>(x => x.AspNetUsersId == userInfo.User.Id).FirstOrDefault() ?? new();
         bloodGroupList = new()
         {
             new SpinnerValue{DisplayText = "A+", ValueText = "A+"},
@@ -216,7 +247,7 @@
         };
         base.OnInitialized();
     }
-    
+
     void tsChanged(object o)
     {
         //if the role is Treasurer
@@ -239,5 +270,63 @@
         m.MembershipId = userData.PhoneNumber + (userAccountNummber - 1).ToString();
         m.AspNetUsersId = userData.Id;
         return m;
+    }
+    void save()
+    {
+        formRF.Data!.AspNetUsersId = userInfo.User.Id;
+        db = new Db(config);
+        db.Save(userData);
+        db.Save(formRF.Data);
+        var result = db.Commit();
+        if (result.Success)
+        {
+            RF.UI.Toaster.Success();
+        }
+    }
+
+    async Task aspNetPhotoChange(object e)
+    {
+        var filesObj = e.GetType().GetProperty("Files")?.GetValue(e);
+
+        if (filesObj is IEnumerable<IBrowserFile> files)
+        {
+            foreach (var file in files)
+            {
+                userData.Photo = await fileUpload(file, "AspNetUsers");
+            }
+        }
+    }
+    async Task nominiPhotoChange(object e)
+    {
+        var filesObj = e.GetType().GetProperty("Files")?.GetValue(e);
+
+        if (filesObj is IEnumerable<IBrowserFile> files)
+        {
+            if (files.Count() > 0)
+            {
+                formRF.Data!.NominiImage = await fileUpload(files.ElementAt(0));
+            }
+        }
+    }
+    async Task signaturePhotoChange(object e)
+    {
+        var filesObj = e.GetType().GetProperty("Files")?.GetValue(e);
+
+        if (filesObj is IEnumerable<IBrowserFile> files)
+        {
+            if (files.Count() > 0)
+            {
+                formRF.Data!.ApplicantSignature = await fileUpload(files.ElementAt(0));
+            }
+        }
+    }
+    async Task<string> fileUpload(IBrowserFile file, string fileName = "Membership")
+    {
+        var path = await fileUploadService.UploadAsync(
+                    file,
+                    fileName
+                );
+
+        return path;
     }
 }

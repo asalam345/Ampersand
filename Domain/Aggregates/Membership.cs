@@ -10,7 +10,7 @@ namespace Domain.Aggregates
     {
         [Key]
         public string AspNetUsersId { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime DOB { get; set; } = DateTime.UtcNow.AddYears(-18);
         public string NID { get; set; }
         public string BloodGroup { get; set; }
         public string BirthCertificate { get; set; }
@@ -21,8 +21,8 @@ namespace Domain.Aggregates
         [Required]
         public int UnitPurchaseInformation { get; set; } = 1;
         [Required]
-        public DateTime PurchaseDate { get; set; }
-       
+        public DateTime PurchaseDate { get; set; } = DateTime.UtcNow;
+
         public string ApplicantSignature { get; set; }
         public string NominiName { get; set; }
         public string NominiImage { get; set; }
@@ -38,9 +38,9 @@ namespace Domain.Aggregates
         //auto suggested id
         public string MembershipId { get; set; }//WalletId/phonenumber unique id that people can say plz check my account by providing this id
         //public string UserId { get; set; }//as same as AspNetUsers's Id so the AspNetUsers's Id and this Key are same
-        public DateTime? MembershipStartingDate { get; set; }
+        public DateTime? MembershipStartingDate { get; set; } = DateTime.UtcNow;
         public int AllocatedUnits { get; set; }
-        [Column(TypeName = "decimal(18,2)")]
+        //[Column(TypeName = "decimal(18,2)")]
         public double? InitialDeposit { get; set; } = 0;//Balance { get; set; } = 0;
         public DateTime? ReceivedDate  { get; set; }
         public double? MonthlySubscriptionFee { get; set; }
@@ -48,12 +48,15 @@ namespace Domain.Aggregates
         public string CashReceiptNo { get; set; }
 
         public bool MemberVarified { get; set; } = false;
+        [NotMapped]
         public string TreasurerSignature { get; set; }
         public string TreasurerId { get; set; } = null;
         public DateTime? TreasurerReceivedDate { get; set; } = null;
+        [NotMapped]
         public string SecretarySignature { get; set; }
         public string SecretaryId { get; set; } = null;
         public DateTime? SecretaryReceivedDate { get; set; } = null;
+        [NotMapped]
         public string PresidentSignature { get; set; }
         public string PresidentId { get; set; } = null;
         public DateTime? PresidentReceivedDate { get; set; } = null;

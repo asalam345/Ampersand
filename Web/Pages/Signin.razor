@@ -22,7 +22,7 @@
         <LoginFormRF Title="">
             <ChildContent Context="loginModel">
                 @{
-            loginModel.Email = email;
+            //loginModel.Email = email;
             loginModel.Password = password;
                 <InputRF @bind-Value="@loginModel.Email" Label="Email" Placeholder="Enter your email" />
                 <InputRF Type="password" @bind-Value="@loginModel.Password" Label="Password" Placeholder="Enter your password" />
@@ -77,7 +77,7 @@
 
     bool isGuestMode = false;
 
-    string email = "a0167360@gmail.com";
+    string email = "";
     string password = "12345";
     bool showPassword = false;
 
