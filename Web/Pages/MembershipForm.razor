@@ -1,5 +1,5 @@
 ﻿@page "/membership-form"
-@attribute [UserSetupPageRF]
+@* @attribute [UserSetupPageRF] *@
 @inject IFileUploadService fileUploadService
 <style>
     .scroll-to-top {
@@ -8,8 +8,33 @@
         left: -100%;
     }
 
-    .membership-signature .imageuploader-rf-preview {
+    .membership-signature .imageuploader-rf-preview, .membership-signature .imageuploader-rf-preview > div {
         height: 100px !important;
+    }
+
+    .verification-row .membership-form-line {
+        flex-direction: column-reverse;
+        gap: 4px;
+        align-items: center;
+        width: auto;
+    }
+
+        .verification-row .membership-form-line .membership-form-line-label {
+            text-align: center;
+            gap: 0 !important;
+        }
+
+    .verification-row hr.middle {
+        width: 140px;
+        margin: 0px;
+    }
+
+    .verification-row .checkbox-rf {
+        margin: 0px;
+    }
+
+    .verification-row .verification-title {
+        padding: 10px 0 20px;
     }
 </style>
 @* <ExtendedUserRF Model="Membership"> *@
@@ -33,8 +58,6 @@
                 <ImageUploaderRF Value="@userData.Photo" OnChange="aspNetPhotoChange" />
             </ColRF>
         </RowRF>
-
-
 
         <hr class="top" />
         <div>
@@ -145,7 +168,7 @@
                 </ColRF>
                 <ColRF Span="3">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title">Applicant's Signature</span> <span class="label-collon">:</span></span>
-                    <ImageUploaderRF @bind-Value=context.ApplicantSignature Class="membership-signature" OnChange="signaturePhotoChange"/>
+                    <ImageUploaderRF @bind-Value=context.ApplicantSignature Class="membership-signature" OnChange="signaturePhotoChange" />
                 </ColRF>
             </RowRF>
         </div>
@@ -155,55 +178,69 @@
                 <ColRF Span="12">
                     <b>To be filled by Ampersand Officials :</b>
                 </ColRF>
-                <ColRF Span="6" Class="membership-form-line">
+                <ColRF Span="4" Class="membership-form-line">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title">Membership ID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.MembershipId" Placeholder="Unit Purchase Information" />
                 </ColRF>
-                <ColRF Span="6" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Membership Starting Date</span> <span class="label-collon">:</span></span>
+                <ColRF Span="8" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title large">Membership Starting Date</span> <span class="label-collon">:</span></span>
                     <DatePickerRF @bind-Value="context.MembershipStartingDate" Placeholder="Membership Starting Date" />
                 </ColRF>
                 <ColRF Span="4" Class="membership-form-line">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title">Allocated units</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="Unit Purchase Information" />
                 </ColRF>
-                <ColRF Span="4">
+                <ColRF Span="4" Class="membership-form-line">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title">Initial Deposit</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
                 <ColRF Span="4" Class="membership-form-line">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title">Received Date</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.UnitPurchaseInformation" Placeholder="MembershipId" />
                 </ColRF>
-                <ColRF Span="6">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Monthly Subscription Fee</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
+                <ColRF Span="6" Class="membership-form-line">
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title large">Monthly Subscription Fee</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
                 <ColRF Span="6" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Cheque / Cash-Receipt No.</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title large">Cheque / Cash-Receipt No.</span> <span class="label-collon">:</span></span><DatePickerRF @bind-Value="context.PurchaseDate" Placeholder="Purchase Date" />
                 </ColRF>
             </RowRF>
         </div>
         <div>
-            <RowRF>
-                <ColRF Span="12">
-                    <b>
-                        Received By :
-                    </b>
-                </ColRF>
-                <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Treasurer </span> <span class="label-collon"></span></span>
-                    <CheckboxRF @bind-Value="context.TreasurerSignature" OptionList="verification"
-                                DisplayText="x => x.DisplayText" ValueText="x => x.ValueText" OnChange="tsChanged" />
-                </ColRF>
-                <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Secretary</span> <span class="label-collon"></span></span>
-                    <CheckboxRF @bind-Value="context.SecretarySignature" OptionList="verification"
-                                DisplayText="x => x.DisplayText" ValueText="x => x.ValueText" OnChange="ssChanged" />
-                </ColRF>
-                <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">President</span> <span class="label-collon"></span></span>
-                    <CheckboxRF @bind-Value="context.PresidentSignature" OptionList="verification"
-                                DisplayText="x => x.DisplayText" ValueText="x => x.ValueText" OnChange="psChanged" />
-                </ColRF>
-            </RowRF>
+            @if (userInfo.Role.Name == "Treasurer" || userInfo.Role.Name == "Secretary" || userInfo.Role.Name == "President")
+            {
+                <RowRF Class="verification-row">
+                    <ColRF Span="12" Class="verification-title">
+                        <b>
+                            Received By :
+                        </b>
+                    </ColRF>
+                    @if (userInfo.Role.Name == "Treasurer")
+                    {
+                        <ColRF Span="4" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">Treasurer </span> <span class="label-collon"></span></span>
+                            <hr class="middle" />
+                            <CheckboxRF @bind-Value="context.TreasurerSignature" OptionList="verification"
+                                        DisplayText="x => x.DisplayText" ValueText="x => x.ValueText" OnChange="tsChanged" />
+                        </ColRF>
+                    }
+                    @if (userInfo.Role.Name == "Secretary")
+                    {
+                        <ColRF Span="4" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">Secretary</span> <span class="label-collon"></span></span>
+                            <hr class="middle" />
+                            <CheckboxRF @bind-Value="context.SecretarySignature" OptionList="verification"
+                                        DisplayText="x => x.DisplayText" ValueText="x => x.ValueText" OnChange="ssChanged" />
+                        </ColRF>
+                    }
+                    @if (userInfo.Role.Name == "President")
+                    {
+                        <ColRF Span="4" Class="membership-form-line">
+                            <span class="membership-form-line-label"><span class="membership-form-line-label-title">President</span> <span class="label-collon"></span></span>
+                            <hr class="middle" />
+                            <CheckboxRF @bind-Value="context.PresidentSignature" OptionList="verification"
+                                        DisplayText="x => x.DisplayText" ValueText="x => x.ValueText" OnChange="psChanged" />
+                        </ColRF>
+                    }
+                </RowRF>
+            }
         </div>
-
     </div>
 </FormRF>
 <RowRF>
@@ -243,7 +280,7 @@
         };
         verification = new()
         {
-            new SpinnerValue{DisplayText = "OK", ValueText = userInfo.User.Id},
+            new SpinnerValue{DisplayText = "I allow this member", ValueText = userInfo.User.Id},
         };
         base.OnInitialized();
     }

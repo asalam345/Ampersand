@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Registration.razor" />
     <Content Remove="wwwroot\files\abc.png" />
   </ItemGroup>
 

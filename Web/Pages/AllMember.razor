@@ -1,0 +1,26 @@
+﻿@page "/members"
+<style>
+    img {
+        max-width: 40px;
+        height: auto;
+        display: block;
+    }
+</style>
+<PageRF Title="Ampersand" SubTitle="All Members">
+    <PageHeaderRF></PageHeaderRF>
+    <TableRF Model="MembershipView">
+        <HeaderRowTemplate>
+            <th>Membership ID</th>
+            <th>Full Name</th>
+            <th>Phone Number</th>
+        </HeaderRowTemplate>
+         <BodyRowTemplate>
+            <td><img src="@context.Photo" alt="@context.MembershipId" /> @context.MembershipId</td>
+            <td>@context.FullName</td>
+            <td>@context.PhoneNumber</td>
+        </BodyRowTemplate>
+    </TableRF>
+</PageRF>
+@code {
+
+}

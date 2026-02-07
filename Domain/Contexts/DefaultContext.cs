@@ -33,5 +33,6 @@ namespace Domain.Contexts
         public DbSet<TransactionType> TransactionType { get; set; }
         public DbSet<Register> Register { get; set; }
         public DbSet<Membership> Membership { get; set; }
+        public DbSet<MembershipView> MembershipView { get; set; }
     }
 }

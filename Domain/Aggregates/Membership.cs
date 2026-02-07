@@ -1,4 +1,5 @@
 ﻿using RapidFireLib.Lib.Core;
+using RapidFireLib.View.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -68,5 +69,53 @@ namespace Domain.Aggregates
 
         public ICollection<WalletTransaction> WalletTransactions { get; set; }
         public ICollection<WalletAuditLog> WalletAuditLogs { get; set; }
+    }
+    public class MembershipView: IModel
+    {
+        [Key]
+        public string Id { get; set; } 
+        public string FullName { get; set; }
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public int? Gender { get; set; }
+
+        //public DateTime? CreateDate { get; set; }
+
+        //public string CreateBy { get; set; }
+
+        //public DateTime? EditDate { get; set; }
+
+        //public string EditBy { get; set; }
+
+        public string? Photo { get; set; }
+
+        //public DateTime DOB { get; set; }
+        public string NID { get; set; }
+        //public string BloodGroup { get; set; }
+        //public string BirthCertificate { get; set; }
+        public string PermanentAddress { get; set; }
+        public string CurrentAddress { get; set; }
+        public int UnitPurchaseInformation { get; set; }
+        public DateTime PurchaseDate { get; set; }
+        public string MembershipId { get; set; }
+        public DateTime? MembershipStartingDate { get; set; } 
+        //public int AllocatedUnits { get; set; }
+        //public double? InitialDeposit { get; set; } 
+        //public DateTime? ReceivedDate { get; set; }
+        //public double? MonthlySubscriptionFee { get; set; }
+        //public string Cheque { get; set; }
+        //public string CashReceiptNo { get; set; }
+        //public bool MemberVarified { get; set; } 
+        public string TreasurerId { get; set; }
+        public DateTime? TreasurerReceivedDate { get; set; }
+        public string SecretaryId { get; set; }
+        public DateTime? SecretaryReceivedDate { get; set; }
+        public string PresidentId { get; set; }
+        public DateTime? PresidentReceivedDate { get; set; }
+        //public DateTime CreatedAt { get; set; } 
+        //public DateTime? UpdatedAt { get; set; }
+
     }
 }

@@ -19,20 +19,18 @@
     <div class="auth-image"></div>
     <div class="auth-forms">
         <h2>Welcome to Ampersand</h2>
-        <LoginFormRF Title="">
-            <ChildContent Context="loginModel">
-                @{
-            //loginModel.Email = email;
-            loginModel.Password = password;
-                <InputRF @bind-Value="@loginModel.Email" Label="Email" Placeholder="Enter your email" />
-                <InputRF Type="password" @bind-Value="@loginModel.Password" Label="Password" Placeholder="Enter your password" />
-                <div style="display:flex;justify-content:space-between;">
-                    <a href="/Account/ResetPassword">Forget Password?</a>
-                        <ButtonRF Icon="fa-solid fa-key" Class="log-button" type="submit">Sign In</ButtonRF>
-                </div>
-                }
-            </ChildContent>
-           
+        <LoginFormRF Title="" @ref=formRF>
+            <InputRF @bind-Value="context.Email"
+                     @bind-Value:after="() => email = context.Email" Label="Email / User Name / Phone Number" Placeholder="Enter your email or user name or phone number" />
+
+            <InputRF Type="password"
+                     @bind-Value="context.Password"
+                     @bind-Value:after="() => password = context.Password" Label="Password" Placeholder="Enter your password" />
+            <div style="display:flex;justify-content:space-between;">
+                <a href="/Account/ResetPassword">Forget Password?</a>
+                <ButtonRF Icon="fa-solid fa-key" Class="log-button" OnClick="login">Sign In</ButtonRF>
+                <button type="submit"  id="rf-login-btn" style="width:0;height:0;position:absolute;left:-100%;">Sign In</button>
+            </div>
         </LoginFormRF>
         <div class="switch-form">
             Don’t have an account? <a href="/signup">Sign Up</a>
@@ -43,6 +41,17 @@
 
 
 @code {
+    Db db = null!;
+    LoginFormRF? formRF { get; set; } = null!;
+    FormRF<LoginModel>? _form;
+    bool isGuestMode = false;
+
+    string email = "";
+    string password = "12345";
+    bool showPassword = false;
+    string userName { get; set; } = string.Empty;
+
+
     public class MicrosoftSSO : ISSO
     {
         public MicrosoftSSO() : base(SSOProvider.Microsoft) { }
@@ -75,11 +84,7 @@
         await base.OnInitializedAsync();
     }
 
-    bool isGuestMode = false;
 
-    string email = "";
-    string password = "12345";
-    bool showPassword = false;
 
     void EnableGuestMode() => isGuestMode = true;
     void DisableGuestMode() => isGuestMode = false;
@@ -100,6 +105,47 @@
         //     return returnUrlValues.First();
         // }
         // return null;
+    }
+    async Task login()
+    {
+        db = new(config);
+        var userFromDb = db.Get<AspNetUsers>(x => x.Email == email || x.UserName == email || x.PhoneNumber == email).FirstOrDefault();
+        var options = new PasswordHasherOptions
+        {
+            CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
+        };
+
+        var hasher = new PasswordHasher<AspNetUsers>(
+            Microsoft.Extensions.Options.Options.Create(options)
+        );
+        
+        
+        if (userFromDb == null)
+        {
+            RF.UI.Toaster.Warning("No user found!");
+            return;
+        }
+        if(userFromDb.PasswordHash == null)
+        {
+            RF.UI.Toaster.Warning("No user found!");
+            return;
+        }
+        
+        var result = hasher.VerifyHashedPassword(
+            userFromDb,
+            userFromDb!.PasswordHash!,
+            password
+        );
+
+        if (result == PasswordVerificationResult.Success ||
+            result == PasswordVerificationResult.SuccessRehashNeeded)
+        {
+            await JS.InvokeVoidAsync("eval", $"document.getElementsByName('Email')[0].value='{userFromDb.UserName}';document.getElementsByName('Password')[0].value='{password}';document.getElementById('rf-login-form').submit()");
+        }
+        else
+        {
+            RF.UI.Toaster.Warning("Password not match!");
+        }
     }
 
 }

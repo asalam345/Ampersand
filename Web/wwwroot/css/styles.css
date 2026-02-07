@@ -108,8 +108,23 @@ hr.top {
         .membership-form-line .membership-form-line-label .membership-form-line-label-title {
             width: 125px;
         }
+        .membership-form-line .membership-form-line-label .membership-form-line-label-title.large {
+            width: 180px;
+        }
 
 .label-collon{
     width:10px;
 }
-
+.page-rf-header-actions .button-rf.btn-info{
+    display:none;
+}
+.rf-page-header-action-setting-body a[href="/account/AspNetUsersList"], .rf-page-header-action-setting-body a[href="/AuditLog"] {
+    display: none;
+}
+.rf-page-header-action-user-body {
+    display: none;
+}
+.rf-page-header-action-items > .rf-page-header-action-item:nth-child(1),
+.rf-page-header-action-items > .rf-page-header-action-item:nth-child(2) {
+    display: none;
+}
