@@ -141,11 +141,10 @@
     {
         db = new Db(config);
         ApplicationUserRole ar = new();
-        ar.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730"; //this is the role id of basic user
+        ar.RoleId = "b16e9c4d-3c13-4499-b2b1-e597d0bfcd1e"; //"6b49feb2-7488-4356-90ac-a345e9feb730"; //this is the role id of basic user
         ar.UserId = r.Id;
         ar.AppUserId = r.UserId;
         db.Save(ar);
         var result = db.Commit();
-
      }
 }
