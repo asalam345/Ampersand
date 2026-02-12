@@ -38,10 +38,11 @@
         
         
         await Task.Delay(3000);
-        saveButtonClass = "button-rf save";
+        
         StateHasChanged();
         await Save.InvokeAsync();
         FormObj!.Reset();
+        saveButtonClass = "button-rf save";
         //FormRF!.Data!.TransactionTypeId = new();
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/members"
+@using static Web.Components.MemberCheckbox
 <style>
     img {
         max-width: 40px;
@@ -8,19 +9,123 @@
 </style>
 <PageRF Title="Ampersand" SubTitle="All Members">
     <PageHeaderRF></PageHeaderRF>
-    <TableRF Model="MembershipView">
+    <TableRF Model="MembershipView" PageSize="5">
         <HeaderRowTemplate>
             <th>Membership ID</th>
-            <th>Full Name</th>
-            <th>Phone Number</th>
+            <th>Full Name & Info</th>
+            <th>Current Address</th>
+            <th>Permanent Address</th>
+            <th>Unit Purchase Information</th>
+            <th>Treasurer</th>
+            <th>Secretary</th>
+            <th>President</th>
         </HeaderRowTemplate>
-         <BodyRowTemplate>
-            <td><img src="@context.Photo" alt="@context.MembershipId" /> @context.MembershipId</td>
-            <td>@context.FullName</td>
-            <td>@context.PhoneNumber</td>
+        <BodyRowTemplate>
+            <td>
+                <img src="@context.Photo" alt="@context.MembershipId" />ID: @context.MembershipId
+            </td>
+            <td>@context.FullName <br /> <i class="fa-solid fa-envelope"></i> @context.Email<br /><i class="fa-solid fa-phone"></i> @context.PhoneNumber<br /> <i class="fa-solid fa-mars-and-venus"></i> @context.Gender</td>
+            <td>@context.CurrentAddress</td>
+            <td>@context.PermanentAddress</td>
+            <td>@context.MembershipStartingDate</td>
+            <td>
+                @context.Treasurer <br /> @context.TreasurerReceivedDate
+                @if (userInfo.Role.Name == "Treasurer")
+                {
+                    <MemberCheckbox Id="@context.Id"
+                                    Label="@spinnerValue.DisplayText"
+                                    Value="@context.IsSecretaryApproved"
+                                    OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
+                }
+            </td>
+            <td>
+                @context.Secretary <br /> @context.SecretaryReceivedDate
+                @if (userInfo.Role.Name == "Secretary")
+                {
+                    <MemberCheckbox Id="@context.Id"
+                                    Label="@spinnerValue.DisplayText"
+                                    Value="@context.IsSecretaryApproved"
+                                    OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
+
+                }
+            </td>
+            <td>
+                @context.President <br /> @context.PresidentReceivedDate
+                @if (userInfo.Role.Name == "President")
+                {
+                    <MemberCheckbox Id="@context.Id"
+                                    Label="@spinnerValue.DisplayText"
+                                    Value="@context.IsSecretaryApproved"
+                                    OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
+                }
+            </td>
         </BodyRowTemplate>
     </TableRF>
 </PageRF>
 @code {
+    List<SpinnerValue> verification { get; set; } = new();
+    SpinnerValue spinnerValue { get; set; } = new();
+    string signature1 { get; set; }
+    Dictionary<string, bool> signatureDict = new();
+    Membership membership { get; set; }
+    protected override void OnInitialized()
+    {
+        spinnerValue = new SpinnerValue { DisplayText = "I allow this member", ValueText = userInfo.User.Id };
+        verification = new()
+        {
+            new SpinnerValue{DisplayText = "I allow this member", ValueText = userInfo.User.Id},
+        };
+        base.OnInitialized();
+    }
+    void tsChanged(object o)
+    {
+        if (membership != null)
+            membership.TreasurerId = o?.ToString();
+    }
+
+    void psChanged(object o)
+    {
+        if (membership != null)
+            membership.PresidentId = o?.ToString();
+    }
+
+    private async Task saveToDb((string id, bool value) data, MembershipView context, string colName)
+    {
+        var db = new Db(config);
+        var member = db.Get<Membership>()
+                       .FirstOrDefault(x => x.AspNetUsersId == data.id);
+
+        if (!string.IsNullOrEmpty(member?.MembershipId))
+        {
+            switch (colName)
+            {
+                case "Treasurer":
+                    member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    break;
+                case "Secretary":
+                    member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    break;
+                case "President":
+                    member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    break;
+                default: break;
+            }
+
+            db.Save(member);
+            var result = db.Commit();
+
+            if (result.Success)
+            {
+                context.SecretaryId = member.SecretaryId;
+                RF.UI.Toaster.Success();
+            }
+        }
+        else
+        {
+            RF.UI.Toaster.Warning(Message:"User Not A Member!");
+        }
+        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
+    }
 
 }

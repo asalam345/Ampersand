@@ -1,0 +1,23 @@
+﻿@typeparam TItem
+@inherits CustomCheckboxRF<TItem>
+
+<div class="checkbox-rf">
+    @foreach (var item in OptionList)
+    {
+        var itemValue = ValueText(item);
+        var isChecked = Value?.Contains(itemValue) ?? false;
+        var uniqueId = $"chk_{MemberId}_{itemValue.GetHashCode()}";
+
+        <div class="form-check">
+            <input type="checkbox"
+                   class="form-check-input"
+                   id="@uniqueId"
+                   checked="@isChecked"
+                   @onchange="(e) => OnCheckboxChanged(e, itemValue)" />
+
+            <label class="form-check-label" for="@uniqueId">
+                @DisplayText(item)
+            </label>
+        </div>
+    }
+</div>

@@ -20,7 +20,7 @@ namespace Domain.Aggregates
         [Required]
         public string CurrentAddress { get; set; }
         [Required]
-        public int UnitPurchaseInformation { get; set; } = 1;
+        public int UnitPurchaseNo { get; set; } = 1;
         [Required]
         public DateTime PurchaseDate { get; set; } = DateTime.UtcNow;
 
@@ -66,7 +66,13 @@ namespace Domain.Aggregates
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedAt { get; set; }
+        private bool _isSecretaryApproved;
 
+        [NotMapped]
+        public bool IsSecretaryApproved
+        {
+            get => !string.IsNullOrEmpty(SecretaryId);
+        }
         public ICollection<WalletTransaction> WalletTransactions { get; set; }
         public ICollection<WalletAuditLog> WalletAuditLogs { get; set; }
     }
@@ -76,10 +82,9 @@ namespace Domain.Aggregates
         public string Id { get; set; } 
         public string FullName { get; set; }
         public string Email { get; set; }
-
         public string PhoneNumber { get; set; }
-
-        public int? Gender { get; set; }
+        public string Gender { get; set; }
+        public string Photo { get; set; }
 
         //public DateTime? CreateDate { get; set; }
 
@@ -88,17 +93,14 @@ namespace Domain.Aggregates
         //public DateTime? EditDate { get; set; }
 
         //public string EditBy { get; set; }
-
-        public string? Photo { get; set; }
-
         //public DateTime DOB { get; set; }
         public string NID { get; set; }
         //public string BloodGroup { get; set; }
         //public string BirthCertificate { get; set; }
         public string PermanentAddress { get; set; }
         public string CurrentAddress { get; set; }
-        public int UnitPurchaseInformation { get; set; }
-        public DateTime PurchaseDate { get; set; }
+        public int? UnitPurchaseNo { get; set; }
+        public DateTime? PurchaseDate { get; set; }
         public string MembershipId { get; set; }
         public DateTime? MembershipStartingDate { get; set; } 
         //public int AllocatedUnits { get; set; }
@@ -109,10 +111,18 @@ namespace Domain.Aggregates
         //public string CashReceiptNo { get; set; }
         //public bool MemberVarified { get; set; } 
         public string TreasurerId { get; set; }
+        public string Treasurer { get; set; }
         public DateTime? TreasurerReceivedDate { get; set; }
         public string SecretaryId { get; set; }
+        public string Secretary { get; set; }
+        [NotMapped]
+        public bool IsSecretaryApproved
+        {
+            get => !string.IsNullOrEmpty(SecretaryId);
+        }
         public DateTime? SecretaryReceivedDate { get; set; }
         public string PresidentId { get; set; }
+        public string President { get; set; }
         public DateTime? PresidentReceivedDate { get; set; }
         //public DateTime CreatedAt { get; set; } 
         //public DateTime? UpdatedAt { get; set; }
