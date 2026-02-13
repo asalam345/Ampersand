@@ -6,10 +6,32 @@
         height: auto;
         display: block;
     }
+
+    .table-rf.membership-table {
+        height: calc(100vh - 170px);
+    }
+    /* Style ENTIRE ROW based on child td class */
+    .membership-table tr:has(td.row-indicator-ok) {
+        background-color: #d4edda60 !important;
+        color: #155724 !important;
+        /* Add other row styles here */
+    }
+
+    .membership-table tr:has(td.row-indicator-red) {
+        background-color: #f8d7da60 !important;
+        color: #721c24 !important;
+        /* Add other row styles here */
+    }
+
+        /* Optional: Ensure action column inherits row style */
+        .membership-table tr:has(td.row-indicator-ok) td.table-rf-action,
+        .membership-table tr:has(td.row-indicator-red) td.table-rf-action {
+            background-color: inherit !important;
+        }
 </style>
 <PageRF Title="Ampersand" SubTitle="All Members">
     <PageHeaderRF></PageHeaderRF>
-    <TableRF Model="MembershipView" PageSize="5">
+    <TableRF Model="MembershipView" PageSize="10" Class="membership-table">
         <HeaderRowTemplate>
             <th>Membership ID</th>
             <th>Full Name & Info</th>
@@ -21,7 +43,7 @@
             <th>President</th>
         </HeaderRowTemplate>
         <BodyRowTemplate>
-            <td>
+            <td class="@(!string.IsNullOrEmpty(context.MembershipId) ? "row-indicator-ok" : "row-indicator-red")">
                 <img src="@context.Photo" alt="@context.MembershipId" />ID: @context.MembershipId
             </td>
             <td>@context.FullName <br /> <i class="fa-solid fa-envelope"></i> @context.Email<br /><i class="fa-solid fa-phone"></i> @context.PhoneNumber<br /> <i class="fa-solid fa-mars-and-venus"></i> @context.Gender</td>
@@ -40,7 +62,7 @@
             </td>
             <td>
                 @context.Secretary <br /> @context.SecretaryReceivedDate
-                @if (userInfo.Role.Name == "Secretary")
+                @if (userInfo.Role.Name == "Secretary" && !string.IsNullOrEmpty(context.TreasurerId) && context.TreasurerReceivedDate != null)
                 {
                     <MemberCheckbox Id="@context.Id"
                                     Label="@spinnerValue.DisplayText"
@@ -51,7 +73,7 @@
             </td>
             <td>
                 @context.President <br /> @context.PresidentReceivedDate
-                @if (userInfo.Role.Name == "President")
+                @if (userInfo.Role.Name == "President" && !string.IsNullOrEmpty(context.SecretaryId) && context.SecretaryReceivedDate != null)
                 {
                     <MemberCheckbox Id="@context.Id"
                                     Label="@spinnerValue.DisplayText"
@@ -59,6 +81,7 @@
                                     OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
                 }
             </td>
+            @* </div> *@
         </BodyRowTemplate>
     </TableRF>
 </PageRF>
@@ -97,16 +120,27 @@
 
         if (!string.IsNullOrEmpty(member?.MembershipId))
         {
+
             switch (colName)
             {
                 case "Treasurer":
-                    member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    member.TreasurerId = data.value ? userInfo.User.Id : null;
+                    member.TreasurerReceivedDate = data.value ? DateTime.UtcNow : null;
                     break;
                 case "Secretary":
                     member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    member.SecretaryReceivedDate = data.value ? DateTime.UtcNow : null;
                     break;
                 case "President":
-                    member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    member.PresidentId = data.value ? userInfo.User.Id : null;
+                    member.PresidentReceivedDate = data.value ? DateTime.UtcNow : null;
+                    member.MemberVarified = data.value;
+                    if (data.value)
+                    {
+                        var aspNetUserRole = db.Get<AspNetUserRoles>().First(x => x.UserId == data.id);
+                        aspNetUserRole.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730";
+                        db.Save(aspNetUserRole);
+                    }
                     break;
                 default: break;
             }
@@ -116,13 +150,29 @@
 
             if (result.Success)
             {
-                context.SecretaryId = member.SecretaryId;
+                if (data.value)
+                {
+                    switch (colName)
+                    {
+                        case "Treasurer":
+                            context.TreasurerId = member.TreasurerId;
+                            break;
+                        case "Secretary":
+                            context.SecretaryId = member.SecretaryId;
+                            break;
+                        case "President":
+                            context.PresidentId = member.PresidentId;
+                            break;
+                        default: break;
+                    }
+                }
+
                 RF.UI.Toaster.Success();
             }
         }
         else
         {
-            RF.UI.Toaster.Warning(Message:"User Not A Member!");
+            RF.UI.Toaster.Warning(Message: "User Not A Member!");
         }
         StateHasChanged();
         await InvokeAsync(StateHasChanged);

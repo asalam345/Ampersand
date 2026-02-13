@@ -108,46 +108,58 @@
     }
     async Task login()
     {
-        saveButtonClass = "button-rf loading";
-        db = new(config);
-        var userFromDb = db.Get<AspNetUsers>(x => x.Email == email || x.UserName == email || x.PhoneNumber == email).FirstOrDefault();
-        var options = new PasswordHasherOptions
+        try
         {
-            CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
-        };
+            saveButtonClass = "button-rf loading";
+            db = new(config);
+            var userFromDb = db.Get<AspNetUsers>(x => x.Email == email || x.UserName == email || x.PhoneNumber == email).FirstOrDefault();
+            var options = new PasswordHasherOptions
+            {
+                CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
+            };
 
-        var hasher = new PasswordHasher<AspNetUsers>(
-            Microsoft.Extensions.Options.Options.Create(options)
-        );
-        
-        
-        if (userFromDb == null)
-        {
-            RF.UI.Toaster.Warning("No user found!");
-            return;
-        }
-        if(userFromDb.PasswordHash == null)
-        {
-            RF.UI.Toaster.Warning("No user found!");
-            return;
-        }
-        
-        var result = hasher.VerifyHashedPassword(
-            userFromDb,
-            userFromDb!.PasswordHash!,
-            password
-        );
+            var hasher = new PasswordHasher<AspNetUsers>(
+                Microsoft.Extensions.Options.Options.Create(options)
+            );
 
-        if (result == PasswordVerificationResult.Success ||
-            result == PasswordVerificationResult.SuccessRehashNeeded)
-        {
-            await JS.InvokeVoidAsync("eval", $"document.getElementsByName('Email')[0].value='{userFromDb.UserName}';document.getElementsByName('Password')[0].value='{password}';document.getElementById('rf-login-form').submit()");
+
+            if (userFromDb == null)
+            {
+                RF.UI.Toaster.Warning(Message: "No user found!");
+                return;
+            }
+            if (userFromDb.PasswordHash == null)
+            {
+                RF.UI.Toaster.Warning(Message: "No user found!");
+                return;
+            }
+
+            var result = hasher.VerifyHashedPassword(
+                userFromDb,
+                userFromDb!.PasswordHash!,
+                password
+            );
+
+            if (result == PasswordVerificationResult.Success ||
+                result == PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                await JS.InvokeVoidAsync("eval", $"document.getElementsByName('Email')[0].value='{userFromDb.UserName}';document.getElementsByName('Password')[0].value='{password}';document.getElementById('rf-login-form').submit()");
+            }
+            else
+            {
+                RF.UI.Toaster.Warning(Message: "Password not match!");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            RF.UI.Toaster.Warning("Password not match!");
+            RF.UI.Toaster.Warning(Message: ex?.InnerException?.Message ?? ex?.Message ?? "An unexpected error occurred.");
         }
-        saveButtonClass = "button-rf log-button";
+        finally
+        {
+            saveButtonClass = "button-rf log-button";
+            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
 }
