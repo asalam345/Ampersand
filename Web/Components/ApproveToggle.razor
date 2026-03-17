@@ -1,0 +1,205 @@
+﻿<style>
+    .rf-switch {
+        position: relative;
+        display: inline-block;
+        width: 110px;
+        height: 34px;
+        font-family: sans-serif;
+    }
+
+        .rf-switch input {
+            display: none;
+        }
+
+    .rf-slider {
+        position: absolute;
+        inset: 0;
+        cursor: pointer;
+        background: #d9534f;
+        border-radius: 30px;
+        transition: .25s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+        .rf-slider.approved {
+            background: #28a745;
+        }
+
+    .rf-switch.loading {
+        opacity: .6;
+        pointer-events: none;
+    }
+
+    .rf-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid white;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin .7s linear infinite;
+        margin-left: 6px;
+    }
+
+    @@keyframes spin {
+        to
+
+    {
+        transform: rotate(360deg);
+    }
+
+    }
+
+    /* MODAL */
+    .rf-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .rf-modal {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 320px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.2);
+        animation: pop .2s ease;
+    }
+
+    @@keyframes pop {
+        from
+
+    {
+        transform: scale(.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    }
+
+    .rf-modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .rf-btn {
+        border: none;
+        padding: 6px 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+        .rf-btn.cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        .rf-btn.ok {
+            background: #007bff;
+            color: white;
+        }
+</style>
+
+
+<div class="rf-switch @(loading ? "loading" : "")">
+
+    <input type="checkbox"
+           checked="@currentValue"
+           @onclick="AskConfirm"
+           disabled="@loading" />
+
+    <div class="rf-slider @(currentValue ? "approved" : "")">
+        @(currentValue ? "Approved" : "Not Approved")
+
+        @if (loading)
+        {
+            <div class="rf-spinner"></div>
+        }
+    </div>
+</div>
+
+
+@if (showConfirm)
+{
+    <div class="rf-modal-backdrop">
+        <div class="rf-modal">
+            <div>@ConfirmMessage</div>
+
+            <div class="rf-modal-buttons">
+                <button class="rf-btn cancel" @onclick="Cancel">Cancel</button>
+                <button class="rf-btn ok" @onclick="Confirm">OK</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    [Parameter] public string Id { get; set; } = "";
+
+    [Parameter] public bool Value { get; set; }
+
+    [Parameter] public EventCallback<(string Id, bool Value)> OnValueChanged { get; set; }
+
+    [Parameter]
+    public string ConfirmMessage { get; set; }
+        = "Are you sure you want to change approval status?";
+
+    private bool currentValue;
+    private bool loading;
+    private bool showConfirm;
+    private bool pendingValue;
+
+    protected override void OnParametersSet()
+    {
+        if (!loading)
+            currentValue = Value;
+    }
+
+    private void AskConfirm(MouseEventArgs e)
+    {
+        pendingValue = !currentValue;
+        showConfirm = true;
+    }
+
+    private void Cancel()
+    {
+        showConfirm = false;
+    }
+
+    private async Task Confirm()
+    {
+        showConfirm = false;
+
+        // optimistic UI
+        currentValue = pendingValue;
+        loading = true;
+
+        StateHasChanged();
+
+        try
+        {
+            await OnValueChanged.InvokeAsync((Id, currentValue));
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+}

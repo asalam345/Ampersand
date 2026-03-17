@@ -51,12 +51,12 @@
             <td>@context.PermanentAddress</td>
             <td>@context.MembershipStartingDate</td>
             <td>
+                @* Label="@spinnerValue.DisplayText" *@
                 @context.Treasurer <br /> @context.TreasurerReceivedDate
                 @if (userInfo.Role.Name == "Treasurer")
                 {
                     <MemberCheckbox Id="@context.Id"
-                                    Label="@spinnerValue.DisplayText"
-                                    Value="@context.IsSecretaryApproved"
+                                    Value="@context.IsTreasurerApproved"
                                     OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
                 }
             </td>
@@ -65,7 +65,6 @@
                 @if (userInfo.Role.Name == "Secretary" && !string.IsNullOrEmpty(context.TreasurerId) && context.TreasurerReceivedDate != null)
                 {
                     <MemberCheckbox Id="@context.Id"
-                                    Label="@spinnerValue.DisplayText"
                                     Value="@context.IsSecretaryApproved"
                                     OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
 
@@ -76,8 +75,7 @@
                 @if (userInfo.Role.Name == "President" && !string.IsNullOrEmpty(context.SecretaryId) && context.SecretaryReceivedDate != null)
                 {
                     <MemberCheckbox Id="@context.Id"
-                                    Label="@spinnerValue.DisplayText"
-                                    Value="@context.IsSecretaryApproved"
+                                    Value="@context.IsPresidentApproved"
                                     OnValueChanged="@(data => saveToDb(data, context, userInfo.Role.Name))" />
                 }
             </td>
@@ -111,8 +109,7 @@
         if (membership != null)
             membership.PresidentId = o?.ToString();
     }
-
-    private async Task saveToDb((string id, bool value) data, MembershipView context, string colName)
+    async Task saveToDb((string id, bool value) data, MembershipView context, string colName)
     {
         var db = new Db(config);
         var member = db.Get<Membership>()
@@ -120,19 +117,37 @@
 
         if (!string.IsNullOrEmpty(member?.MembershipId))
         {
-
+            // ⭐ UPDATE CONTEXT FIRST (IMPORTANT)
             switch (colName)
             {
                 case "Treasurer":
-                    member.TreasurerId = data.value ? userInfo.User.Id : null;
+                    context.TreasurerId = data.value ? userInfo.User.Id : null;
+                    break;
+
+                case "Secretary":
+                    context.SecretaryId = data.value ? userInfo.User.Id : null;
+                    break;
+
+                case "President":
+                    context.PresidentId = data.value ? userInfo.User.Id : null;
+                    break;
+            }
+
+            // DB entity update
+            switch (colName)
+            {
+                case "Treasurer":
+                    member.TreasurerId = context.TreasurerId;
                     member.TreasurerReceivedDate = data.value ? DateTime.UtcNow : null;
                     break;
+
                 case "Secretary":
-                    member.SecretaryId = data.value ? userInfo.User.Id : null;
+                    member.SecretaryId = context.SecretaryId;
                     member.SecretaryReceivedDate = data.value ? DateTime.UtcNow : null;
                     break;
+
                 case "President":
-                    member.PresidentId = data.value ? userInfo.User.Id : null;
+                    member.PresidentId = context.PresidentId;
                     member.PresidentReceivedDate = data.value ? DateTime.UtcNow : null;
                     member.MemberVarified = data.value;
                     if (data.value)
@@ -142,7 +157,6 @@
                         db.Save(aspNetUserRole);
                     }
                     break;
-                default: break;
             }
 
             db.Save(member);
@@ -150,32 +164,78 @@
 
             if (result.Success)
             {
-                if (data.value)
-                {
-                    switch (colName)
-                    {
-                        case "Treasurer":
-                            context.TreasurerId = member.TreasurerId;
-                            break;
-                        case "Secretary":
-                            context.SecretaryId = member.SecretaryId;
-                            break;
-                        case "President":
-                            context.PresidentId = member.PresidentId;
-                            break;
-                        default: break;
-                    }
-                }
-
                 RF.UI.Toaster.Success();
             }
         }
-        else
-        {
-            RF.UI.Toaster.Warning(Message: "User Not A Member!");
-        }
-        StateHasChanged();
+
         await InvokeAsync(StateHasChanged);
     }
+
+    // async Task saveToDb((string id, bool value) data, MembershipView context, string colName)
+    // {
+    //     var db = new Db(config);
+    //     var member = db.Get<Membership>()
+    //                    .FirstOrDefault(x => x.AspNetUsersId == data.id);
+
+    //     if (!string.IsNullOrEmpty(member?.MembershipId))
+    //     {
+
+    //         switch (colName)
+    //         {
+    //             case "Treasurer":
+    //                 member.TreasurerId = data.value ? userInfo.User.Id : null;
+    //                 member.TreasurerReceivedDate = data.value ? DateTime.UtcNow : null;
+    //                 break;
+    //             case "Secretary":
+    //                 member.SecretaryId = data.value ? userInfo.User.Id : null;
+    //                 member.SecretaryReceivedDate = data.value ? DateTime.UtcNow : null;
+    //                 break;
+    //             case "President":
+    //                 member.PresidentId = data.value ? userInfo.User.Id : null;
+    //                 member.PresidentReceivedDate = data.value ? DateTime.UtcNow : null;
+    //                 member.MemberVarified = data.value;
+    //                 if (data.value)
+    //                 {
+    //                     var aspNetUserRole = db.Get<AspNetUserRoles>().First(x => x.UserId == data.id);
+    //                     aspNetUserRole.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730";
+    //                     db.Save(aspNetUserRole);
+    //                 }
+    //                 break;
+    //             default: break;
+    //         }
+
+    //         db.Save(member);
+    //         var result = db.Commit();
+
+    //         if (result.Success)
+    //         {
+    //             // if (data.value)
+    //             // {
+    //             switch (colName)
+    //             {
+    //                 case "Treasurer":
+    //                     context.TreasurerId = data.value ? userInfo.User.Id : null;
+    //                     break;
+
+    //                 case "Secretary":
+    //                     context.SecretaryId = data.value ? userInfo.User.Id : null;
+    //                     break;
+
+    //                 case "President":
+    //                     context.PresidentId = data.value ? userInfo.User.Id : null;
+    //                     break;
+    //             }
+
+    //             //}
+
+    //             RF.UI.Toaster.Success();
+    //         }
+    //     }
+    //     else
+    //     {
+    //         RF.UI.Toaster.Warning(Message: "User Not A Member!");
+    //     }
+    //     await InvokeAsync(StateHasChanged);
+    // }
 
 }

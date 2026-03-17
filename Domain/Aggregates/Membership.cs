@@ -112,6 +112,11 @@ namespace Domain.Aggregates
         //public bool MemberVarified { get; set; } 
         public string TreasurerId { get; set; }
         public string Treasurer { get; set; }
+        [NotMapped]
+        public bool IsTreasurerApproved
+        {
+            get => !string.IsNullOrEmpty(TreasurerId);
+        }
         public DateTime? TreasurerReceivedDate { get; set; }
         public string SecretaryId { get; set; }
         public string Secretary { get; set; }
@@ -123,6 +128,11 @@ namespace Domain.Aggregates
         public DateTime? SecretaryReceivedDate { get; set; }
         public string PresidentId { get; set; }
         public string President { get; set; }
+        [NotMapped]
+        public bool IsPresidentApproved
+        {
+            get => !string.IsNullOrEmpty(PresidentId);
+        }
         public DateTime? PresidentReceivedDate { get; set; }
         //public DateTime CreatedAt { get; set; } 
         //public DateTime? UpdatedAt { get; set; }
