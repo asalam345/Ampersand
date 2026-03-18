@@ -9,7 +9,7 @@ namespace Domain.Aggregates
     public class BankAccount : IModel
     {
         [Key]
-        public Guid BankAccountId { get; set; } = Guid.NewGuid();
+        public string BankAccountId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [StringLength(100)]

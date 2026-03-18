@@ -12,10 +12,10 @@ namespace Domain.Aggregates
     public class InvestmentResult:IModel
     {
         [Key]
-        public Guid ResultId { get; set; } = Guid.NewGuid();
+        public string ResultId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public Guid InvestmentId { get; set; }
+        public string InvestmentId { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

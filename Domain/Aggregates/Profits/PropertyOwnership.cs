@@ -8,13 +8,13 @@ namespace Domain.Aggregates.Profits
     public class PropertyOwnership : IModel
     {
         [Key]
-        public Guid PropertyOwnershipId { get; set; } = Guid.NewGuid();
+        public string PropertyOwnershipId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public Guid PropertyId { get; set; }
+        public string PropertyId { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(5,2)")]

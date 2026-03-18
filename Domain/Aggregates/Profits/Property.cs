@@ -13,7 +13,7 @@ namespace Domain.Aggregates
     public class Property:IModel
     {
         [Key]
-        public Guid PropertyId { get; set; } = Guid.NewGuid();
+        public string PropertyId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [StringLength(100)]

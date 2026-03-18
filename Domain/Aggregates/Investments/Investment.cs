@@ -3,16 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Aggregates
 {
-    public class Investment:IModel
+    public class Investment : IModel
     {
         [Key]
-        public Guid InvestmentId { get; set; } = Guid.NewGuid();
+        public string InvestmentId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [StringLength(50)]
@@ -45,5 +42,5 @@ namespace Domain.Aggregates
         public ICollection<ProfitDistribution> ProfitDistributions { get; set; }
     }
 
-    
+
 }

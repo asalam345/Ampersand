@@ -9,10 +9,10 @@ namespace Domain.Aggregates
     public class BankTransaction : IModel
     {
         [Key]
-        public Guid BankTransactionId { get; set; } = Guid.NewGuid();
+        public string BankTransactionId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public Guid BankAccountId { get; set; }
+        public string BankAccountId { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -26,7 +26,7 @@ namespace Domain.Aggregates
         [StringLength(50)]
         public string ReferenceSource { get; set; } // Wallet, Investment
 
-        public Guid? ReferenceId { get; set; }
+        public string ReferenceId { get; set; }
 
         [StringLength(500)]
         public string Remarks { get; set; }

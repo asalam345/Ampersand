@@ -7,9 +7,9 @@ namespace Domain.Aggregates
     public class AuditLog : IModel
     {
         [Key]
-        public Guid AuditLogId { get; set; } = Guid.NewGuid();
+        public string AuditLogId { get; set; } = Guid.NewGuid().ToString();
 
-        public Guid? UserId { get; set; }
+        public string? UserId { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -19,7 +19,7 @@ namespace Domain.Aggregates
         [StringLength(100)]
         public string EntityName { get; set; }
 
-        public Guid? EntityId { get; set; }
+        public string EntityId { get; set; }
 
         public string OldValue { get; set; }
 

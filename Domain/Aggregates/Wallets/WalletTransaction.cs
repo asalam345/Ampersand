@@ -8,7 +8,7 @@ namespace Domain.Aggregates
     public class WalletTransaction : IModel
     {
         [Key]
-        public Guid TransactionId { get; set; } = Guid.NewGuid();
+        public string TransactionId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string MembershipId { get; set; }
@@ -18,7 +18,7 @@ namespace Domain.Aggregates
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Amount { get; set; }
+        public decimal Amount { get; set; } = 1000;
 
         [Required]
         public int TransactionTypeId { get; set; }// Deposit, Withdraw, Profit, Loss
@@ -41,7 +41,7 @@ namespace Domain.Aggregates
         public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
 
         //public string? RequestedBy { get; set; } // UserId (if user initiated)
-        public Guid? ApprovedBy { get; set; } // AdminId
+        public string ApprovedBy { get; set; } // AdminId
         public DateTime? ApprovedAt { get; set; }
 
         // Navigation property

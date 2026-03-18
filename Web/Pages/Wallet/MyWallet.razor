@@ -3,17 +3,40 @@
     .table-rf{
         padding:0 10px;
     }
+
+    .my-wallet-container {
+        display: flex;
+        gap: 10px;
+        height: auto;
+    }
+
+        .my-wallet-container .my-wallet-wrapper {
+        flex: 1 1 760px;
+        background-color: #fff;
+        padding: 5px 0 0;
+        border-radius: 10px;
+        background: linear-gradient(260deg, #6a11cb, #2575fc), white;
+        background-clip: padding-box, border-box;
+        height: 90%;
+    }
+    .my-wallet-form{
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+        .my-wallet-form .textarea-rf{
+            width:100%;
+        }
 </style>
 <PageRF Title="My Wallets" SubTitle="">
     <PageHeaderRF>
         <Actions></Actions>
     </PageHeaderRF>
-    <div style="display:flex;gap:10px;height:auto;">
-        <div style="flex:1 1 760px;background-color:#fff;padding:5px 0 0;border-radius: 10px;
-    background: linear-gradient(260deg, #6a11cb, #2575fc), white;
-    background-clip: padding-box, border-box;height:90%;">
+    <div class="my-wallet-container">
+        <div class="my-wallet-wrapper">
             @* OnAfterSave="@RF.UI.Events.Back" *@
-            <FormRF @bind-Data="model" @bind-form=formRF style="padding:10px;background-color:#fff;border-radius:10px;">
+            <FormRF @bind-Data="model" @bind-form=formRF class="my-wallet-form">
                 <RowRF>
                     <ColRF Span="6">
                         <SelectRF @bind-Value="context.TransactionTypeId"
@@ -43,7 +66,7 @@
                     </ColRF>
                    
                     <ColRF Span="12">
-                        <FormButtons FormObj="@formRF" Save="@save" OnBeforeSave="beforeSave"></FormButtons>
+                        <FormButtons FormObj="@formRF" OnBeforeSave="beforeSave"></FormButtons>
                     </ColRF>
                 </RowRF>
             </FormRF>
@@ -75,16 +98,16 @@
         db = new(config);
         base.OnInitialized();
     }
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        formRF.Data.PaymentTypeId = 1;
-        formRF.Data.TransactionTypeId = 0;
-        return base.OnAfterRenderAsync(firstRender);
-    }
+    // protected override Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     formRF.Data.PaymentTypeId = 1;
+    //     formRF.Data.TransactionTypeId = 0;
+    //     return base.OnAfterRenderAsync(firstRender);
+    // }
     async Task<WalletTransaction?> beforeSave(WalletTransaction model)
     {
         db = new(config);
-        var membershipId = db.Get<Membership>().Where(c => c.AspNetUsersId == userInfo.User.Id).Select(x => x.MembershipId).SingleOrDefault();
+        var membershipId = db.Get<Membership>().Where(c => c.MembershipId == userInfo.User.Id).Select(x => x.MembershipId).SingleOrDefault();
         if (membershipId == null)
         {
             RF.UI.Toaster.Info("Membership not found for the user.");
@@ -96,9 +119,9 @@
         return model;
     }
     
-    void save()
-    {
-        db.Save(formRF.Data);
-        var result = db.Commit();
-    }
+    // void save()
+    // {
+    //     db.Save(formRF.Data);
+    //     var result = db.Commit();
+    // }
 }

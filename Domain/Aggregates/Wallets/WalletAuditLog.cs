@@ -8,7 +8,7 @@ namespace Domain.Aggregates
     public class WalletAuditLog : IModel
     {
         [Key]
-        public Guid AuditId { get; set; } = Guid.NewGuid();
+        public string AuditId { get; set; } = Guid.NewGuid().ToString();
 
         public string MembershipId { get; set; }
 
@@ -21,7 +21,7 @@ namespace Domain.Aggregates
         [Column(TypeName = "decimal(18,2)")]
         public decimal? NewBalance { get; set; }
 
-        public Guid? PerformedBy { get; set; }
+        public string PerformedBy { get; set; }
 
         public DateTime PerformedAt { get; set; } = DateTime.UtcNow;
 

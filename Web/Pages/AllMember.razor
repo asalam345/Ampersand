@@ -113,9 +113,9 @@
     {
         var db = new Db(config);
         var member = db.Get<Membership>()
-                       .FirstOrDefault(x => x.AspNetUsersId == data.id);
+                       .FirstOrDefault(x => x.MembershipId == data.id);
 
-        if (!string.IsNullOrEmpty(member?.MembershipId))
+        if (!string.IsNullOrEmpty(member?.MembershipNo))
         {
             // ⭐ UPDATE CONTEXT FIRST (IMPORTANT)
             switch (colName)
@@ -152,7 +152,8 @@
                     member.MemberVarified = data.value;
                     if (data.value)
                     {
-                        var aspNetUserRole = db.Get<AspNetUserRoles>().First(x => x.UserId == data.id);
+                        //var aspNetUserRole = db.Get<AspNetUserRoles>().First(x => x.UserId == data.id);
+                        var aspNetUserRole = db.Get<ApplicationUserRole>().First(x => x.UserId == data.id);
                         aspNetUserRole.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730";
                         db.Save(aspNetUserRole);
                     }
@@ -170,72 +171,4 @@
 
         await InvokeAsync(StateHasChanged);
     }
-
-    // async Task saveToDb((string id, bool value) data, MembershipView context, string colName)
-    // {
-    //     var db = new Db(config);
-    //     var member = db.Get<Membership>()
-    //                    .FirstOrDefault(x => x.AspNetUsersId == data.id);
-
-    //     if (!string.IsNullOrEmpty(member?.MembershipId))
-    //     {
-
-    //         switch (colName)
-    //         {
-    //             case "Treasurer":
-    //                 member.TreasurerId = data.value ? userInfo.User.Id : null;
-    //                 member.TreasurerReceivedDate = data.value ? DateTime.UtcNow : null;
-    //                 break;
-    //             case "Secretary":
-    //                 member.SecretaryId = data.value ? userInfo.User.Id : null;
-    //                 member.SecretaryReceivedDate = data.value ? DateTime.UtcNow : null;
-    //                 break;
-    //             case "President":
-    //                 member.PresidentId = data.value ? userInfo.User.Id : null;
-    //                 member.PresidentReceivedDate = data.value ? DateTime.UtcNow : null;
-    //                 member.MemberVarified = data.value;
-    //                 if (data.value)
-    //                 {
-    //                     var aspNetUserRole = db.Get<AspNetUserRoles>().First(x => x.UserId == data.id);
-    //                     aspNetUserRole.RoleId = "6b49feb2-7488-4356-90ac-a345e9feb730";
-    //                     db.Save(aspNetUserRole);
-    //                 }
-    //                 break;
-    //             default: break;
-    //         }
-
-    //         db.Save(member);
-    //         var result = db.Commit();
-
-    //         if (result.Success)
-    //         {
-    //             // if (data.value)
-    //             // {
-    //             switch (colName)
-    //             {
-    //                 case "Treasurer":
-    //                     context.TreasurerId = data.value ? userInfo.User.Id : null;
-    //                     break;
-
-    //                 case "Secretary":
-    //                     context.SecretaryId = data.value ? userInfo.User.Id : null;
-    //                     break;
-
-    //                 case "President":
-    //                     context.PresidentId = data.value ? userInfo.User.Id : null;
-    //                     break;
-    //             }
-
-    //             //}
-
-    //             RF.UI.Toaster.Success();
-    //         }
-    //     }
-    //     else
-    //     {
-    //         RF.UI.Toaster.Warning(Message: "User Not A Member!");
-    //     }
-    //     await InvokeAsync(StateHasChanged);
-    // }
-
 }

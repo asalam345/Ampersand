@@ -1,5 +1,4 @@
 ﻿using RapidFireLib.Lib.Core;
-using RapidFireLib.View.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +9,8 @@ namespace Domain.Aggregates
     public class Membership : IModel//mainly this is the extended class of AspNetUsers
     {
         [Key]
-        public string AspNetUsersId { get; set; }
+        public string MembershipId { get; set; }
+        public string MembershipNo { get; set; }//WalletId/phonenumber unique id that people can say plz check my account by providing this id
         public DateTime DOB { get; set; } = DateTime.UtcNow.AddYears(-18);
         public string NID { get; set; }
         public string BloodGroup { get; set; }
@@ -35,15 +35,15 @@ namespace Domain.Aggregates
 
 
         //To be filled by Ampersand Officials :
-        
+
         //auto suggested id
-        public string MembershipId { get; set; }//WalletId/phonenumber unique id that people can say plz check my account by providing this id
+        
         //public string UserId { get; set; }//as same as AspNetUsers's Id so the AspNetUsers's Id and this Key are same
         public DateTime? MembershipStartingDate { get; set; } = DateTime.UtcNow;
         public int AllocatedUnits { get; set; }
         //[Column(TypeName = "decimal(18,2)")]
         public double? InitialDeposit { get; set; } = 0;//Balance { get; set; } = 0;
-        public DateTime? ReceivedDate  { get; set; }
+        public DateTime? ReceivedDate { get; set; }
         public double? MonthlySubscriptionFee { get; set; }
         public string Cheque { get; set; }
         public string CashReceiptNo { get; set; }
@@ -76,33 +76,24 @@ namespace Domain.Aggregates
         public ICollection<WalletTransaction> WalletTransactions { get; set; }
         public ICollection<WalletAuditLog> WalletAuditLogs { get; set; }
     }
-    public class MembershipView: IModel
+    public class MembershipView : IModel
     {
         [Key]
-        public string Id { get; set; } 
+        public string Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Gender { get; set; }
         public string Photo { get; set; }
 
-        //public DateTime? CreateDate { get; set; }
-
-        //public string CreateBy { get; set; }
-
-        //public DateTime? EditDate { get; set; }
-
-        //public string EditBy { get; set; }
-        //public DateTime DOB { get; set; }
+        
         public string NID { get; set; }
-        //public string BloodGroup { get; set; }
-        //public string BirthCertificate { get; set; }
         public string PermanentAddress { get; set; }
         public string CurrentAddress { get; set; }
         public int? UnitPurchaseNo { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public string MembershipId { get; set; }
-        public DateTime? MembershipStartingDate { get; set; } 
+        public DateTime? MembershipStartingDate { get; set; }
         //public int AllocatedUnits { get; set; }
         //public double? InitialDeposit { get; set; } 
         //public DateTime? ReceivedDate { get; set; }

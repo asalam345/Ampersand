@@ -8,13 +8,13 @@ namespace Domain.Aggregates
     public class ProfitDistribution : IModel
     {
         [Key]
-        public Guid DistributionId { get; set; } = Guid.NewGuid();
+        public string DistributionId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public Guid InvestmentId { get; set; }
+        public string InvestmentId { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

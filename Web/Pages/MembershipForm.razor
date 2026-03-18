@@ -179,7 +179,7 @@
                     <b>To be filled by Ampersand Officials :</b>
                 </ColRF>
                 <ColRF Span="4" Class="membership-form-line">
-                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Membership ID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.MembershipId" Placeholder="Unit Purchase Information" />
+                    <span class="membership-form-line-label"><span class="membership-form-line-label-title">Membership ID</span> <span class="label-collon">:</span></span><InputRF @bind-Value="context.MembershipNo" Placeholder="Unit Purchase Information" />
                 </ColRF>
                 <ColRF Span="8" Class="membership-form-line">
                     <span class="membership-form-line-label"><span class="membership-form-line-label-title large">Membership Starting Date</span> <span class="label-collon">:</span></span>
@@ -266,7 +266,7 @@
     {
         db = new Db(config);
         userData = db.Get<AspNetUsers>(x => x.Id == userInfo.User.Id).First();
-        membership = db.Get<Membership>(x => x.AspNetUsersId == userInfo.User.Id).FirstOrDefault() ?? new();
+        membership = db.Get<Membership>(x => x.MembershipId == userInfo.User.Id).FirstOrDefault() ?? new();
         bloodGroupList = new()
         {
             new SpinnerValue{DisplayText = "A+", ValueText = "A+"},
@@ -304,13 +304,13 @@
     {
         db = new Db(config);
         var userAccountNummber = db.Get<AspNetUsers>(x => x.PhoneNumber == userData.PhoneNumber).ToList().Count;
-        m.MembershipId = userData.PhoneNumber + (userAccountNummber - 1).ToString();
-        m.AspNetUsersId = userData.Id;
+        m.MembershipNo = userData.PhoneNumber + (userAccountNummber - 1).ToString();
+        m.MembershipId = userData.Id;
         return m;
     }
     void save()
     {
-        formRF.Data!.AspNetUsersId = userInfo.User.Id;
+        formRF.Data!.MembershipId = userInfo.User.Id;
         db = new Db(config);
         db.Save(userData);
         db.Save(formRF.Data);
