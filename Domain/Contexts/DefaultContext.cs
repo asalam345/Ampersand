@@ -1,5 +1,4 @@
 ﻿using Domain.Aggregates;
-using Domain.Aggregates.Profits;
 using Microsoft.EntityFrameworkCore;
 using RapidFireLib.Lib.Core;
 using RapidFireLib.Models;
@@ -20,19 +19,23 @@ namespace Domain.Contexts
         public DbSet<Unions> Unions { get; set; }
         public DbSet<Village> Village { get; set; }
         //public DbSet<Wallet> Wallet { get; set; }
-        public DbSet<WalletTransaction> WalletTransaction { get; set; }
-        public DbSet<WalletAuditLog> WalletAuditLog { get; set; }
         public DbSet<BankAccount> BankAccount { get; set; }
         public DbSet<BankTransaction> BankTransaction { get; set; }
         public DbSet<Investment> Investment { get; set; }
         public DbSet<InvestmentResult> InvestmentResult { get; set; }
+        public DbSet<Membership> Membership { get; set; }
+        public DbSet<MembershipView> MembershipView { get; set; }
+        public DbSet<MemberWalletView> MemberWalletView { get; set; }
+        
+        
         public DbSet<ProfitDistribution> ProfitDistribution { get; set; }
         public DbSet<Property> Property { get; set; }
         public DbSet<PropertyOwnership> PropertyOwnership { get; set; }
         public DbSet<PaymentType> PaymentType { get; set; }
-        public DbSet<TransactionType> TransactionType { get; set; }
         public DbSet<Register> Register { get; set; }
-        public DbSet<Membership> Membership { get; set; }
-        public DbSet<MembershipView> MembershipView { get; set; }
+        public DbSet<TransactionType> TransactionType { get; set; }
+        
+        public DbSet<WalletTransaction> WalletTransaction { get; set; }
+        public DbSet<WalletAuditLog> WalletAuditLog { get; set; }
     }
 }

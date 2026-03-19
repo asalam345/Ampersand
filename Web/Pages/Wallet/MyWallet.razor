@@ -1,7 +1,7 @@
 ﻿@page "/my-wallet"
 <style>
-    .table-rf{
-        padding:0 10px;
+    .table-rf {
+        padding: 0 10px;
     }
 
     .my-wallet-container {
@@ -11,22 +11,23 @@
     }
 
         .my-wallet-container .my-wallet-wrapper {
-        flex: 1 1 760px;
-        background-color: #fff;
-        padding: 5px 0 0;
-        border-radius: 10px;
-        background: linear-gradient(260deg, #6a11cb, #2575fc), white;
-        background-clip: padding-box, border-box;
-        height: 90%;
-    }
-    .my-wallet-form{
+            flex: 0 1 760px;
+            background-color: #fff;
+            padding: 5px 0 0;
+            border-radius: 10px;
+            background: linear-gradient(260deg, #6a11cb, #2575fc), white;
+            background-clip: padding-box, border-box;
+            height: 90%;
+        }
+
+    .my-wallet-form {
         padding: 10px;
         background-color: #fff;
         border-radius: 10px;
     }
 
-        .my-wallet-form .textarea-rf{
-            width:100%;
+        .my-wallet-form .textarea-rf {
+            width: 100%;
         }
 </style>
 <PageRF Title="My Wallets" SubTitle="">
@@ -62,29 +63,41 @@
                         <TextareaRF @bind-Value="context.Remarks" Label="Remarks" />
                     </ColRF>
                     <ColRF Span="12">
-                        <ImageUploaderRF @bind-Value="context.Image"/>
+                        <ImageUploaderRF @bind-Value="context.Image" />
                     </ColRF>
-                   
-                    <ColRF Span="12">
-                        <FormButtons FormObj="@formRF" OnBeforeSave="beforeSave"></FormButtons>
-                    </ColRF>
+
+
                 </RowRF>
             </FormRF>
+            <RowRF>
+                <ColRF Span="12" Style="background-color:#fff;">
+                    <FormButtons FormObj="@formRF" Save="save"></FormButtons>
+                </ColRF>
+            </RowRF>
         </div>
-        <TableRF Model="WalletTransaction">
-            <HeaderRowTemplate>
-                <td>Amount</td>
-                <td>Transaction Type</td>
-                <td>Payment Type</td>
-                <td>Created At</td>
-            </HeaderRowTemplate>
-            <BodyRowTemplate>
-                <td>@context.Amount</td>
-                <td>@context.TransactionTypeId</td>
-                <td>@context.PaymentTypeId</td>
-                <td>@context.CreatedAt</td>
-            </BodyRowTemplate>
-        </TableRF>
+        <div style="flex:auto;display:flex;flex-direction:column;gap:20px;">
+            <RowRF style="font-size:18px;font-weight:600;padding: 10px;">
+                <ColRF Span="6">Diposit: <span style="color:#111;font-weight:400;font-size:20px;">@deposited</span></ColRF>
+                <ColRF Span="6">Received: <span style="color:#111;font-weight:400;font-size:20px;">@recieved</span></ColRF>
+                <ColRF Span="6">Last Diposited: <span style="color:#111;font-weight:400;font-size:20px;">@lastDepositedDate?.ToString("dd MMM, yyyy")</span></ColRF>
+                <ColRF Span="6">Last Received: <span style="color:#111;font-weight:400;font-size:20px;">@(lastRecievedDate?.ToString("dd MMM, yyyy") ?? "Not Received Yet")</span></ColRF>
+                <ColRF Span="6"></ColRF>
+            </RowRF>
+            <TableRF Model="MemberWalletView" EditModel=typeof(WalletTransaction) Filter="x => (x.MembershipId == userInfo.User.Id || x.UserId == userInfo.User.Id) && x.ApprovedAt == null">
+                <HeaderRowTemplate>
+                    <td>Amount</td>
+                    <td>Transaction Type</td>
+                    <td>Payment Type</td>
+                    <td>Created At</td>
+                </HeaderRowTemplate>
+                <BodyRowTemplate>
+                    <td>@context.Amount</td>
+                    <td>@context.TransactionTypeName</td>
+                    <td>@context.PaymentTypeName</td>
+                    <td>@context.CreatedAt.ToString("dd MMM, yyyy")</td>
+                </BodyRowTemplate>
+            </TableRF>
+        </div>
     </div>
 </PageRF>
 
@@ -92,36 +105,58 @@
     WalletTransaction model { get; set; } = new();
     FormRF<WalletTransaction> formRF = null!;
     Db db = null!;
+    decimal deposited { get; set; } = 0;
+    decimal recieved { get; set; } = 0;
+    DateTime? lastDepositedDate { get; set; }
+    DateTime? lastRecievedDate { get; set; }
+
 
     protected override void OnInitialized()
     {
         db = new(config);
+        var a = db.Get<MemberWalletView>(x => (x.MembershipId == userInfo.User.Id || x.UserId == userInfo.User.Id) && x.ApprovedAt == null).ToList();
+        myInfo();
         base.OnInitialized();
     }
-    // protected override Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     formRF.Data.PaymentTypeId = 1;
-    //     formRF.Data.TransactionTypeId = 0;
-    //     return base.OnAfterRenderAsync(firstRender);
-    // }
-    async Task<WalletTransaction?> beforeSave(WalletTransaction model)
+
+    void save()
+    {
+        try
+        {
+            db = new(config);
+
+            var membershipId = db.Get<Membership>().Where(c => c.MembershipId == userInfo.User.Id).Select(x => x.MembershipId).SingleOrDefault();
+            if (membershipId == null)
+            {
+                RF.UI.Toaster.Info("Membership not found for the user.");
+                return;
+            }
+            model.UserId = userInfo.User.Id;
+            model.MembershipId = membershipId;
+
+            db.Save(model);
+            var result = db.Commit();
+            if (result.Success)
+                RF.UI.Toaster.Success(Message: "Wallet transaction saved successfully.");
+            else RF.UI.Toaster.Warning(Message: "Failed to save wallet transaction.");
+
+            myInfo();
+            formRF.Reset();
+        }
+        catch (Exception ex)
+        {
+            RF.UI.Toaster.Error(Message: ex.InnerException?.Message ?? ex.Message);
+        }
+
+    }
+    void myInfo()
     {
         db = new(config);
-        var membershipId = db.Get<Membership>().Where(c => c.MembershipId == userInfo.User.Id).Select(x => x.MembershipId).SingleOrDefault();
-        if (membershipId == null)
-        {
-            RF.UI.Toaster.Info("Membership not found for the user.");
-            return null;
-        }
-        model.UserId = userInfo.User.Id;
-        model.MembershipId = membershipId;
-        await Task.CompletedTask; // Add any async operations if needed
-        return model;
+        var myWallet = db.Get<WalletTransaction>(x => x.UserId == userInfo.User.Id).ToList();
+        deposited = myWallet.Sum(x => x.Amount);
+        lastDepositedDate = myWallet.OrderByDescending(x => x.CreatedAt).FirstOrDefault()?.CreatedAt;
+        recieved = myWallet.Where(x => x.ApprovedAt != null).Sum(x => x.Amount);
+        lastRecievedDate = myWallet.OrderByDescending(x => x.ApprovedAt).FirstOrDefault()?.ApprovedAt;
     }
     
-    // void save()
-    // {
-    //     db.Save(formRF.Data);
-    //     var result = db.Commit();
-    // }
 }

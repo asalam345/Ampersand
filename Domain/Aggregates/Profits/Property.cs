@@ -1,16 +1,12 @@
-﻿using Domain.Aggregates.Profits;
-using RapidFireLib.Lib.Core;
+﻿using RapidFireLib.Lib.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Aggregates
 {
-    public class Property:IModel
+    public class Property : IModel
     {
         [Key]
         public string PropertyId { get; set; } = Guid.NewGuid().ToString();

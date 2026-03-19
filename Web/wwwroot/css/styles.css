@@ -135,3 +135,13 @@ hr.top {
     display: flex;
     gap: 10px;
 }
+.table-rf-tbl table thead {
+    background-color: #859bbc80;
+    
+    color: #536a9d !important;
+    font-size:16px;
+    font-weight:700;
+}
+    .table-rf-tbl table thead tr td {
+        padding: 10px;
+    }

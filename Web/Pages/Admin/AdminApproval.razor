@@ -1,5 +1,22 @@
 ﻿@page "/admin-approval"
-<h3>AdminApproval</h3>
+<TableRF Model="MemberWalletView" EditModel=typeof(WalletTransaction)>
+    <HeaderRowTemplate>
+        <td>Member</td>
+        <td>Member No</td>
+        <td>Amount</td>
+        <td>Transaction Type</td>
+        <td>Payment Type</td>
+        <td>Created At</td>
+    </HeaderRowTemplate>
+    <BodyRowTemplate>
+        <td>@context.FullName</td>
+        <td>@context.MembershipNo</td>
+        <td>@context.Amount</td>
+        <td>@context.TransactionTypeName</td>
+        <td>@context.PaymentTypeName</td>
+        <td>@context.CreatedAt.ToString("dd MMM, yyyy")</td>
+    </BodyRowTemplate>
+</TableRF>
 
 @code {
 
