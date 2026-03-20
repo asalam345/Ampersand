@@ -1,0 +1,57 @@
+﻿.table-rf img {
+    max-width: 40px;
+    height: auto;
+    display: block;
+}
+
+.table-rf.membership-table {
+    height: calc(100vh - 170px);
+}
+/* Style ENTIRE ROW based on child td class */
+.membership-table tr:has(td.row-indicator-ok) {
+    background-color: #d4edda40 !important;
+    color: #155724 !important;
+    /* Add other row styles here */
+}
+
+.membership-table tr:has(td.row-indicator-red) {
+    background-color: #f8d7da40 !important;
+    color: #721c24 !important;
+    /* Add other row styles here */
+}
+
+    /* Optional: Ensure action column inherits row style */
+    .membership-table tr:has(td.row-indicator-ok) td.table-rf-action,
+    .membership-table tr:has(td.row-indicator-red) td.table-rf-action {
+        background-color: inherit !important;
+    }
+
+.table-rf {
+    padding: 0 10px;
+}
+
+.my-wallet-container {
+    display: flex;
+    gap: 10px;
+    height: auto;
+}
+
+    .my-wallet-container .my-wallet-wrapper {
+        flex: 0 1 760px;
+        background-color: #fff;
+        padding: 5px 0 0;
+        border-radius: 10px;
+        background: linear-gradient(260deg, #6a11cb, #2575fc), white;
+        background-clip: padding-box, border-box;
+        height: 90%;
+    }
+
+.my-wallet-form {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+    .my-wallet-form .textarea-rf {
+        width: 100%;
+    }

@@ -1,34 +1,5 @@
 ﻿@page "/members"
-@using static Web.Components.MemberCheckbox
-<style>
-    img {
-        max-width: 40px;
-        height: auto;
-        display: block;
-    }
 
-    .table-rf.membership-table {
-        height: calc(100vh - 170px);
-    }
-    /* Style ENTIRE ROW based on child td class */
-    .membership-table tr:has(td.row-indicator-ok) {
-        background-color: #d4edda40 !important;
-        color: #155724 !important;
-        /* Add other row styles here */
-    }
-
-    .membership-table tr:has(td.row-indicator-red) {
-        background-color: #f8d7da40 !important;
-        color: #721c24 !important;
-        /* Add other row styles here */
-    }
-
-        /* Optional: Ensure action column inherits row style */
-        .membership-table tr:has(td.row-indicator-ok) td.table-rf-action,
-        .membership-table tr:has(td.row-indicator-red) td.table-rf-action {
-            background-color: inherit !important;
-        }
-</style>
 <PageRF Title="Ampersand" SubTitle="All Members">
     <PageHeaderRF></PageHeaderRF>
     <TableRF Model="MembershipView" PageSize="10" Class="membership-table">
@@ -44,7 +15,7 @@
         </HeaderRowTemplate>
         <BodyRowTemplate>
             <td class="@(!string.IsNullOrEmpty(context.MembershipId) ? "row-indicator-ok" : "row-indicator-red")">
-                <img src="@context.Photo" alt="@context.MembershipId" />ID: @context.MembershipId
+                <img src="@context.Photo" alt="@context.MembershipId" />Member No.: @context.MembershipNo
             </td>
             <td>@context.FullName <br /> <i class="fa-solid fa-envelope"></i> @context.Email<br /><i class="fa-solid fa-phone"></i> @context.PhoneNumber<br /> <i class="fa-solid fa-mars-and-venus"></i> @context.Gender</td>
             <td>@context.CurrentAddress</td>

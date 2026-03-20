@@ -1,6 +1,7 @@
 ﻿using RapidFireLib.Lib.Core;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Aggregates
 {
@@ -30,6 +31,12 @@ namespace Domain.Aggregates
         public string Status { get; set; }
         public string ApprovedBy { get; set; } // AdminId
         public DateTime? ApprovedAt { get; set; }
+     
+        [NotMapped]
+        public bool IsApproved
+        {
+            get => ApprovedAt != null;
+        }
         public string FullName { get; set; }
         public int Gender { get; set; }
         public string UserGender => Gender == 1 ? "Male" : Gender == 2 ? "Female" : "Others";

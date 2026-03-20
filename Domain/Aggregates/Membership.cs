@@ -93,6 +93,7 @@ namespace Domain.Aggregates
         public int? UnitPurchaseNo { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public string MembershipId { get; set; }
+        public string MembershipNo { get; set; }
         public DateTime? MembershipStartingDate { get; set; }
         //public int AllocatedUnits { get; set; }
         //public double? InitialDeposit { get; set; } 

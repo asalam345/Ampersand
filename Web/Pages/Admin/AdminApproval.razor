@@ -1,5 +1,6 @@
 ﻿@page "/admin-approval"
-<TableRF Model="MemberWalletView" EditModel=typeof(WalletTransaction)>
+
+<TableRF @ref=tableRF Model="MemberWalletView" EditModel=typeof(WalletTransaction) Class="membership-table">
     <HeaderRowTemplate>
         <td>Member</td>
         <td>Member No</td>
@@ -7,17 +8,73 @@
         <td>Transaction Type</td>
         <td>Payment Type</td>
         <td>Created At</td>
+        <td>Approved At</td>
     </HeaderRowTemplate>
     <BodyRowTemplate>
-        <td>@context.FullName</td>
+        <td class="@(context.ApprovedAt != null ? "row-indicator-ok" : "row-indicator-red")">@context.FullName</td>
         <td>@context.MembershipNo</td>
         <td>@context.Amount</td>
         <td>@context.TransactionTypeName</td>
         <td>@context.PaymentTypeName</td>
         <td>@context.CreatedAt.ToString("dd MMM, yyyy")</td>
+        <td>
+            @context.ApprovedAt
+            <br/>
+            <MemberCheckbox Id="@context.TransactionId"
+                                Value="@context.IsApproved"
+                                OnValueChanged="@(data => saveToDb(data, context))" />
+            
+        </td>
+       
     </BodyRowTemplate>
 </TableRF>
 
 @code {
+    TableRF<MemberWalletView> tableRF = null!;
+    async Task saveToDb((string id, bool value) data, MemberWalletView context)
+    {
+        var db = new Db(config);
+        var transaction = db.Get<WalletTransaction>()
+                       .FirstOrDefault(x => x.TransactionId == context.TransactionId);
 
+
+
+        if (transaction != null)
+        {
+            if (!data.value)
+            {
+                RF.UI.Dialog.Delete(async OnResult =>
+                 {
+                     if (OnResult)
+                     {
+                         transaction.ApprovedBy = null;
+                         transaction.ApprovedAt = null;
+                         transaction.Status = "Pending";
+                         await changeDb(transaction);
+                     }
+                 });
+            }
+            else
+            {
+                transaction.ApprovedBy = userInfo.User.Id;
+                transaction.ApprovedAt = DateTime.UtcNow;
+                transaction.Status = "Approved";
+                await changeDb(transaction);
+            }
+
+        }
+        else RF.UI.Toaster.Warning("Data has already deleted!");//Data not found
+        
+    }
+    async Task changeDb(WalletTransaction transaction)
+    {
+        var db = new Db(config);
+        db.Save(transaction);
+        var result = db.Commit();
+
+        if (result.Success) RF.UI.Toaster.Success();
+        else RF.UI.Toaster.Warning();// Show warning if commit failed
+        tableRF.Refresh();
+        await Task.CompletedTask;
+    }
 }
